@@ -1,4 +1,4 @@
-import { getCwd, getEnv } from "./utils/fileInfo.js";
+import { getCwd, getEnv, getVersion } from "./utils/fileInfo.js";
 import { getMemInfo, getOsInfo } from "./utils/osInfo.js";
 
 type commandType = "version" | "os" | "memory" | "cwd" | "env";
@@ -6,15 +6,14 @@ type commandType = "version" | "os" | "memory" | "cwd" | "env";
 function commandProccesser(command: commandType, json: boolean) {
   switch (command) {
     case "version": {
-      console.log(process.version);
-
+      const result = getVersion();
+      if (json) console.log(result);
       break;
     }
 
     case "os": {
       const result = getOsInfo();
       if (json) console.log(result);
-
       break;
     }
 
