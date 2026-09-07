@@ -17,6 +17,7 @@ export async function addTask(name: string) {
     console.log(tasks);
 
     await saveTasks(tasks);
+    return tasks;
   } catch (error) {
     console.log("error while adding task, ", error);
   }
@@ -26,6 +27,7 @@ export async function listTasks() {
   try {
     const tasks = await readTasks();
     printTasks(tasks, "list");
+    return tasks;
   } catch (error) {
     console.log("error while listing all tasks, ", error);
   }
@@ -53,10 +55,14 @@ export async function completeTask(id: number) {
 
     if (flag) {
       console.log(`task with id: ${id} got updated`);
+      return "found";
     } else {
       console.log(`task with id: ${id} does not exists`);
+      return "not found";
     }
-  } catch (error) {}
+  } catch (error) {
+    console.log("error while completing tasks, ", error);
+  }
 }
 
 export async function filterTask(type: "completed" | "pending") {
@@ -69,6 +75,7 @@ export async function filterTask(type: "completed" | "pending") {
       filterTasks = tasks.filter((tasks) => tasks.completed === false);
     }
     printTasks(filterTasks, "filter");
+    return filterTasks;
   } catch (error) {
     console.log("error while listing filtered tasks, ", error);
   }
@@ -81,6 +88,8 @@ export async function deleteTask(id: number) {
     newTasksArr = tasks.filter((task) => task.id !== id);
 
     await saveTasks(newTasksArr);
+
+    return newTasksArr;
   } catch (error) {
     console.log("error while deleting tasks, ", error);
   }
