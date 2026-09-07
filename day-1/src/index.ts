@@ -1,9 +1,9 @@
-import { getCwd } from "./utils/fileInfo.js";
+import { getCwd, getEnv } from "./utils/fileInfo.js";
 import { getMemInfo, getOsInfo } from "./utils/osInfo.js";
 
 type commandType = "version" | "os" | "memory" | "cwd" | "env";
 
-function commandProccesser(command: commandType) {
+function commandProccesser(command: commandType, json: boolean) {
   switch (command) {
     case "version": {
       console.log(process.version);
@@ -12,21 +12,27 @@ function commandProccesser(command: commandType) {
     }
 
     case "os": {
-      getOsInfo();
+      const result = getOsInfo();
+      if (json) console.log(result);
+
       break;
     }
 
     case "memory": {
-      getMemInfo();
+      const result = getMemInfo();
+      if (json) console.log(result);
       break;
     }
 
     case "cwd": {
-      getCwd();
+      const result = getCwd();
+      if (json) console.log(result);
       break;
     }
 
     case "env": {
+      const result = getEnv();
+      if (json) console.log(result);
       break;
     }
 
@@ -47,4 +53,11 @@ function commandProccesser(command: commandType) {
 const args = process.argv.slice(2);
 
 const command = args[0] as commandType;
-if (command) commandProccesser(command);
+if (args.includes("--json")) {
+  console.log("inside if");
+
+  if (command) commandProccesser(command, true);
+} else {
+  console.log("inside else");
+  if (command) commandProccesser(command, false);
+}
