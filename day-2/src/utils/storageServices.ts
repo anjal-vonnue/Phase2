@@ -5,7 +5,7 @@ export async function readTasks() {
   try {
     const tasks = await readFile("tasks.json", "utf-8");
     const parsedTasks = JSON.parse(tasks);
-    console.log(tasks);
+    return parsedTasks;
   } catch (error) {
     console.log(error);
   }
