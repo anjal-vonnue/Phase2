@@ -1,4 +1,5 @@
 import type { TaskType } from "../types/types.js";
+import { printTasks } from "./printer.js";
 import { readTasks, saveTasks } from "./storageServices.js";
 
 export async function addTask(name: string) {
@@ -24,12 +25,7 @@ export async function addTask(name: string) {
 export async function listTasks() {
   try {
     const tasks = await readTasks();
-    tasks.forEach((task: TaskType) => {
-      console.log("-----------------------------");
-      console.log("id: ", task.id);
-      console.log("name: ", task.name);
-      console.log("completed: ", task.completed);
-    });
+    printTasks(tasks, "list");
   } catch (error) {
     console.log("error while listing all tasks, ", error);
   }
@@ -63,6 +59,29 @@ export async function completeTask(id: number) {
   } catch (error) {}
 }
 
-export async function filterTask() {}
+export async function filterTask(type: "completed" | "pending") {
+  try {
+    const tasks = await readTasks();
+    let filterTasks: TaskType[];
+    if (type === "completed") {
+      filterTasks = tasks.filter((tasks) => tasks.completed === true);
+    } else {
+      filterTasks = tasks.filter((tasks) => tasks.completed === false);
+    }
+    printTasks(filterTasks, "filter");
+  } catch (error) {
+    console.log("error while listing filtered tasks, ", error);
+  }
+}
 
-export async function deleteTask() {}
+export async function deleteTask(id: number) {
+  try {
+    const tasks = await readTasks();
+    let newTasksArr: TaskType[];
+    newTasksArr = tasks.filter((task) => task.id !== id);
+
+    await saveTasks(newTasksArr);
+  } catch (error) {
+    console.log("error while deleting tasks, ", error);
+  }
+}
