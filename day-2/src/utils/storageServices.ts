@@ -4,7 +4,13 @@ import type { TaskType } from "../types/types.js";
 export async function readTasks() {
   try {
     const tasks = await readFile("tasks.json", "utf-8");
+
+    if (!tasks.trim()) {
+      return [];
+    }
+
     const parsedTasks = JSON.parse(tasks) as TaskType[];
+
     if (!Array.isArray(parsedTasks)) {
       return [];
     }
