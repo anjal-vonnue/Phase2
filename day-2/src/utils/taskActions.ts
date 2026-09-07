@@ -17,9 +17,21 @@ export async function addTask(name: string) {
   }
 }
 
-export async function listTasks() {}
+export async function listTasks() {
+  try {
+    const tasks = await readTasks();
+    tasks.forEach((task: TaskType) => {
+      console.log("-----------------------------");
+      console.log("id: ", task.id);
+      console.log("name: ", task.name);
+      console.log("completed: ", task.completed);
+    });
+  } catch (error) {
+    console.log("error while listing all tasks, ", error);
+  }
+}
 
-export async function completeTask() {}
+export async function completeTask(id: number) {}
 
 export async function filterTask() {}
 
