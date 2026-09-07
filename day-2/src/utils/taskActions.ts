@@ -51,9 +51,8 @@ export async function completeTask(id: number) {
       }
     });
 
-    await saveTasks(updatedTasks);
-
     if (flag) {
+      await saveTasks(updatedTasks);
       console.log(`task with id: ${id} got updated`);
       return "found";
     } else {
