@@ -6,6 +6,14 @@ import {
   getTaskbyId,
   listTasks,
 } from "./utils/taskActions.js";
+import {
+  addTaskToDb,
+  completeTaskController,
+  deleteTaskController,
+  getAllTasks,
+  getTasksbyIdController,
+  handleInvalidRoute,
+} from "./controllers/controller.js";
 
 const app = express();
 
@@ -25,54 +33,16 @@ app.use((req, res, next) => {
   next();
 });
 
-app.get("/tasks", async (req, res) => {
-  try {
-    const tasks = await listTasks();
-    res.status(200).json(tasks);
-  } catch (error) {
-    res.status(500).json({ error: "falied to fetch tasks" });
-  }
-});
+app.get("/tasks", getAllTasks);
 
-app.post("/tasks", async (req, res) => {
-  try {
-    const task = await addTask(req.body.name);
+app.post("/tasks", addTaskToDb);
 
-    res.status(201).json(task);
-  } catch (error) {
-    res.status(400).json({ error: "error while adding task" });
-  }
-});
+app.get("/tasks/:id", getTasksbyIdController);
 
-app.get("/tasks/:id", async (req, res) => {
-  try {
-    const task = await getTaskbyId(Number(req.params.id));
-    res.status(200).json(task);
-  } catch (error) {
-    res.status(404).json({ error: "task not found" });
-  }
-});
+app.patch("/tasks/:id", completeTaskController);
 
-app.patch("/tasks/:id", async (req, res) => {
-  try {
-    const task = await completeTask(Number(req.params.id));
-    res.status(200).json(task);
-  } catch (error) {
-    res.status(404).json({ error: "task not found" });
-  }
-});
+app.delete("/tasks/:id", deleteTaskController);
 
-app.delete("/tasks/:id", async (req, res) => {
-  try {
-    const tasks = await deleteTask(Number(req.params.id));
-    res.status(200).json(tasks);
-  } catch (error) {
-    res.status(404).json({ error: "task not found" });
-  }
-});
-
-app.use((req, res) => {
-  res.status(404).json({ error: "invalid route" });
-});
+app.use(handleInvalidRoute);
 
 export default app;
