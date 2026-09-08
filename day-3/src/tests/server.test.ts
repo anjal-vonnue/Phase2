@@ -1,6 +1,5 @@
 import { afterAll, beforeAll, describe, expect, test } from "vitest";
 import server from "../server.js";
-import { error } from "node:console";
 let baseUrl: string;
 
 beforeAll(async () => {
@@ -58,7 +57,6 @@ describe("GET /tasks/:id", () => {
     const response = await fetch(`${baseUrl}/tasks/1`);
     expect(response.status).toBe(404);
     const data = await response.json();
-    console.log(data);
     expect(data).toEqual({ error: "Task not found" });
   });
 });
