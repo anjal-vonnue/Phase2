@@ -1,7 +1,7 @@
-import http, { METHODS } from "node:http";
-import path from "node:path";
+import http from "node:http";
+import { listTasks } from "./utils/taskActions.js";
 
-const server = http.createServer((req, res) => {
+const server = http.createServer(async (req, res) => {
   //   res.writeHead(200, { "Content-Type": "text/plain" });
   //   res.end("hello world\n");
 
@@ -22,9 +22,15 @@ const server = http.createServer((req, res) => {
   res.setHeader("Access-Control-Allow-Headers", "Content-Type");
 
   if (method === "OPTIONS") {
+    res.writeHead(204);
+    res.end();
+    return;
   }
 
   if (method === "GET" && pathname === "/tasks") {
+    const tasks = await listTasks();
+    res.writeHead(200, { "Content-Type": "application/json" });
+    res.end(JSON.stringify(tasks));
   }
 
   if (method === "GET" && pathname === "/tasks/:id") {
