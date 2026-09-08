@@ -53,15 +53,16 @@ export async function completeTask(id: number) {
     });
 
     if (flag) {
+      let task = updatedTasks.find((task) => task.id === id);
       await saveTasks(updatedTasks);
       console.log(`task with id: ${id} got updated`);
-      return "found";
+      return task;
     } else {
-      console.log(`task with id: ${id} does not exists`);
-      return "not found";
+      throw new Error(`task with ${id} doest exist`);
     }
   } catch (error) {
-    console.log("error while completing tasks, ", error);
+    console.log("error while deleting task by id, ", error);
+    throw error;
   }
 }
 

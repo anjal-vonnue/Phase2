@@ -1,5 +1,10 @@
 import http from "node:http";
-import { addTask, getTaskbyId, listTasks } from "./utils/taskActions.js";
+import {
+  addTask,
+  completeTask,
+  getTaskbyId,
+  listTasks,
+} from "./utils/taskActions.js";
 
 const server = http.createServer(async (req, res) => {
   //   res.writeHead(200, { "Content-Type": "text/plain" });
@@ -29,11 +34,14 @@ const server = http.createServer(async (req, res) => {
     return;
   }
 
+  // for getting all tasks
   if (method === "GET" && pathname === "/tasks" && !id) {
     const tasks = await listTasks();
     res.writeHead(200, { "Content-Type": "application/json" });
     res.end(JSON.stringify(tasks));
-  } else if (method === "POST" && pathname === "/tasks" && !id) {
+  }
+  // for adding new tasks to the list
+  else if (method === "POST" && pathname === "/tasks" && !id) {
     let body = "";
     req.on("data", (chunk) => {
       body += chunk.toString();
@@ -47,7 +55,9 @@ const server = http.createServer(async (req, res) => {
         res.end(JSON.stringify(newTask));
       } catch (error) {}
     });
-  } else if (id && method === "GET") {
+  }
+  // for getting a particular task with id
+  else if (id && method === "GET") {
     try {
       const task = await getTaskbyId(Number(id));
       res.writeHead(200, { "Content-Type": "application/json" });
@@ -56,9 +66,23 @@ const server = http.createServer(async (req, res) => {
       res.writeHead(404, { "Content-Type": "application/json" });
       res.end(JSON.stringify({ error: "Task not found" }));
     }
-  } else if (id && method === "PATCH") {
-  } else if (id && method === "DELETE") {
-  } else {
+  }
+  // for completing a task
+  else if (id && method === "PATCH") {
+    try {
+      const task = await completeTask(Number(id));
+      res.writeHead(202, { "Content-Type": "application/json" });
+      res.end(JSON.stringify(task));
+    } catch (error) {
+      res.writeHead(404, { "Content-Type": "application/json" });
+      res.end(JSON.stringify({ error: "Task not found" }));
+    }
+  }
+  // for deleting a task with id
+  else if (id && method === "DELETE") {
+  }
+  // for invalid routes
+  else {
     res.writeHead(404, { "Content-Type": "application/json" });
     res.end(JSON.stringify({ error: "Route not found" }));
   }
