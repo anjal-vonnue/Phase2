@@ -2,6 +2,7 @@ import http from "node:http";
 import {
   addTask,
   completeTask,
+  deleteTask,
   getTaskbyId,
   listTasks,
 } from "./utils/taskActions.js";
@@ -71,7 +72,7 @@ const server = http.createServer(async (req, res) => {
   else if (id && method === "PATCH") {
     try {
       const task = await completeTask(Number(id));
-      res.writeHead(202, { "Content-Type": "application/json" });
+      res.writeHead(200, { "Content-Type": "application/json" });
       res.end(JSON.stringify(task));
     } catch (error) {
       res.writeHead(404, { "Content-Type": "application/json" });
@@ -80,6 +81,14 @@ const server = http.createServer(async (req, res) => {
   }
   // for deleting a task with id
   else if (id && method === "DELETE") {
+    try {
+      const tasks = await deleteTask(Number(id));
+      res.writeHead(200, { "Content-Type": "application/json" });
+      res.end(JSON.stringify(tasks));
+    } catch (error) {
+      res.writeHead(404, { "Content-Type": "application/json" });
+      res.end(JSON.stringify({ error: "Task not found" }));
+    }
   }
   // for invalid routes
   else {

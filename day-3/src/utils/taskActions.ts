@@ -86,13 +86,18 @@ export async function deleteTask(id: number) {
   try {
     const tasks = await readTasks();
     let newTasksArr: TaskType[];
-    newTasksArr = tasks.filter((task) => task.id !== id);
+    const found = tasks.find((task) => task.id === id);
+    if (!found) {
+      throw new Error(`task with ${id} doest exist`);
+    }
 
+    newTasksArr = tasks.filter((task) => task.id !== id);
     await saveTasks(newTasksArr);
 
     return newTasksArr;
   } catch (error) {
     console.log("error while deleting tasks, ", error);
+    throw error;
   }
 }
 
