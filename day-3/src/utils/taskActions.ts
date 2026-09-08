@@ -9,15 +9,16 @@ export async function addTask(name: string) {
     if (tasks.length > 0) {
       id = Math.max(...tasks.map((task: TaskType) => task.id)) + 1;
     }
-    tasks.push({
+
+    const newTask: TaskType = {
       id: id,
       name: name,
       completed: false,
-    });
-    console.log(tasks);
+    };
+    tasks.push(newTask);
 
     await saveTasks(tasks);
-    return tasks;
+    return newTask;
   } catch (error) {
     console.log("error while adding task, ", error);
   }
@@ -91,5 +92,22 @@ export async function deleteTask(id: number) {
     return newTasksArr;
   } catch (error) {
     console.log("error while deleting tasks, ", error);
+  }
+}
+
+export async function getTaskbyId(id: number) {
+  try {
+    const tasks = await readTasks();
+
+    let taskById = tasks.find((task) => task.id === id);
+
+    if (!taskById) {
+      throw new Error(`task with ${id} doest exist`);
+    }
+
+    return taskById;
+  } catch (error) {
+    console.log("error while getting task by id, ", error);
+    throw error;
   }
 }

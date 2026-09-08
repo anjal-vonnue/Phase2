@@ -1,5 +1,5 @@
 import http from "node:http";
-import { listTasks } from "./utils/taskActions.js";
+import { addTask, getTaskbyId, listTasks } from "./utils/taskActions.js";
 
 const server = http.createServer(async (req, res) => {
   //   res.writeHead(200, { "Content-Type": "text/plain" });
@@ -14,6 +14,8 @@ const server = http.createServer(async (req, res) => {
   const parsedUrl = new URL(url, `http://${req.headers.host}`);
   const pathname = parsedUrl.pathname;
 
+  const id = pathname.split("/")[2];
+
   res.setHeader("Access-Control-Allow-Origin", "*");
   res.setHeader(
     "Access-Control-Allow-Methods",
@@ -27,22 +29,38 @@ const server = http.createServer(async (req, res) => {
     return;
   }
 
-  if (method === "GET" && pathname === "/tasks") {
+  if (method === "GET" && pathname === "/tasks" && !id) {
     const tasks = await listTasks();
     res.writeHead(200, { "Content-Type": "application/json" });
     res.end(JSON.stringify(tasks));
-  }
+  } else if (method === "POST" && pathname === "/tasks" && !id) {
+    let body = "";
+    req.on("data", (chunk) => {
+      body += chunk.toString();
+    });
 
-  if (method === "GET" && pathname === "/tasks/:id") {
-  }
-
-  if (method === "POST" && pathname === "/tasks") {
-  }
-
-  if (method === "PATCH" && pathname === "tasks/:id") {
-  }
-
-  if (method === "DELETE" && pathname === "tasks/:id") {
+    req.on("end", async () => {
+      try {
+        const taskName = JSON.parse(body);
+        const newTask = await addTask(taskName.name);
+        res.writeHead(201, { "Content-Type": "application/json" });
+        res.end(JSON.stringify(newTask));
+      } catch (error) {}
+    });
+  } else if (id && method === "GET") {
+    try {
+      const task = await getTaskbyId(Number(id));
+      res.writeHead(200, { "Content-Type": "application/json" });
+      res.end(JSON.stringify(task));
+    } catch (error) {
+      res.writeHead(404, { "Content-Type": "application/json" });
+      res.end(JSON.stringify({ error: "Task not found" }));
+    }
+  } else if (id && method === "PATCH") {
+  } else if (id && method === "DELETE") {
+  } else {
+    res.writeHead(404, { "Content-Type": "application/json" });
+    res.end(JSON.stringify({ error: "Route not found" }));
   }
 });
 
