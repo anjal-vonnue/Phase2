@@ -41,7 +41,7 @@ router.patch("/tickets/:id/status", async (req, res) => {
     res.status(400).json({ error: "invalid status" });
   }
 
-  const ticket = updateTicketStatus(Number(req.params.id), status);
+  const ticket = await updateTicketStatus(Number(req.params.id), status);
 
   if (!ticket) {
     res.status(404).json({ error: "ticket not found" });
