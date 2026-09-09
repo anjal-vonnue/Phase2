@@ -1,3 +1,4 @@
+import { triggerAsyncId } from "node:async_hooks";
 import { getTickets, saveTickets } from "../storage/ticketStorage.js";
 import type { Priority, Ticket, TicketStatus } from "../types/ticket.js";
 
@@ -79,4 +80,23 @@ export async function deleteTicket(id: number): Promise<boolean> {
 
   await saveTickets(newTickets);
   return true;
+}
+
+export function validateTicket(ticket: {
+  title: string;
+  description: string;
+  priotity: Priority;
+  assignee?: string;
+}) {
+  if (!ticket.title && ticket.title.trim().length < 3) {
+    return "title must be at least 3 chars.";
+  }
+
+  if (!ticket.description && ticket.description.trim().length < 6) {
+    return "description must be at lead 6 chars.";
+  }
+
+  if (!["low", "medium", "high"].includes(ticket.priotity)) {
+    return "ticket priority must be low, medium, and high.";
+  }
 }
