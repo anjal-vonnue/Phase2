@@ -28,7 +28,7 @@ CREATE TABLE
         category_id INT NOT NULL,
         title VARCHAR(200) NOT NULL,
         description TEXT NOT NULL,
-        status VARCHAR(50) NOT NULL CHECK (
+        status VARCHAR(50) NOT NULL DEFAULT 'open' CHECK (
             status IN ('open', 'in-progress', 'resolved', 'closed')
         ),
         priority VARCHAR(50) NOT NULL CHECK (priority IN ('low', 'medium', 'high')),
