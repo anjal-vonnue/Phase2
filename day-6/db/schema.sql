@@ -17,7 +17,7 @@ CREATE TABLE
 CREATE TABLE
     categories (
         id INT GENERATED ALWAYS AS IDENTITY PRIMARY KEY,
-        name VARCHAR(100) NOT NULL,
+        name VARCHAR(100) NOT NULL UNIQUE,
         created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
     );
 
@@ -34,8 +34,8 @@ CREATE TABLE
         priority VARCHAR(50) NOT NULL CHECK (priority IN ('low', 'medium', 'high')),
         created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
         updated_at TIMESTAMP,
-        FOREIGN KEY (customer_id) REFERENCES customers (id),
-        FOREIGN KEY (category_id) REFERENCES categories (id)
+        CONSTRAINT fk_ticket_customer FOREIGN KEY (customer_id) REFERENCES customers (id) ON DELETE RESTRICT,
+        CONSTRAINT fk_ticket_category FOREIGN KEY (category_id) REFERENCES categories (id) ON DELETE RESTRICT
     );
 
 CREATE TABLE
@@ -45,8 +45,8 @@ CREATE TABLE
         ticket_id INT NOT NULL,
         content TEXT NOT NULL,
         created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
-        FOREIGN KEY (user_id) REFERENCES users (id),
-        FOREIGN KEY (ticket_id) REFERENCES tickets (id)
+        CONSTRAINT fk_comment_user FOREIGN KEY (user_id) REFERENCES users (id) ON DELETE RESTRICT,
+        CONSTRAINT fk_comment_ticket FOREIGN KEY (ticket_id) REFERENCES tickets (id) ON DELETE CASCADE
     );
 
 CREATE TABLE
@@ -55,8 +55,8 @@ CREATE TABLE
         user_id INT NOT NULL,
         ticket_id INT NOT NULL,
         assigned_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
-        FOREIGN KEY (user_id) REFERENCES users (id),
-        FOREIGN KEY (ticket_id) REFERENCES tickets (id)
+        CONSTRAINT fk_assignment_user FOREIGN KEY (user_id) REFERENCES users (id) ON DELETE RESTRICT,
+        CONSTRAINT fk_assignment_ticket FOREIGN KEY (ticket_id) REFERENCES tickets (id) ON DELETE CASCADE
     );
 
 CREATE TABLE
@@ -68,6 +68,6 @@ CREATE TABLE
             status IN ('open', 'in-progress', 'resolved', 'closed')
         ),
         changed_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
-        FOREIGN KEY (user_id) REFERENCES users (id),
-        FOREIGN KEY (ticket_id) REFERENCES tickets (id)
+        CONSTRAINT fk_status_history_user FOREIGN KEY (user_id) REFERENCES users (id) ON DELETE RESTRICT,
+        CONSTRAINT fk_status_history_ticket FOREIGN KEY (ticket_id) REFERENCES tickets (id) ON DELETE CASCADE
     );
