@@ -160,3 +160,35 @@ VALUES
         ),
         'i am working on it'
     );
+
+--- checking contrains, can't add because urgent is not in priority list
+INSERT INTO
+    tickets (
+        customer_id,
+        category_id,
+        title,
+        description,
+        priority
+    )
+VALUES
+    (
+        (
+            SELECT
+                id
+            FROM
+                customers
+            WHERE
+                email = 'gauresh@vonnue.com'
+        ),
+        (
+            SELECT
+                id
+            FROM
+                categories
+            WHERE
+                name = 'Support'
+        ),
+        'recharge plan is not reflecting',
+        'paid 399 on sundirect but the channels are not available',
+        'urgent'
+    );

@@ -71,6 +71,6 @@ VALUES
     );
 
 -- delete from table
-DELETE FROM ticket
+DELETE FROM tickets
 WHERE
     id = 1;
