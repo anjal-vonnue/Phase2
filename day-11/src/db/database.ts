@@ -75,3 +75,19 @@ export async function deleteTicketDB(id: number) {
     throw new Error("database operation failed");
   }
 }
+
+export async function addAssigneeDB(id: number, assignee: string) {
+  try {
+    const result = await pool.query(
+      `INSERT INTO assignments(user_id, ticket_id)
+       VALUES ((SELECT id FROM users WHERE name = $1), $2) 
+       RETURNING *`,
+      [assignee, id],
+    );
+
+    return result.rows[0];
+  } catch (error) {
+    console.error("addAssigneeDB error: ", error);
+    throw new Error("database operation failed");
+  }
+}

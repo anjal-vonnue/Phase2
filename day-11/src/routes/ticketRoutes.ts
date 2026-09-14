@@ -5,6 +5,7 @@ import {
   validateTicket,
 } from "../services/ticketServices.js";
 import {
+  addAssigneeDB,
   createTicketDB,
   deleteTicketDB,
   getTicketByIdDB,
@@ -73,20 +74,23 @@ router.patch("/tickets/:id/status", async (req, res) => {
   }
 });
 
-// need to change
 router.patch("/tickets/:id/assignee", async (req, res) => {
-  const { assignee } = req.body;
-  if (!assignee && typeof assignee !== "string") {
-    res.status(400).json({ error: "invalid assingee" });
+  try {
+    const { assignee } = req.body;
+    if (!assignee && typeof assignee !== "string") {
+      res.status(400).json({ error: "invalid assingee" });
+    }
+
+    const ticket = await addAssigneeDB(Number(req.params.id), assignee);
+
+    if (!ticket) {
+      res.status(404).json({ error: "ticket not found" });
+    }
+
+    res.status(200).json(ticket);
+  } catch (error) {
+    return res.status(500).json({ message: "failed to add assignee" });
   }
-
-  const ticket = await addAssignee(Number(req.params.id), assignee);
-
-  if (!ticket) {
-    res.status(404).json({ error: "ticket not found" });
-  }
-
-  res.status(200).json(ticket);
 });
 
 router.delete("/tickets/:id", async (req, res) => {
