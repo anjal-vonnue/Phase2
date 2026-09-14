@@ -9,6 +9,7 @@ import {
   createTicketDB,
   getTicketByIdDB,
   listTicketsDB,
+  updateTicketStatusDB,
 } from "../db/database.js";
 
 const router = Router();
@@ -53,20 +54,23 @@ router.get("/tickets/:id", async (req, res) => {
   }
 });
 
-// need to change
 router.patch("/tickets/:id/status", async (req, res) => {
-  const { status } = req.body;
-  if (!["open", "in-progress", "resolved", "closed"].includes(status)) {
-    res.status(400).json({ error: "invalid status" });
+  try {
+    const { status } = req.body;
+    if (!["open", "in-progress", "resolved", "closed"].includes(status)) {
+      res.status(400).json({ error: "invalid status" });
+    }
+
+    const ticket = await updateTicketStatusDB(Number(req.params.id), status);
+
+    if (!ticket) {
+      res.status(404).json({ error: "ticket not found" });
+    }
+
+    res.status(200).json(ticket);
+  } catch (error) {
+    return res.status(500).json({ message: "failed to update ticket status" });
   }
-
-  const ticket = await updateTicketStatus(Number(req.params.id), status);
-
-  if (!ticket) {
-    res.status(404).json({ error: "ticket not found" });
-  }
-
-  res.status(200).json(ticket);
 });
 
 // need to change

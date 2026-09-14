@@ -51,3 +51,17 @@ export async function getTicketByIdDB(id: number) {
     throw new Error("database operation failed");
   }
 }
+
+export async function updateTicketStatusDB(id: number, status: string) {
+  try {
+    const result = await pool.query(
+      `UPDATE tickets SET status = $1, updated_at = NOW() WHERE id = $2 RETURNING *`,
+      [status, id],
+    );
+
+    return result.rows[0];
+  } catch (error) {
+    console.error("updateTicketStatusDB error: ", error);
+    throw new Error("database operation failed");
+  }
+}
