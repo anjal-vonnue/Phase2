@@ -4,7 +4,7 @@ SELECT
     u.name AS assignee,
     COUNT(t.id) AS ticket_count
 FROM
-    tickets AS T
+    tickets AS t
     JOIN assignments AS a ON a.ticket_id = t.id
     JOIN users AS u ON u.id = a.user_id
 GROUP BY
