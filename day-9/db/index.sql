@@ -1,0 +1,33 @@
+CREATE INDEX idx_tickets_customer_id ON tickets (customer_id);
+
+-- before adding index
+-- --
+-- ticketDB=> explain select * from tickets where customer_id = 1;
+--                         QUERY PLAN                        
+-- ----------------------------------------------------------
+--  Seq Scan on tickets  (cost=0.00..11.38 rows=1 width=714)
+--    Filter: (customer_id = 1)
+-- (2 rows)
+-- --
+-- after adding index
+-- --
+--ticketDB = > CREATE INDEX idx_tickets_customer_id ON tickets (customer_id);
+-- CREATE INDEX
+-- ticketDB=> explain select * from tickets where customer_id = 1;
+--                        QUERY PLAN                        
+-- ---------------------------------------------------------
+--  Seq Scan on tickets  (cost=0.00..1.04 rows=1 width=714)
+--    Filter: (customer_id = 1)
+-- (2 rows)
+-- --
+-- it used seq because the table is small
+-- after turning of the seq scan
+-- ticketDB=> SET enable_seqscan = off;
+-- SET
+-- ticketDB=> explain select * from tickets where customer_id = 1;
+--                                        QUERY PLAN                                        
+-- -----------------------------------------------------------------------------------------
+--  Index Scan using idx_tickets_customer_id on tickets  (cost=0.13..8.15 rows=1 width=714)
+--    Index Cond: (customer_id = 1)
+-- (2 rows)
+-- --
