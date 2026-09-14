@@ -1,17 +1,18 @@
 import { Router } from "express";
 import {
   addAssignee,
-  createTicket,
   deleteTicket,
-  getTicketById,
   updateTicketStatus,
   validateTicket,
 } from "../services/ticketServices.js";
-import { createTicketDB, listTicketsDB } from "../db/database.js";
+import {
+  createTicketDB,
+  getTicketByIdDB,
+  listTicketsDB,
+} from "../db/database.js";
 
 const router = Router();
 
-// need to change
 router.post("/tickets", async (req, res) => {
   try {
     const error = validateTicket(req.body);
@@ -36,13 +37,20 @@ router.get("/tickets", async (req, res) => {
   }
 });
 
-// need to change
 router.get("/tickets/:id", async (req, res) => {
-  const ticket = await getTicketById(Number(req.params.id));
-  if (!ticket) {
-    res.status(404).json({ error: "ticket not found" });
+  try {
+    const ticket = await getTicketByIdDB(Number(req.params.id));
+
+    if (!ticket) {
+      return res.status(404).json({ message: "ticket not found" });
+    }
+
+    return res.status(200).json(ticket);
+  } catch (error) {
+    return res
+      .status(500)
+      .json({ message: "failed to get the specific ticket" });
   }
-  res.status(200).json(ticket);
 });
 
 // need to change

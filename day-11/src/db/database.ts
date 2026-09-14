@@ -39,3 +39,15 @@ export async function createTicketDB(data: {
     throw new Error("database operation failed");
   }
 }
+
+export async function getTicketByIdDB(id: number) {
+  try {
+    const result = await pool.query(`SELECT * FROM tickets WHERE id = $1`, [
+      id,
+    ]);
+    return result.rows[0];
+  } catch (error) {
+    console.error("getTicketByIdDB error: ", error);
+    throw new Error("database operation failed");
+  }
+}
