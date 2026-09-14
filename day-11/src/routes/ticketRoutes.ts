@@ -1,9 +1,5 @@
 import { Router } from "express";
-import {
-  addAssignee,
-  deleteTicket,
-  validateTicket,
-} from "../services/ticketServices.js";
+import { validateTicket } from "../services/ticketServices.js";
 import {
   addAssigneeDB,
   createTicketDB,
@@ -19,23 +15,23 @@ router.post("/tickets", async (req, res) => {
   try {
     const error = validateTicket(req.body);
     if (error) {
-      res.status(400).json({ error: error });
+      return res.status(400).json({ error: error });
     }
 
     const ticket = await createTicketDB(req.body);
 
-    res.status(201).json({ ticket });
+    return res.status(201).json({ ticket });
   } catch (error) {
-    res.status(500).json({ message: "failed to create tickets" });
+    return res.status(500).json({ message: "failed to create tickets" });
   }
 });
 
 router.get("/tickets", async (req, res) => {
   try {
     const tickets = await listTicketsDB();
-    res.status(200).json(tickets);
+    return res.status(200).json(tickets);
   } catch (error) {
-    res.status(500).json({ message: "failed to fetch tickets" });
+    return res.status(500).json({ message: "failed to fetch tickets" });
   }
 });
 
@@ -59,16 +55,16 @@ router.patch("/tickets/:id/status", async (req, res) => {
   try {
     const { status } = req.body;
     if (!["open", "in-progress", "resolved", "closed"].includes(status)) {
-      res.status(400).json({ error: "invalid status" });
+      return res.status(400).json({ error: "invalid status" });
     }
 
     const ticket = await updateTicketStatusDB(Number(req.params.id), status);
 
     if (!ticket) {
-      res.status(404).json({ error: "ticket not found" });
+      return res.status(404).json({ error: "ticket not found" });
     }
 
-    res.status(200).json(ticket);
+    return res.status(200).json(ticket);
   } catch (error) {
     return res.status(500).json({ message: "failed to update ticket status" });
   }
@@ -78,16 +74,16 @@ router.patch("/tickets/:id/assignee", async (req, res) => {
   try {
     const { assignee } = req.body;
     if (!assignee && typeof assignee !== "string") {
-      res.status(400).json({ error: "invalid assingee" });
+      return res.status(400).json({ error: "invalid assingee" });
     }
 
     const ticket = await addAssigneeDB(Number(req.params.id), assignee);
 
     if (!ticket) {
-      res.status(404).json({ error: "ticket not found" });
+      return res.status(404).json({ error: "ticket not found" });
     }
 
-    res.status(200).json(ticket);
+    return res.status(200).json(ticket);
   } catch (error) {
     return res.status(500).json({ message: "failed to add assignee" });
   }
