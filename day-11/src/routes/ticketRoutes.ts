@@ -4,24 +4,27 @@ import {
   createTicket,
   deleteTicket,
   getTicketById,
-  listTickets,
   updateTicketStatus,
   validateTicket,
 } from "../services/ticketServices.js";
-import { listTicketsDB } from "../db/database.js";
+import { createTicketDB, listTicketsDB } from "../db/database.js";
 
 const router = Router();
 
 // need to change
 router.post("/tickets", async (req, res) => {
-  const error = validateTicket(req.body);
-  if (error) {
-    res.status(400).json({ error: error });
+  try {
+    const error = validateTicket(req.body);
+    if (error) {
+      res.status(400).json({ error: error });
+    }
+
+    const ticket = await createTicketDB(req.body);
+
+    res.status(201).json({ ticket });
+  } catch (error) {
+    res.status(500).json({ message: "failed to create tickets" });
   }
-
-  const ticket = await createTicket(req.body);
-
-  res.status(201).json({ ticket });
 });
 
 router.get("/tickets", async (req, res) => {

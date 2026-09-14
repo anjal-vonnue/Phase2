@@ -85,7 +85,8 @@ export function validateTicket(ticket: {
   title: string;
   description: string;
   priority: Priority;
-  assignee?: string;
+  customer_id: number;
+  category_id: number;
 }) {
   if (!ticket.title && ticket.title.trim().length < 3) {
     return "title must be at least 3 chars.";
