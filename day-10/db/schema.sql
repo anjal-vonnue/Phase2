@@ -21,7 +21,7 @@ CREATE TABLE
         name VARCHAR(255) NOT NULL,
         status VARCHAR(255) NOT NULL DEFAULT 'available' CHECK (status IN ('available', 'booked', 'maintenance')),
         created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
-        CONSTRAINT fk_equipment_category FOREIGN KEY (category_id) REFERENCES categories (id) ON DELETE RESTRICT,
+        CONSTRAINT fk_equipment_category FOREIGN KEY (category_id) REFERENCES categories (id) ON DELETE RESTRICT
     );
 
 CREATE TABLE
@@ -36,7 +36,7 @@ CREATE TABLE
         ),
         created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
         CONSTRAINT fk_booking_employee FOREIGN KEY (employee_id) REFERENCES employees (id) ON DELETE RESTRICT,
-        CONSTRAINT fk_booking_equipment FOREIGN KEY (equipment_id) REFERENCES equipments (id) ON DELETE RESTRICT,
+        CONSTRAINT fk_booking_equipment FOREIGN KEY (equipment_id) REFERENCES equipments (id) ON DELETE RESTRICT
     );
 
 CREATE TABLE
