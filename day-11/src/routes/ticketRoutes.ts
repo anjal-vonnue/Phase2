@@ -8,9 +8,11 @@ import {
   updateTicketStatus,
   validateTicket,
 } from "../services/ticketServices.js";
+import { listTicketsDB } from "../db/database.js";
 
 const router = Router();
 
+// need to change
 router.post("/tickets", async (req, res) => {
   const error = validateTicket(req.body);
   if (error) {
@@ -23,10 +25,15 @@ router.post("/tickets", async (req, res) => {
 });
 
 router.get("/tickets", async (req, res) => {
-  const tickets = await listTickets();
-  res.status(200).json(tickets);
+  try {
+    const tickets = await listTicketsDB();
+    res.status(200).json(tickets);
+  } catch (error) {
+    res.status(500).json({ message: "failed to fetch tickets" });
+  }
 });
 
+// need to change
 router.get("/tickets/:id", async (req, res) => {
   const ticket = await getTicketById(Number(req.params.id));
   if (!ticket) {
@@ -35,6 +42,7 @@ router.get("/tickets/:id", async (req, res) => {
   res.status(200).json(ticket);
 });
 
+// need to change
 router.patch("/tickets/:id/status", async (req, res) => {
   const { status } = req.body;
   if (!["open", "in-progress", "resolved", "closed"].includes(status)) {
@@ -50,6 +58,7 @@ router.patch("/tickets/:id/status", async (req, res) => {
   res.status(200).json(ticket);
 });
 
+// need to change
 router.patch("/tickets/:id/assignee", async (req, res) => {
   const { assignee } = req.body;
   if (!assignee && typeof assignee !== "string") {
@@ -65,6 +74,7 @@ router.patch("/tickets/:id/assignee", async (req, res) => {
   res.status(200).json(ticket);
 });
 
+// need to change
 router.delete("/tickets/:id", async (req, res) => {
   const success = deleteTicket(Number(req.params.id));
   if (!success) {
