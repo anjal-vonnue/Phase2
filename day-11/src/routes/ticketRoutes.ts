@@ -2,11 +2,11 @@ import { Router } from "express";
 import {
   addAssignee,
   deleteTicket,
-  updateTicketStatus,
   validateTicket,
 } from "../services/ticketServices.js";
 import {
   createTicketDB,
+  deleteTicketDB,
   getTicketByIdDB,
   listTicketsDB,
   updateTicketStatusDB,
@@ -89,14 +89,17 @@ router.patch("/tickets/:id/assignee", async (req, res) => {
   res.status(200).json(ticket);
 });
 
-// need to change
 router.delete("/tickets/:id", async (req, res) => {
-  const success = deleteTicket(Number(req.params.id));
-  if (!success) {
-    res.status(404).json({ error: "ticket not found" });
-  }
+  try {
+    const success = await deleteTicketDB(Number(req.params.id));
+    if (!success) {
+      return res.status(404).json({ error: "ticket not found" });
+    }
 
-  res.status(200).json({ message: "ticket deleted" });
+    return res.status(200).json({ message: "ticket deleted" });
+  } catch (error) {
+    return res.status(500).json({ message: "failed to delete ticket" });
+  }
 });
 
 export default router;

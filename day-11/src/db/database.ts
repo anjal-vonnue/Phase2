@@ -1,4 +1,3 @@
-import { createTicket } from "../services/ticketServices.js";
 import type { Priority } from "../types/ticket.js";
 import pool from "./connection.js";
 
@@ -62,6 +61,17 @@ export async function updateTicketStatusDB(id: number, status: string) {
     return result.rows[0];
   } catch (error) {
     console.error("updateTicketStatusDB error: ", error);
+    throw new Error("database operation failed");
+  }
+}
+
+export async function deleteTicketDB(id: number) {
+  try {
+    const result = await pool.query(`DELETE FROM tickets WHERE id = $1`, [id]);
+
+    return result.rowCount === 1;
+  } catch (error) {
+    console.error("deleteTicketDB error: ", error);
     throw new Error("database operation failed");
   }
 }
