@@ -54,7 +54,7 @@ router.get("/tickets/:id", async (req, res) => {
 router.patch("/tickets/:id/status", async (req, res) => {
   try {
     const { status } = req.body;
-    if (!["open", "in-progress", "resolved", "closed"].includes(status)) {
+    if (!["open", "in_progress", "resolve", "closed"].includes(status)) {
       return res.status(400).json({ error: "invalid status" });
     }
 
