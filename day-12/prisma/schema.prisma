@@ -21,7 +21,7 @@ enum TicketStatus {
 
 enum TicketPriority {
   low
-  model
+  medium
   high
 }
 

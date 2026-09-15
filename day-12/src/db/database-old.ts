@@ -1,11 +1,10 @@
-import type { TicketStatus } from "../generated/prisma/enums.js";
 import type { Priority } from "../types/ticket.js";
-import prisma from "./prisma.js";
+import pool from "./connection-old.js";
 
 export async function listTicketsDB() {
   try {
-    const tickets = await prisma.ticket.findMany();
-    return tickets;
+    const result = await pool.query("SELECT * FROM tickets");
+    return result.rows;
   } catch (error) {
     console.error("ListTicketDB error: ", error);
     throw new Error("database operation failed");
@@ -20,16 +19,20 @@ export async function createTicketDB(data: {
   category_id: number;
 }) {
   try {
-    const ticket = await prisma.ticket.create({
-      data: {
-        title: data.title,
-        description: data.description,
-        priority: data.priority,
-        customerId: data.customer_id,
-        categoryId: data.category_id,
-      },
-    });
-    return ticket;
+    const result = await pool.query(
+      `INSERT INTO tickets (customer_id, category_id, title, description, priority)
+       VALUES ($1, $2, $3, $4, $5)
+       RETURNING *`,
+      [
+        data.customer_id,
+        data.category_id,
+        data.title,
+        data.description,
+        data.priority,
+      ],
+    );
+
+    return result.rows[0];
   } catch (error) {
     console.error("createTicketDB error: ", error);
     throw new Error("database operation failed");
@@ -38,27 +41,24 @@ export async function createTicketDB(data: {
 
 export async function getTicketByIdDB(id: number) {
   try {
-    const ticket = await prisma.ticket.findUnique({
-      where: { id },
-    });
-    return ticket;
+    const result = await pool.query(`SELECT * FROM tickets WHERE id = $1`, [
+      id,
+    ]);
+    return result.rows[0];
   } catch (error) {
     console.error("getTicketByIdDB error: ", error);
     throw new Error("database operation failed");
   }
 }
 
-export async function updateTicketStatusDB(id: number, status: TicketStatus) {
+export async function updateTicketStatusDB(id: number, status: string) {
   try {
-    const ticket = await prisma.ticket.update({
-      where: { id },
-      data: {
-        status: status,
-        updatedAt: new Date(),
-      },
-    });
+    const result = await pool.query(
+      `UPDATE tickets SET status = $1, updated_at = NOW() WHERE id = $2 RETURNING *`,
+      [status, id],
+    );
 
-    return ticket;
+    return result.rows[0];
   } catch (error) {
     console.error("updateTicketStatusDB error: ", error);
     throw new Error("database operation failed");
@@ -67,10 +67,9 @@ export async function updateTicketStatusDB(id: number, status: TicketStatus) {
 
 export async function deleteTicketDB(id: number) {
   try {
-    const ticket = await prisma.ticket.delete({
-      where: { id },
-    });
-    return true;
+    const result = await pool.query(`DELETE FROM tickets WHERE id = $1`, [id]);
+
+    return result.rowCount === 1;
   } catch (error) {
     console.error("deleteTicketDB error: ", error);
     throw new Error("database operation failed");
@@ -79,20 +78,14 @@ export async function deleteTicketDB(id: number) {
 
 export async function addAssigneeDB(id: number, assignee: string) {
   try {
-    const user = await prisma.user.findFirst({
-      where: { name: assignee },
-    });
+    const result = await pool.query(
+      `INSERT INTO assignments(user_id, ticket_id)
+       VALUES ((SELECT id FROM users WHERE name = $1), $2) 
+       RETURNING *`,
+      [assignee, id],
+    );
 
-    if (!user) {
-      throw new Error("user not found");
-    }
-    const assignment = await prisma.assignment.create({
-      data: {
-        ticketId: id,
-        userId: user.id,
-      },
-    });
-    return assignment;
+    return result.rows[0];
   } catch (error) {
     console.error("addAssigneeDB error: ", error);
     throw new Error("database operation failed");
