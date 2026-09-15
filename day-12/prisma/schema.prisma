@@ -12,6 +12,19 @@ datasource db {
   provider = "postgresql"
 }
 
+enum TicketStatus {
+  open
+  in_progress @map("in-progress")
+  resolve
+  closed
+}
+
+enum TicketPriority {
+  low
+  model
+  high
+}
+
 model User {
   id        Int      @id @default(autoincrement())
   name      String   @db.VarChar(100)
@@ -47,15 +60,15 @@ model Category {
 }
 
 model Ticket {
-  id          Int       @id @default(autoincrement())
-  customerId  Int       @map("customer_id")
-  categoryId  Int       @map("category_id")
-  title       String    @db.VarChar(200)
+  id          Int            @id @default(autoincrement())
+  customerId  Int            @map("customer_id")
+  categoryId  Int            @map("category_id")
+  title       String         @db.VarChar(200)
   description String
-  status      String    @default("open") @db.VarChar(50)
-  priority    String    @db.VarChar(50)
-  createdAt   DateTime  @default(now()) @map("created_at")
-  updatedAt   DateTime? @map("updated_at")
+  status      TicketStatus   @default(open)
+  priority    TicketPriority
+  createdAt   DateTime       @default(now()) @map("created_at")
+  updatedAt   DateTime?      @map("updated_at")
 
   customer Customer @relation(fields: [customerId], references: [id], onDelete: Restrict)
   category Category @relation(fields: [categoryId], references: [id], onDelete: Restrict)
@@ -74,7 +87,7 @@ model Comment {
   content   String
   createdAt DateTime @default(now()) @map("created_at")
 
-  user   User   @relation(fields: [userId], references: [id], onDelete: Cascade)
+  user   User   @relation(fields: [userId], references: [id], onDelete: Restrict)
   ticket Ticket @relation(fields: [ticketId], references: [id], onDelete: Cascade)
 
   @@map("comments")
@@ -93,11 +106,11 @@ model Assignment {
 }
 
 model StatusHistory {
-  id        Int      @id @default(autoincrement())
-  userId    Int      @map("user_id")
-  ticketId  Int      @map("ticket_id")
-  status    String   @db.VarChar(50)
-  changedAt DateTime @default(now()) @map("changed_at")
+  id        Int          @id @default(autoincrement())
+  userId    Int          @map("user_id")
+  ticketId  Int          @map("ticket_id")
+  status    TicketStatus
+  changedAt DateTime     @default(now()) @map("changed_at")
 
   user   User   @relation(fields: [userId], references: [id], onDelete: Restrict)
   ticket Ticket @relation(fields: [ticketId], references: [id], onDelete: Cascade)
