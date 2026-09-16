@@ -8,8 +8,6 @@ import {
   updateTicketStatusDB,
 } from "../db/database.js";
 import { validateQuery, validateTicket } from "../services/utilis.js";
-import { error } from "node:console";
-import { title } from "node:process";
 
 const router = Router();
 
@@ -58,7 +56,7 @@ router.get("/tickets/:id", async (req, res) => {
       return res.status(404).json({ message: "ticket not found" });
     }
 
-    return res.status(200).json(ticket);
+    return res.status(200).json({ ticket });
   } catch (error) {
     return res
       .status(500)
@@ -79,7 +77,7 @@ router.patch("/tickets/:id/status", async (req, res) => {
       return res.status(404).json({ error: "ticket not found" });
     }
 
-    return res.status(200).json(ticket);
+    return res.status(200).json({ ticket });
   } catch (error) {
     return res.status(500).json({ message: "failed to update ticket status" });
   }
@@ -98,7 +96,7 @@ router.patch("/tickets/:id/assignee", async (req, res) => {
       return res.status(404).json({ error: "ticket not found" });
     }
 
-    return res.status(200).json(ticket);
+    return res.status(200).json({ ticket });
   } catch (error) {
     return res.status(500).json({ message: "failed to add assignee" });
   }
