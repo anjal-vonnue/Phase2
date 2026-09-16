@@ -97,7 +97,7 @@ describe("<-- endpoints test -->", () => {
   });
 
   // endpoint: 10
-  test("-- get   /tickets?assignee=2", async () => {
+  test("-- get   /tickets?assignee=-100 invalid assignee", async () => {
     const response = await request(url).get("/tickets?assignee=-100");
     expect(response.body.error[0]).toEqual(
       "assigne value must be a postive integer",
