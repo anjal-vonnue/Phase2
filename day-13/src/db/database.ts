@@ -2,10 +2,57 @@ import type { TicketStatus } from "../generated/prisma/enums.js";
 import type { Priority } from "../types/ticket.js";
 import prisma from "./prisma.js";
 
-export async function listTicketsDB() {
+export async function listTicketsDB(validationResult: any) {
   try {
-    const tickets = await prisma.ticket.findMany();
-    return tickets;
+    const {
+      page,
+      pageSize,
+      status,
+      priority,
+      assignee,
+      search,
+      sortField,
+      sortDirection,
+    } = validationResult;
+
+    const where = {
+      ...(status && { status: status }),
+      ...(priority && { priority: priority }),
+      ...(assignee && {
+        assignments: {
+          some: { userId: assignee },
+        },
+      }),
+      ...(search && {
+        title: {
+          contains: search,
+          mode: "insensitive",
+        },
+      }),
+    };
+
+    const skip = (page - 1) * pageSize;
+
+    const total = await prisma.ticket.count({
+      where: where,
+    });
+
+    const tickets = await prisma.ticket.findMany({
+      where: where,
+      skip: skip,
+      take: pageSize,
+      orderBy: {
+        [sortField]: sortDirection,
+      },
+    });
+
+    const totalPages = Math.ceil(total / pageSize);
+
+    return {
+      total,
+      totalPages,
+      tickets,
+    };
   } catch (error) {
     console.error("ListTicketDB error: ", error);
     throw new Error("database operation failed");

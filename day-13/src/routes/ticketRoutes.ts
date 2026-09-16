@@ -1,5 +1,4 @@
 import { Router } from "express";
-import { validateTicket } from "../services/ticketServices.js";
 import {
   addAssigneeDB,
   createTicketDB,
@@ -8,6 +7,9 @@ import {
   listTicketsDB,
   updateTicketStatusDB,
 } from "../db/database.js";
+import { validateQuery, validateTicket } from "../services/utilis.js";
+import { error } from "node:console";
+import { title } from "node:process";
 
 const router = Router();
 
@@ -28,8 +30,21 @@ router.post("/tickets", async (req, res) => {
 
 router.get("/tickets", async (req, res) => {
   try {
-    const tickets = await listTicketsDB();
-    return res.status(200).json(tickets);
+    const validationResult = validateQuery(req.query);
+    if (validationResult.errors.length > 0) {
+      return res.status(400).json({ error: validationResult.errors });
+    }
+
+    const result = await listTicketsDB(validationResult);
+    return res.status(200).json({
+      data: result.tickets,
+      pagination: {
+        page: validationResult.page,
+        pageSize: validationResult.pageSize,
+        total: result.total,
+        totalPages: result.totalPages,
+      },
+    });
   } catch (error) {
     return res.status(500).json({ message: "failed to fetch tickets" });
   }
