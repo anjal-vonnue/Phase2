@@ -16,6 +16,14 @@ export async function registerUser(
   password: string,
   role: UserRole,
 ) {
+  const existingUser = await prisma.user.findUnique({
+    where: { email: email },
+  });
+
+  if (existingUser) {
+    throw new Error("EMAIL ALREADY EXISTS");
+  }
+
   const passwordHash = await bcrypt.hash(password, 12);
   const user = await prisma.user.create({
     data: {
