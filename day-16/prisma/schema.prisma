@@ -22,7 +22,7 @@ enum TicketPriority {
 
 enum UserRole {
   admin
-  user
+  agent
   customer
 }
 

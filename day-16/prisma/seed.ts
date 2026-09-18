@@ -3,8 +3,11 @@ import {
   PrismaClient,
   TicketPriority,
   TicketStatus,
+  UserRole,
 } from "../src/generated/prisma/client";
 import { PrismaPg } from "@prisma/adapter-pg";
+import bcrypt from "bcrypt";
+
 const adapter = new PrismaPg({
   connectionString: process.env.DATABASE_URL,
 });
@@ -12,25 +15,60 @@ const adapter = new PrismaPg({
 const prisma = new PrismaClient({ adapter });
 
 async function main() {
+  const passwordHash = await bcrypt.hash("password123", 10);
+
   const users = await prisma.user.createManyAndReturn({
     data: [
-      { name: "Anjal", email: "anjal@vonnue.com" },
-      { name: "Yasin", email: "yasin@vonnue.com" },
-      { name: "Chirsto", email: "christo@vonnue.com" },
-    ],
-  });
+      {
+        name: "Anjal",
+        email: "anjal@vonnue.com",
+        passwordHash,
+        role: UserRole.admin,
+      },
+      {
+        name: "Yasin",
+        email: "yasin@vonnue.com",
+        passwordHash,
+        role: UserRole.agent,
+      },
+      {
+        name: "Christo",
+        email: "christo@vonnue.com",
+        passwordHash,
+        role: UserRole.agent,
+      },
 
-  const customers = await prisma.customer.createManyAndReturn({
-    data: [
-      { name: "Gauresh", email: "gauresh@vonnue.com" },
-      { name: "Akshay", email: "akshay@vonnue.com" },
-      { name: "Hawas", email: "hawas@vonnue.com" },
+      // Customers
+      {
+        name: "Gauresh",
+        email: "gauresh@vonnue.com",
+        passwordHash,
+        role: UserRole.customer,
+      },
+      {
+        name: "Akshay",
+        email: "akshay@vonnue.com",
+        passwordHash,
+        role: UserRole.customer,
+      },
+      {
+        name: "Hawas",
+        email: "hawas@vonnue.com",
+        passwordHash,
+        role: UserRole.customer,
+      },
     ],
   });
 
   const categories = await prisma.category.createManyAndReturn({
     data: [{ name: "Technical" }, { name: "Billing" }, { name: "Account" }],
   });
+
+  const customers = users.filter((user) => user.role === UserRole.customer);
+
+  const staff = users.filter(
+    (user) => user.role === UserRole.admin || user.role === UserRole.agent,
+  );
 
   const tickets = await prisma.ticket.createManyAndReturn({
     data: [
@@ -80,7 +118,7 @@ async function main() {
   await prisma.assignment.createMany({
     data: tickets.map((ticket, index) => ({
       ticketId: ticket.id,
-      userId: users[index % users.length].id,
+      userId: staff[index % staff.length].id,
     })),
   });
 }
