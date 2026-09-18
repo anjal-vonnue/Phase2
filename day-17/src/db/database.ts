@@ -165,16 +165,40 @@ export async function updateTicketStatusDB(
   return ticket;
 }
 
-export async function deleteTicketDB(id: number) {
-  try {
-    const ticket = await prisma.ticket.delete({
-      where: { id },
-    });
-    return true;
-  } catch (error) {
-    console.error("deleteTicketDB error: ", error);
-    throw new Error("database operation failed");
+export async function deleteTicketDB(
+  id: number,
+  userId: number,
+  role: UserRole,
+) {
+  if (role === UserRole.agent) {
+    throw new Error("FORBIDDEN");
   }
+
+  const where =
+    role === UserRole.customer
+      ? {
+          id,
+          customerId: userId,
+        }
+      : {
+          id,
+        };
+
+  const ticket = await prisma.ticket.findFirst({
+    where,
+  });
+
+  if (!ticket) {
+    return false;
+  }
+
+  await prisma.ticket.delete({
+    where: {
+      id: ticket.id,
+    },
+  });
+
+  return true;
 }
 
 export async function addAssigneeDB(

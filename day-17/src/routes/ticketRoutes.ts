@@ -146,15 +146,24 @@ router.patch("/:id/assignee", async (req: AuthRequest, res: Response) => {
   }
 });
 
-router.delete("/:id", async (req, res) => {
+router.delete("/:id", async (req: AuthRequest, res: Response) => {
   try {
-    const success = await deleteTicketDB(Number(req.params.id));
+    const success = await deleteTicketDB(
+      Number(req.params.id),
+      req.userId!,
+      req.role!,
+    );
     if (!success) {
       return res.status(404).json({ error: "ticket not found" });
     }
 
     return res.status(200).json({ message: "ticket deleted" });
   } catch (error) {
+    if (error instanceof Error && error.message === "FORBIDDEN") {
+      return res
+        .status(403)
+        .json({ message: "you are not allowed to delete ticket" });
+    }
     return res.status(500).json({ message: "failed to delete ticket" });
   }
 });
