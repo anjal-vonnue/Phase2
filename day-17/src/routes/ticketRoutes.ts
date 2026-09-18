@@ -63,9 +63,13 @@ router.get("/", async (req: AuthRequest, res: Response) => {
   }
 });
 
-router.get("/:id", async (req, res) => {
+router.get("/:id", async (req: AuthRequest, res: Response) => {
   try {
-    const ticket = await getTicketByIdDB(Number(req.params.id));
+    const ticket = await getTicketByIdDB(
+      Number(req.params.id),
+      req.userId!,
+      req.role!,
+    );
 
     if (!ticket) {
       return res.status(404).json({ message: "ticket not found" });

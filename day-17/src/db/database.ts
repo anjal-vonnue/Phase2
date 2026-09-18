@@ -98,10 +98,25 @@ export async function createTicketDB(
   }
 }
 
-export async function getTicketByIdDB(id: number) {
+export async function getTicketByIdDB(
+  id: number,
+  userId: number,
+  role: UserRole,
+) {
   try {
-    const ticket = await prisma.ticket.findUnique({
-      where: { id },
+    const where = {
+      ...(role === UserRole.customer && { customerId: userId }),
+      ...(role === UserRole.agent && {
+        assignments: {
+          some: {
+            userId: userId,
+          },
+        },
+      }),
+      id,
+    };
+    const ticket = await prisma.ticket.findFirst({
+      where,
     });
     return ticket;
   } catch (error) {

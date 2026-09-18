@@ -43,7 +43,7 @@ export function validateQuery(query: Partial<QueryType>) {
   let assignee: number | undefined;
   let search: string | undefined;
   let sortField: string = "createdAt";
-  let sortDirection: string = "desc";
+  let sortDirection: string = "asc";
 
   if (query.page !== undefined) {
     const value = Number(query.page);
