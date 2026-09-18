@@ -83,21 +83,32 @@ router.get("/:id", async (req: AuthRequest, res: Response) => {
   }
 });
 
-router.patch("/:id/status", async (req, res) => {
+router.patch("/:id/status", async (req: AuthRequest, res: Response) => {
   try {
     const { status } = req.body;
     if (!["open", "in_progress", "resolve", "closed"].includes(status)) {
       return res.status(400).json({ error: "invalid status" });
     }
 
-    const ticket = await updateTicketStatusDB(Number(req.params.id), status);
-
-    if (!ticket) {
-      return res.status(404).json({ error: "ticket not found" });
-    }
+    const ticket = await updateTicketStatusDB(
+      Number(req.params.id),
+      status,
+      req.userId!,
+      req.role!,
+    );
 
     return res.status(200).json({ ticket });
   } catch (error) {
+    if (error instanceof Error && error.message === "FORBIDDEN") {
+      return res.status(403).json({
+        message: "you are not allowed to edit this ticket",
+      });
+    }
+
+    if (error instanceof Error && error.message === "NOT_FOUND") {
+      return res.status(404).json({ error: "ticket not found" });
+    }
+
     return res.status(500).json({ message: "failed to update ticket status" });
   }
 });

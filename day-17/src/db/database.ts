@@ -125,21 +125,44 @@ export async function getTicketByIdDB(
   }
 }
 
-export async function updateTicketStatusDB(id: number, status: TicketStatus) {
-  try {
-    const ticket = await prisma.ticket.update({
-      where: { id },
-      data: {
-        status: status,
-        updatedAt: new Date(),
-      },
-    });
-
-    return ticket;
-  } catch (error) {
-    console.error("updateTicketStatusDB error: ", error);
-    throw new Error("database operation failed");
+export async function updateTicketStatusDB(
+  id: number,
+  status: TicketStatus,
+  userId: number,
+  role: string,
+) {
+  if (role === UserRole.customer) {
+    throw new Error("FORBIDDEN");
   }
+
+  const where = {
+    id,
+    ...(role === UserRole.agent && {
+      assignments: {
+        some: {
+          userId: userId,
+        },
+      },
+    }),
+  };
+
+  const ticketFound = await prisma.ticket.findFirst({
+    where,
+  });
+
+  if (!ticketFound) {
+    throw new Error("NOT_FOUND");
+  }
+
+  const ticket = await prisma.ticket.update({
+    where: { id },
+    data: {
+      status: status,
+      updatedAt: new Date(),
+    },
+  });
+
+  return ticket;
 }
 
 export async function deleteTicketDB(id: number) {
