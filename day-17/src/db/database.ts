@@ -1,4 +1,4 @@
-import type { TicketStatus } from "../generated/prisma/enums.js";
+import { UserRole, type TicketStatus } from "../generated/prisma/enums.js";
 import type { Priority } from "../types/ticket.js";
 import prisma from "./prisma.js";
 
@@ -59,27 +59,30 @@ export async function listTicketsDB(validationResult: any) {
   }
 }
 
-export async function createTicketDB(data: {
-  title: string;
-  description: string;
-  priority: Priority;
-  customer_id: number;
-  category_id: number;
-}) {
-  try {
+export async function createTicketDB(
+  data: {
+    title: string;
+    description: string;
+    priority: Priority;
+    customer_id: number;
+    category_id: number;
+  },
+  userId: number,
+  role: UserRole,
+) {
+  if (role === UserRole.admin || role === UserRole.customer) {
     const ticket = await prisma.ticket.create({
       data: {
         title: data.title,
         description: data.description,
         priority: data.priority,
-        customerId: data.customer_id,
+        customerId: userId,
         categoryId: data.category_id,
       },
     });
     return ticket;
-  } catch (error) {
-    console.error("createTicketDB error: ", error);
-    throw new Error("database operation failed");
+  } else {
+    throw new Error("FORBIDDEN");
   }
 }
 

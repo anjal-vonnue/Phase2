@@ -4,6 +4,6 @@ import { getUser } from "./me.controller.js";
 
 const userRoute = Router();
 
-userRoute.get("/me", authenticate, getUser);
+userRoute.get("/", authenticate, getUser);
 
 export default userRoute;

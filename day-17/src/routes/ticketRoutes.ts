@@ -1,4 +1,4 @@
-import { Router } from "express";
+import { Router, type Response } from "express";
 import {
   addAssigneeDB,
   createTicketDB,
@@ -8,25 +8,36 @@ import {
   updateTicketStatusDB,
 } from "../db/database.js";
 import { validateQuery, validateTicket } from "../utils/validation.js";
+import {
+  authenticate,
+  type AuthRequest,
+} from "../middlewares/auth.middleware.js";
 
 const router = Router();
 
-router.post("/tickets", async (req, res) => {
+router.use(authenticate);
+
+router.post("/", async (req: AuthRequest, res: Response) => {
   try {
     const error = validateTicket(req.body);
     if (error) {
       return res.status(400).json({ error: error });
     }
 
-    const ticket = await createTicketDB(req.body);
+    const ticket = await createTicketDB(req.body, req.userId!, req.role!);
 
     return res.status(201).json({ ticket });
   } catch (error) {
+    if (error instanceof Error && error.message === "FORBIDDEN") {
+      return res
+        .status(403)
+        .json({ message: "you are not allowed to create tickets" });
+    }
     return res.status(500).json({ message: "failed to create tickets" });
   }
 });
 
-router.get("/tickets", async (req, res) => {
+router.get("/", async (req, res) => {
   try {
     const validationResult = validateQuery(req.query);
     if (validationResult.errors.length > 0) {
@@ -48,7 +59,7 @@ router.get("/tickets", async (req, res) => {
   }
 });
 
-router.get("/tickets/:id", async (req, res) => {
+router.get("/:id", async (req, res) => {
   try {
     const ticket = await getTicketByIdDB(Number(req.params.id));
 
@@ -64,7 +75,7 @@ router.get("/tickets/:id", async (req, res) => {
   }
 });
 
-router.patch("/tickets/:id/status", async (req, res) => {
+router.patch("/:id/status", async (req, res) => {
   try {
     const { status } = req.body;
     if (!["open", "in_progress", "resolve", "closed"].includes(status)) {
@@ -83,7 +94,7 @@ router.patch("/tickets/:id/status", async (req, res) => {
   }
 });
 
-router.patch("/tickets/:id/assignee", async (req, res) => {
+router.patch("/:id/assignee", async (req, res) => {
   try {
     const { assignee } = req.body;
     if (!assignee && typeof assignee !== "string") {
@@ -102,7 +113,7 @@ router.patch("/tickets/:id/assignee", async (req, res) => {
   }
 });
 
-router.delete("/tickets/:id", async (req, res) => {
+router.delete("/:id", async (req, res) => {
   try {
     const success = await deleteTicketDB(Number(req.params.id));
     if (!success) {
