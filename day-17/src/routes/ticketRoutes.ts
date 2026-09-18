@@ -113,14 +113,18 @@ router.patch("/:id/status", async (req: AuthRequest, res: Response) => {
   }
 });
 
-router.patch("/:id/assignee", async (req, res) => {
+router.patch("/:id/assignee", async (req: AuthRequest, res: Response) => {
   try {
     const { assignee } = req.body;
     if (!assignee && typeof assignee !== "string") {
       return res.status(400).json({ error: "invalid assingee" });
     }
 
-    const ticket = await addAssigneeDB(Number(req.params.id), assignee);
+    const ticket = await addAssigneeDB(
+      Number(req.params.id),
+      assignee,
+      req.role!,
+    );
 
     if (!ticket) {
       return res.status(404).json({ error: "ticket not found" });
@@ -128,6 +132,16 @@ router.patch("/:id/assignee", async (req, res) => {
 
     return res.status(200).json({ ticket });
   } catch (error) {
+    if (error instanceof Error && error.message === "FORBIDDEN") {
+      return res
+        .status(403)
+        .json({ message: "you are not allowed to assignee tickets" });
+    }
+
+    if (error instanceof Error && error.message === "NOT_FOUND") {
+      return res.status(404).json({ message: "user not found" });
+    }
+
     return res.status(500).json({ message: "failed to add assignee" });
   }
 });

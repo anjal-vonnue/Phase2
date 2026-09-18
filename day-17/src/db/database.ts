@@ -177,24 +177,26 @@ export async function deleteTicketDB(id: number) {
   }
 }
 
-export async function addAssigneeDB(id: number, assignee: string) {
-  try {
-    const user = await prisma.user.findFirst({
-      where: { name: assignee },
-    });
-
-    if (!user) {
-      throw new Error("user not found");
-    }
-    const assignment = await prisma.assignment.create({
-      data: {
-        ticketId: id,
-        userId: user.id,
-      },
-    });
-    return assignment;
-  } catch (error) {
-    console.error("addAssigneeDB error: ", error);
-    throw new Error("database operation failed");
+export async function addAssigneeDB(
+  id: number,
+  assignee: string,
+  role: string,
+) {
+  if (role === UserRole.customer || role === UserRole.agent) {
+    throw new Error("FORBIDDEN");
   }
+  const user = await prisma.user.findFirst({
+    where: { name: assignee },
+  });
+
+  if (!user) {
+    throw new Error("NOT_FOUND");
+  }
+  const assignment = await prisma.assignment.create({
+    data: {
+      ticketId: id,
+      userId: user.id,
+    },
+  });
+  return assignment;
 }
