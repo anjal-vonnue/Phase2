@@ -2,7 +2,11 @@ import { UserRole, type TicketStatus } from "../generated/prisma/enums.js";
 import type { Priority } from "../types/ticket.js";
 import prisma from "./prisma.js";
 
-export async function listTicketsDB(validationResult: any) {
+export async function listTicketsDB(
+  validationResult: any,
+  userId: number,
+  role: UserRole,
+) {
   try {
     const {
       page,
@@ -16,6 +20,14 @@ export async function listTicketsDB(validationResult: any) {
     } = validationResult;
 
     const where = {
+      ...(role === UserRole.customer && { customerId: userId }),
+      ...(role === UserRole.agent && {
+        assignments: {
+          some: {
+            userId: userId,
+          },
+        },
+      }),
       ...(status && { status: status }),
       ...(priority && { priority: priority }),
       ...(assignee && {

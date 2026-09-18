@@ -37,14 +37,18 @@ router.post("/", async (req: AuthRequest, res: Response) => {
   }
 });
 
-router.get("/", async (req, res) => {
+router.get("/", async (req: AuthRequest, res: Response) => {
   try {
     const validationResult = validateQuery(req.query);
     if (validationResult.errors.length > 0) {
       return res.status(400).json({ error: validationResult.errors });
     }
 
-    const result = await listTicketsDB(validationResult);
+    const result = await listTicketsDB(
+      validationResult,
+      req.userId!,
+      req.role!,
+    );
     return res.status(200).json({
       data: result.tickets,
       pagination: {
