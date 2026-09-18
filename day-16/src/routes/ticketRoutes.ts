@@ -7,7 +7,7 @@ import {
   listTicketsDB,
   updateTicketStatusDB,
 } from "../db/database.js";
-import { validateQuery, validateTicket } from "../services/utilis.js";
+import { validateQuery, validateTicket } from "../utils/validation.js";
 
 const router = Router();
 

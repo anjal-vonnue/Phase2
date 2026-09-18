@@ -8,13 +8,13 @@ if (!JWT_SECRET) {
   throw new Error("JWT_SECRET is not defined");
 }
 
-interface AuthRequest extends Request {
-  userId: string;
-  role: UserRole;
+export interface AuthRequest extends Request {
+  userId?: number;
+  role?: UserRole;
 }
 
 interface PayloadType {
-  userId: string;
+  userId: number;
   role: UserRole;
 }
 
