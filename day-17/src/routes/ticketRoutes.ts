@@ -8,16 +8,14 @@ import {
   updateTicketStatusDB,
 } from "../db/database.js";
 import {
+  idSchema,
   ticketQuerySchema,
   ticketSchema,
-  validateQuery,
-  validateTicket,
 } from "../utils/validation.js";
 import {
   authenticate,
   type AuthRequest,
 } from "../middlewares/auth.middleware.js";
-import { error } from "node:console";
 
 const router = Router();
 
@@ -47,11 +45,6 @@ router.post("/", async (req: AuthRequest, res: Response) => {
 
 router.get("/", async (req: AuthRequest, res: Response) => {
   try {
-    // const validationResult = validateQuery(req.query);
-    // if (validationResult.errors.length > 0) {
-    //   return res.status(400).json({ error: validationResult.errors });
-    // }
-
     const validationResult = ticketQuerySchema.safeParse(req.query);
     if (!validationResult.success) {
       return res.status(400).json({
@@ -80,11 +73,14 @@ router.get("/", async (req: AuthRequest, res: Response) => {
 
 router.get("/:id", async (req: AuthRequest, res: Response) => {
   try {
-    const ticket = await getTicketByIdDB(
-      Number(req.params.id),
-      req.userId!,
-      req.role!,
-    );
+    const result = idSchema.safeParse(req.params.id);
+    if (!result.success) {
+      return res.status(400).json({
+        error: result.error.flatten(),
+      });
+    }
+
+    const ticket = await getTicketByIdDB(result.data, req.userId!, req.role!);
 
     if (!ticket) {
       return res.status(404).json({ message: "ticket not found" });
@@ -105,8 +101,15 @@ router.patch("/:id/status", async (req: AuthRequest, res: Response) => {
       return res.status(400).json({ error: "invalid status" });
     }
 
+    const result = idSchema.safeParse(req.params.id);
+    if (!result.success) {
+      return res.status(400).json({
+        error: result.error.flatten(),
+      });
+    }
+
     const ticket = await updateTicketStatusDB(
-      Number(req.params.id),
+      result.data,
       status,
       req.userId!,
       req.role!,
@@ -135,11 +138,14 @@ router.patch("/:id/assignee", async (req: AuthRequest, res: Response) => {
       return res.status(400).json({ error: "invalid assingee" });
     }
 
-    const ticket = await addAssigneeDB(
-      Number(req.params.id),
-      assignee,
-      req.role!,
-    );
+    const result = idSchema.safeParse(req.params.id);
+    if (!result.success) {
+      return res.status(400).json({
+        error: result.error.flatten(),
+      });
+    }
+
+    const ticket = await addAssigneeDB(result.data, assignee, req.role!);
 
     if (!ticket) {
       return res.status(404).json({ error: "ticket not found" });
@@ -163,11 +169,14 @@ router.patch("/:id/assignee", async (req: AuthRequest, res: Response) => {
 
 router.delete("/:id", async (req: AuthRequest, res: Response) => {
   try {
-    const success = await deleteTicketDB(
-      Number(req.params.id),
-      req.userId!,
-      req.role!,
-    );
+    const result = idSchema.safeParse(req.params.id);
+    if (!result.success) {
+      return res.status(400).json({
+        error: result.error.flatten(),
+      });
+    }
+
+    const success = await deleteTicketDB(result.data, req.userId!, req.role!);
     if (!success) {
       return res.status(404).json({ error: "ticket not found" });
     }

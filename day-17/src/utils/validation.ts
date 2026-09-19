@@ -23,5 +23,7 @@ export const ticketQuerySchema = z.object({
   sortDirection: z.enum(["asc", "desc"]).default("asc"),
 });
 
+export const idSchema = z.coerce.number().int().positive();
+
 export type CreateTicket = z.infer<typeof ticketSchema>;
 export type TicketQuery = z.infer<typeof ticketQuerySchema>;
