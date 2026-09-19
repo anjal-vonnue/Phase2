@@ -39,4 +39,19 @@ app.use("/tickets", router);
 app.use("/auth", authLimiter, authRoute);
 app.use("/me", userRoute);
 
+app.use(
+  (
+    _req: express.Request,
+    res: express.Response,
+    _next: express.NextFunction,
+  ) => {
+    res.status(404).json({
+      error: {
+        code: "NOT_FOUND",
+        message: "route not found",
+      },
+    });
+  },
+);
+
 export default app;
