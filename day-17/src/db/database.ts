@@ -1,10 +1,10 @@
+import type { Prisma } from "../generated/prisma/client.js";
 import { UserRole, type TicketStatus } from "../generated/prisma/enums.js";
-import type { Priority } from "../types/ticket.js";
-import type { CreateTicket } from "../utils/validation.js";
+import type { CreateTicket, TicketQuery } from "../utils/validation.js";
 import prisma from "./prisma.js";
 
 export async function listTicketsDB(
-  validationResult: any,
+  validationResult: TicketQuery,
   userId: number,
   role: UserRole,
 ) {
@@ -20,7 +20,7 @@ export async function listTicketsDB(
       sortDirection,
     } = validationResult;
 
-    const where = {
+    const where: Prisma.TicketWhereInput = {
       ...(role === UserRole.customer && { customerId: userId }),
       ...(role === UserRole.agent && {
         assignments: {

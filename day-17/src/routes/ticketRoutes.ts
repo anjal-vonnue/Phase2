@@ -8,6 +8,7 @@ import {
   updateTicketStatusDB,
 } from "../db/database.js";
 import {
+  ticketQuerySchema,
   ticketSchema,
   validateQuery,
   validateTicket,
@@ -16,6 +17,7 @@ import {
   authenticate,
   type AuthRequest,
 } from "../middlewares/auth.middleware.js";
+import { error } from "node:console";
 
 const router = Router();
 
@@ -45,21 +47,28 @@ router.post("/", async (req: AuthRequest, res: Response) => {
 
 router.get("/", async (req: AuthRequest, res: Response) => {
   try {
-    const validationResult = validateQuery(req.query);
-    if (validationResult.errors.length > 0) {
-      return res.status(400).json({ error: validationResult.errors });
+    // const validationResult = validateQuery(req.query);
+    // if (validationResult.errors.length > 0) {
+    //   return res.status(400).json({ error: validationResult.errors });
+    // }
+
+    const validationResult = ticketQuerySchema.safeParse(req.query);
+    if (!validationResult.success) {
+      return res.status(400).json({
+        error: validationResult.error.flatten(),
+      });
     }
 
     const result = await listTicketsDB(
-      validationResult,
+      validationResult.data,
       req.userId!,
       req.role!,
     );
     return res.status(200).json({
       data: result.tickets,
       pagination: {
-        page: validationResult.page,
-        pageSize: validationResult.pageSize,
+        page: validationResult.data.page,
+        pageSize: validationResult.data.pageSize,
         total: result.total,
         totalPages: result.totalPages,
       },
