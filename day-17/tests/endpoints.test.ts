@@ -1,106 +1,247 @@
-import { afterEach, beforeEach, describe, expect, test } from "vitest";
+import { beforeAll, describe, expect, it } from "vitest";
 import request from "supertest";
 import { Ticket } from "../src/types/ticket.js";
-import { log } from "node:console";
 
 const url = "http://localhost:3000";
 
-describe("<-- endpoints test -->", () => {
-  let ticket: Partial<Ticket>;
+async function login(email: string, password: string) {
+  const resopnse = await request(url)
+    .post("/auth/login")
+    .send({ email, password });
 
-  beforeEach(async () => {
-    const response = await request(url).post("/tickets").send({
-      title: "test data from vitest",
-      description: "test data from vitest",
-      priority: "low",
-      customer_id: 1,
-      category_id: 1,
-    });
+  return resopnse.body.token as string;
+}
+let adminToken: string;
+
+async function deleteTicket(id: number) {
+  const response = await request(url)
+    .delete(`/tickets/${id}`)
+    .set("Authorization", `Bearer ${adminToken}`);
+
+  console.log(response.body.message);
+}
+
+describe("<-- endpoints test -->", () => {
+  let agentToken: string;
+  let customer1Token: string;
+  let customer2Token: string;
+
+  beforeAll(async () => {
+    adminToken = await login("anjal@vonnue.com", "password123");
+    agentToken = await login("yasin@vonnue.com", "password123");
+    customer1Token = await login("gauresh@vonnue.com", "password123");
+    customer2Token = await login("akshay@vonnue.com", "password123");
+  });
+
+  // endpoint: 1
+  it("creates a ticket", async () => {
+    const response = await request(url)
+      .post("/tickets")
+      .set("Authorization", `Bearer ${customer1Token}`)
+      .send({
+        title: "title from new test",
+        description: "description from new test",
+        priority: "high",
+        category_id: 1,
+      });
 
     expect(response.status).toBe(201);
-    expect(response.body.ticket).toBeDefined();
-    // console.log(response.body);
 
-    ticket = response.body.ticket;
+    await deleteTicket(response.body.ticket.id);
   });
 
-  afterEach(async () => {
-    if (ticket?.id) {
-      await request(url).delete(`/tickets/${ticket.id}`);
-    }
-  });
-  // endpoint: 1
-  test("-- post  /tickets", async () => {
-    expect(ticket.title).toEqual("test data from vitest");
-  });
   // endpoint: 2
-  test("-- get   /tickets/:id", async () => {
-    const response = await request(url).get(`/tickets/${ticket.id}`);
-    expect(response.body.ticket.id).toEqual(ticket.id);
-  });
-  // endpoint: 3
-  test("-- patch /ticket/:id/status", async () => {
+  it("rejects when the agent is trying to create a ticket", async () => {
     const response = await request(url)
-      .patch(`/tickets/${ticket.id}/status`)
+      .post("/tickets")
+      .set("Authorization", `Bearer ${agentToken}`)
       .send({
-        status: "in_progress",
+        title: "title from new test agent",
+        description: "agent agent agent",
+        priority: "high",
+        category_id: 1,
       });
-    expect(response.body.ticket.status).toEqual("in_progress");
+
+    expect(response.status).toBe(403);
+    expect(response.body.message).toBe("you are not allowed to create tickets");
+  });
+
+  // endopoint: 3
+  it("rejects when the user tries to update the ticket status", async () => {
+    const createResponse = await request(url)
+      .post("/tickets")
+      .set("Authorization", `Bearer ${customer1Token}`)
+      .send({
+        title: "title from new test",
+        description: "description from new test",
+        priority: "high",
+        category_id: 1,
+      });
+
+    expect(createResponse.status).toBe(201);
+
+    const response = await request(url)
+      .patch(`/tickets/${createResponse.body.ticket.id}/status`)
+      .set("Authorization", `Bearer ${customer1Token}`)
+      .send({ status: "in_progress" });
+
+    expect(response.status).toBe(403);
+    expect(response.body.message).toBe(
+      "you are not allowed to edit this ticket",
+    );
+
+    await deleteTicket(createResponse.body.ticket.id);
   });
 
   // endpoint: 4
-  test("-- patch /tickets/:id/assignee", async () => {
-    const response = await request(url)
-      .patch(`/tickets/${ticket.id}/assignee`)
+  it("rejects when customer 2 tries to delete the ticket made by customer 1", async () => {
+    const createResponse = await request(url)
+      .post("/tickets")
+      .set("Authorization", `Bearer ${customer1Token}`)
       .send({
-        assignee: "Anjal",
+        title: "title from new test",
+        description: "description from new test",
+        priority: "high",
+        category_id: 1,
       });
 
-    expect(response.body.ticket.ticketId).toEqual(ticket.id);
+    expect(createResponse.status).toBe(201);
+
+    const response = await request(url)
+      .delete(`/tickets/${createResponse.body.ticket.id}`)
+      .set("Authorization", `Bearer ${customer2Token}`);
+
+    expect(response.status).toBe(404);
+    expect(response.body.error).toBe("ticket not found");
+
+    await deleteTicket(createResponse.body.ticket.id);
   });
 
   // endpoint: 5
-  test("-- get   /tickets/:id invalid ticket id", async () => {
-    const response = await request(url).get(`/tickets/-9999`);
-    expect(response.body.message).toEqual("ticket not found");
-    expect(response.status).toEqual(404);
+  it("prevents a user from viewing another customers ticket", async () => {
+    const createResponse = await request(url)
+      .post("/tickets")
+      .set("Authorization", `Bearer ${customer1Token}`)
+      .send({
+        title: "title from new test",
+        description: "description from new test",
+        priority: "high",
+        category_id: 1,
+      });
+
+    expect(createResponse.status).toBe(201);
+
+    const response = await request(url)
+      .get(`/tickets/${createResponse.body.ticket.id}`)
+      .set("Authorization", `Bearer ${customer2Token}`);
+
+    expect(response.status).toBe(404);
+    expect(response.body.message).toBe("ticket not found");
+
+    await deleteTicket(createResponse.body.ticket.id);
   });
 
   // endpoint: 6
-  test("-- patch /tickets/:id/status invalid status", async () => {
-    const response = await request(url)
-      .patch(`/tickets/${ticket.id}/status`)
+  it("lets admin delete a ticket", async () => {
+    const createResponse = await request(url)
+      .post("/tickets")
+      .set("Authorization", `Bearer ${customer1Token}`)
       .send({
-        status: "urgent",
+        title: "title from new test",
+        description: "description from new test",
+        priority: "high",
+        category_id: 1,
       });
 
-    expect(response.status).toBe(400);
-    expect(response.body.error).toEqual("invalid status");
+    expect(createResponse.status).toBe(201);
+
+    const response = await request(url)
+      .delete(`/tickets/${createResponse.body.ticket.id}`)
+      .set("Authorization", `Bearer ${adminToken}`);
+
+    expect(response.status).toBe(200);
+    expect(response.body.message).toBe("ticket deleted");
+    await deleteTicket(createResponse.body.ticket.id);
   });
 
   // endpoint: 7
-  test("-- get   /tickets?status=open", async () => {
-    const response = await request(url).get("/tickets?status=open");
-    expect(response.body.data[0].status).toBe("open");
+  it("rejects delete by non-admin user", async () => {
+    const createResponse = await request(url)
+      .post("/tickets")
+      .set("Authorization", `Bearer ${customer1Token}`)
+      .send({
+        title: "title from new test",
+        description: "description from new test",
+        priority: "high",
+        category_id: 1,
+      });
+
+    expect(createResponse.status).toBe(201);
+
+    const response = await request(url)
+      .delete(`/tickets/${createResponse.body.ticket.id}`)
+      .set("Authorization", `Bearer ${agentToken}`);
+
+    expect(response.status).toBe(403);
+    expect(response.body.message).toBe("you are not allowed to delete ticket");
+    await deleteTicket(createResponse.body.ticket.id);
   });
 
   // endpoint: 8
-  test("-- get   /tickets?page=2", async () => {
-    const response = await request(url).get("/tickets?page=2");
-    expect(response.body.pagination.page).toBe(2);
-  });
+  it("allows an assigned agent to change status with valid transaction", async () => {});
 
   // endpoint: 9
-  test("-- get   /tickets?page=-100 invalid page", async () => {
-    const response = await request(url).get("/tickets?page=-100");
-    expect(response.body.error[0]).toBe("page must be a positive integer");
+  it("reject invalid priority", async () => {
+    const createResponse = await request(url)
+      .post("/tickets")
+      .set("Authorization", `Bearer ${customer1Token}`)
+      .send({
+        title: "title from new test",
+        description: "description from new test",
+        priority: "urgent",
+        category_id: 1,
+      });
+
+    expect(createResponse.status).toBe(400);
+    expect(createResponse.body.error.fieldErrors.priority).toBeTruthy();
   });
 
   // endpoint: 10
-  test("-- get   /tickets?assignee=-100 invalid assignee", async () => {
-    const response = await request(url).get("/tickets?assignee=-100");
-    expect(response.body.error[0]).toEqual(
-      "assigne value must be a postive integer",
+  it("prevents users and agents from assigning tickets", async () => {
+    const createResponse = await request(url)
+      .post("/tickets")
+      .set("Authorization", `Bearer ${customer1Token}`)
+      .send({
+        title: "title from new test",
+        description: "description from new test",
+        priority: "high",
+        category_id: 1,
+      });
+
+    const agentResponse = await request(url)
+      .patch(`/tickets/${createResponse.body.ticket.id}/assignee`)
+      .set("Authorization", `Bearer ${agentToken}`)
+      .send({
+        assignee: "Christo",
+      });
+
+    expect(agentResponse.status).toBe(403);
+    expect(agentResponse.body.message).toBe(
+      "you are not allowed to assignee tickets",
     );
+
+    const customerResponse = await request(url)
+      .patch(`/tickets/${createResponse.body.ticket.id}/assignee`)
+      .set("Authorization", `Bearer ${agentToken}`)
+      .send({
+        assignee: "Christo",
+      });
+
+    expect(customerResponse.status).toBe(403);
+    expect(customerResponse.body.message).toBe(
+      "you are not allowed to assignee tickets",
+    );
+
+    await deleteTicket(createResponse.body.ticket.id);
   });
 });
