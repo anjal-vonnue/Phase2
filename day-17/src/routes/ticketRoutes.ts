@@ -7,7 +7,11 @@ import {
   listTicketsDB,
   updateTicketStatusDB,
 } from "../db/database.js";
-import { validateQuery, validateTicket } from "../utils/validation.js";
+import {
+  ticketSchema,
+  validateQuery,
+  validateTicket,
+} from "../utils/validation.js";
 import {
   authenticate,
   type AuthRequest,
@@ -19,12 +23,14 @@ router.use(authenticate);
 
 router.post("/", async (req: AuthRequest, res: Response) => {
   try {
-    const error = validateTicket(req.body);
-    if (error) {
-      return res.status(400).json({ error: error });
+    const result = ticketSchema.safeParse(req.body);
+    if (!result.success) {
+      return res.status(400).json({
+        error: result.error.flatten(),
+      });
     }
 
-    const ticket = await createTicketDB(req.body, req.userId!, req.role!);
+    const ticket = await createTicketDB(result.data, req.userId!, req.role!);
 
     return res.status(201).json({ ticket });
   } catch (error) {

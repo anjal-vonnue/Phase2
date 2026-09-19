@@ -1,4 +1,7 @@
+import z from "zod";
 import type { Priority } from "../types/ticket.js";
+import { title } from "node:process";
+import type { TypeOf } from "zod/v3";
 
 export function validateTicket(ticket: {
   title: string;
@@ -7,11 +10,11 @@ export function validateTicket(ticket: {
   customer_id: number;
   category_id: number;
 }) {
-  if (!ticket.title && ticket.title.trim().length < 3) {
+  if (!ticket.title || ticket.title.trim().length < 3) {
     return "title must be at least 3 chars.";
   }
 
-  if (!ticket.description && ticket.description.trim().length < 6) {
+  if (!ticket.description || ticket.description.trim().length < 6) {
     return "description must be at lead 6 chars.";
   }
 
@@ -129,3 +132,15 @@ export function validateQuery(query: Partial<QueryType>) {
     sortDirection,
   };
 }
+
+export const ticketSchema = z.object({
+  title: z.string().trim().min(3, "title must be at least 2 chars"),
+  description: z
+    .string()
+    .trim()
+    .min(6, "description must be at least 6 characters"),
+  priority: z.enum(["low", "medium", "high"]),
+  category_id: z.number().int(),
+});
+
+export type CreateTicket = z.infer<typeof ticketSchema>;

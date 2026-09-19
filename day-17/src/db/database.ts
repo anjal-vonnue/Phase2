@@ -1,5 +1,6 @@
 import { UserRole, type TicketStatus } from "../generated/prisma/enums.js";
 import type { Priority } from "../types/ticket.js";
+import type { CreateTicket } from "../utils/validation.js";
 import prisma from "./prisma.js";
 
 export async function listTicketsDB(
@@ -72,13 +73,7 @@ export async function listTicketsDB(
 }
 
 export async function createTicketDB(
-  data: {
-    title: string;
-    description: string;
-    priority: Priority;
-    customer_id: number;
-    category_id: number;
-  },
+  data: CreateTicket,
   userId: number,
   role: UserRole,
 ) {
