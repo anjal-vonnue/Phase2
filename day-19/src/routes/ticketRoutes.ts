@@ -21,6 +21,48 @@ const router = Router();
 
 router.use(authenticate);
 
+/**
+ * @openapi
+ * /tickets:
+ *   post:
+ *     summary: Create a ticket
+ *     requestBody:
+ *      description: ticket creation payload
+ *      required: true
+ *      content:
+ *        application/json:
+ *          schema:
+ *            type: object
+ *            required:
+ *              - title
+ *              - description
+ *              - priority
+ *            properties:
+ *              title:
+ *                type: string
+ *              description:
+ *                type: string
+ *              priority:
+ *                type: string
+ *                enum:
+ *                  - high
+ *                  - medium
+ *                  - low
+ *     tags: [Tickets]
+ *     security:
+ *       - bearerAuth: []
+ *     responses:
+ *       201:
+ *         description: Ticket created
+ *   get:
+ *     summary: List tickets with pagination
+ *     tags: [Tickets]
+ *     security:
+ *       - bearerAuth: []
+ *     responses:
+ *       200:
+ *         description: Paginated ticket list
+ */
 router.post("/", async (req: AuthRequest, res: Response) => {
   try {
     const result = ticketSchema.safeParse(req.body);
@@ -71,6 +113,24 @@ router.get("/", async (req: AuthRequest, res: Response) => {
   }
 });
 
+/**
+ * @openapi
+ * /tickets/{id}:
+ *   get:
+ *     summary: Get a ticket by id
+ *     tags: [Tickets]
+ *     security:
+ *       - bearerAuth: []
+ *     parameters:
+ *       - in: path
+ *         name: id
+ *         required: true
+ *         schema:
+ *           type: integer
+ *     responses:
+ *       200:
+ *         description: Ticket found
+ */
 router.get("/:id", async (req: AuthRequest, res: Response) => {
   try {
     const result = idSchema.safeParse(req.params.id);
@@ -94,6 +154,41 @@ router.get("/:id", async (req: AuthRequest, res: Response) => {
   }
 });
 
+/**
+ * @openapi
+ * /tickets/{id}/status:
+ *   patch:
+ *     summary: Change ticket status
+ *     requestBody:
+ *      description: update status payload
+ *      required: true
+ *      content:
+ *        application/json:
+ *          schema:
+ *            type: object
+ *            required:
+ *              - status
+ *            properties:
+ *              status:
+ *                type: string
+ *                enum:
+ *                  - open
+ *                  - closed
+ *                  - resolve
+ *                  - in_progress
+ *     tags: [Tickets]
+ *     security:
+ *       - bearerAuth: []
+ *     parameters:
+ *       - in: path
+ *         name: id
+ *         required: true
+ *         schema:
+ *           type: integer
+ *     responses:
+ *       200:
+ *         description: Status updated
+ */
 router.patch("/:id/status", async (req: AuthRequest, res: Response) => {
   try {
     const { status } = req.body;
@@ -131,6 +226,36 @@ router.patch("/:id/status", async (req: AuthRequest, res: Response) => {
   }
 });
 
+/**
+ * @openapi
+ * /tickets/{id}/assignee:
+ *   patch:
+ *     summary: Assign a ticket to an admin or agent
+ *     requestBody:
+ *      description: add assignee payload
+ *      required: true
+ *      content:
+ *        application/json:
+ *          schema:
+ *            type: object
+ *            required:
+ *              - assignee
+ *            properties:
+ *              assignee:
+ *                type: string
+ *     tags: [Tickets]
+ *     security:
+ *       - bearerAuth: []
+ *     parameters:
+ *       - in: path
+ *         name: id
+ *         required: true
+ *         schema:
+ *           type: integer
+ *     responses:
+ *       200:
+ *         description: Assignment updated
+ */
 router.patch("/:id/assignee", async (req: AuthRequest, res: Response) => {
   try {
     const { assignee } = req.body;
@@ -167,6 +292,24 @@ router.patch("/:id/assignee", async (req: AuthRequest, res: Response) => {
   }
 });
 
+/**
+ * @openapi
+ * /tickets/{id}:
+ *   delete:
+ *     summary: Delete a ticket
+ *     tags: [Tickets]
+ *     security:
+ *       - bearerAuth: []
+ *     parameters:
+ *       - in: path
+ *         name: id
+ *         required: true
+ *         schema:
+ *           type: integer
+ *     responses:
+ *       200:
+ *         description: Ticket deleted
+ */
 router.delete("/:id", async (req: AuthRequest, res: Response) => {
   try {
     const result = idSchema.safeParse(req.params.id);
