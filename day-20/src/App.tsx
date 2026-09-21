@@ -5,7 +5,7 @@ function App() {
   return (
     <>
       <AppShell>
-        <h1>MAIN CONTENT</h1>
+        <div className="main-container"></div>
       </AppShell>
     </>
   );
