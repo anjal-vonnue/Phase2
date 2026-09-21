@@ -22,7 +22,7 @@ export default function HeaderComponent() {
   return (
     <>
       <header className="header">
-        <div>Project Management</div>
+        <h1>Project Management</h1>
         <div>
           <nav className="nav">
             {links.map((link) => (
