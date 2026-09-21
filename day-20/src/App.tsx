@@ -1,12 +1,12 @@
 import "./App.css";
-import HeaderComponent from "./components/Header/header";
-import SidebarComponent from "./components/Sidebar/sidebar";
+import AppShell from "./components/AppShell/AppShell";
 
 function App() {
   return (
     <>
-      <HeaderComponent />
-      <SidebarComponent />
+      <AppShell>
+        <h1>MAIN CONTENT</h1>
+      </AppShell>
     </>
   );
 }
