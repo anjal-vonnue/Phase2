@@ -1,9 +1,9 @@
-interface EmptyStateProps {
+interface EmptyCardProps {
   title: string;
   message: string;
 }
 
-const EmptyState = ({ title, message }: EmptyStateProps) => {
+const EmptyCard = ({ title, message }: EmptyCardProps) => {
   return (
     <div>
       <h2>{title}</h2>
@@ -12,4 +12,4 @@ const EmptyState = ({ title, message }: EmptyStateProps) => {
   );
 };
 
-export default EmptyState;
+export default EmptyCard;

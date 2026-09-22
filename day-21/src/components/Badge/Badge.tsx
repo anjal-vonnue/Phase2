@@ -1,3 +1,4 @@
+import type { PriorityType, StatusType } from "../../types/types";
 import "./Badge.css";
 
 export const Badge = ({
@@ -5,7 +6,7 @@ export const Badge = ({
   variant,
 }: {
   children: React.ReactNode;
-  variant?: string;
+  variant?: StatusType | PriorityType | "tags" | "overdue";
 }) => {
   return (
     <span className={variant ? `badge badge-${variant}` : `badge`}>
