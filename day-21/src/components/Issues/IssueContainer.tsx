@@ -1,3 +1,4 @@
+import { issues } from "../../data/issues";
 import IssueCard from "./IssueCard";
 import "./IssueContainer.css";
 
@@ -5,25 +6,9 @@ const IssueContainer = () => {
   return (
     <>
       <div className="issue-div">
-        <IssueCard />
-        <IssueCard />
-        <IssueCard />
-        <IssueCard />
-        <IssueCard />
-        <IssueCard />
-        <IssueCard />
-        <IssueCard />
-        <IssueCard />
-        <IssueCard />
-        <IssueCard />
-        <IssueCard />
-        <IssueCard />
-        <IssueCard />
-        <IssueCard />
-        <IssueCard />
-        <IssueCard />
-        <IssueCard />
-        <IssueCard />
+        {issues.map((issue) => (
+          <IssueCard key={issue.id} issue={issue} />
+        ))}
       </div>
     </>
   );

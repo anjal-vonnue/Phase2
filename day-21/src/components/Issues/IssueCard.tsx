@@ -1,8 +1,9 @@
+import type { Issue } from "../../types/types";
 import { Avatar } from "../Avatar/Avatar";
 import { Badge } from "../Badge/Badge";
 import "./IssueCard.css";
 
-const IssueCard = () => {
+const IssueCard = ({ issue }: { issue: Issue }) => {
   return (
     <>
       <div className="issue-card">
@@ -10,18 +11,21 @@ const IssueCard = () => {
           <Avatar />
           <div className="issue-details">
             <div className="issue-heading">
-              <p>Homepage hero calender is partially cropped on desktop</p>
-              <Badge>Bug</Badge>
+              <p>{issue.title}</p>
             </div>
             <div className="issue-description">
-              <p>#1rerawer</p>
-              <p>by anjal</p>
-              <p>2d ago</p>
-              <p>on Project</p>
+              <p>{issue.description}</p>
+              <div className="issue-assignee">
+                <p>assigned to: {issue.assignee}</p>
+                <Badge variant={issue.status}>{issue.status}</Badge>
+                <Badge variant={issue.priority}>{issue.priority}</Badge>
+              </div>
             </div>
           </div>
         </div>
-        {/* <Avatar /> */}
+        <div className="issue-badges">
+          <Badge variant="overdue">Overdue</Badge>
+        </div>
       </div>
     </>
   );

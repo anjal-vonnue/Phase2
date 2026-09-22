@@ -2,7 +2,7 @@
   display: flex;
   height: fit;
   flex: 1;
-  background-color: chocolate;
+  background-color: aliceblue;
   border: 1px solid black;
   padding: 10px;
   margin: 5px;
@@ -18,7 +18,7 @@
 .issue-details {
   display: flex;
   flex-direction: column;
-  gap: 10px;
+  gap: 5px;
 }
 
 .issue-heading {
@@ -28,5 +28,20 @@
 
 .issue-description {
   display: flex;
-  gap: 10px;
+  gap: 2px;
+  flex-direction: column;
+}
+
+.issue-badges {
+  display: flex;
+  flex-direction: column;
+  gap: 5px;
+  align-items: center;
+  justify-content: center;
+}
+
+.issue-assignee {
+  display: flex;
+  gap: 25px;
+  align-items: center;
 }

@@ -13,11 +13,11 @@ const ProjectCard = () => {
       <div className="project-tags">
         <p>Tags</p>
         <div className="project-badges">
-          <Badge>typescript</Badge>
-          <Badge>typescript</Badge>
-          <Badge>typescript</Badge>
-          <Badge>typescript</Badge>
-          <Badge>typescript</Badge>
+          <Badge variant="tags">typescript</Badge>
+          <Badge variant="tags">typescript</Badge>
+          <Badge variant="tags">typescript</Badge>
+          <Badge variant="tags">typescript</Badge>
+          <Badge variant="tags">typescript</Badge>
         </div>
       </div>
     </div>
