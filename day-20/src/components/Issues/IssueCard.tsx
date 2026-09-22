@@ -21,7 +21,7 @@ const IssueCard = () => {
             </div>
           </div>
         </div>
-        <Avatar />
+        {/* <Avatar /> */}
       </div>
     </>
   );
