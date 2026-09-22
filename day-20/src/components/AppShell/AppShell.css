@@ -1,4 +1,10 @@
 .home-layout {
   display: flex;
-  flex-direction: row;
+  align-items: stretch;
+  min-height: 100vh;
+}
+
+.home-layout > main {
+  flex: 1;
+  min-width: 0;
 }

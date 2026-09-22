@@ -1,0 +1,30 @@
+.project-card {
+  display: flex;
+  flex-direction: column;
+  margin: 5px;
+  width: 300px;
+  padding: 10px;
+  box-sizing: border-box;
+  background-color: bisque;
+  border: 1px solid black;
+  gap: 20px;
+}
+
+.project-header {
+  display: flex;
+  gap: 10px;
+  flex-wrap: wrap;
+}
+
+.project-tags {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+
+.project-badges {
+  display: flex;
+  flex-direction: row;
+  gap: 10px;
+  flex-wrap: wrap;
+}
