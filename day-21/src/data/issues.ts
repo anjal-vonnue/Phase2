@@ -9,7 +9,7 @@ export const issues: Issue[] = [
     status: "open",
     priority: "high",
     assignee: "John Doe",
-    dueDate: "2026-09-25",
+    dueDate: "2026-09-21",
   },
   {
     id: "ISS-002",

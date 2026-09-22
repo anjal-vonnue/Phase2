@@ -3,6 +3,10 @@ import { Avatar } from "../Avatar/Avatar";
 import { Badge } from "../Badge/Badge";
 import "./IssueCard.css";
 
+function isOverdue(date: string) {
+  return new Date(date) < new Date();
+}
+
 const IssueCard = ({ issue }: { issue: Issue }) => {
   return (
     <>
@@ -24,7 +28,11 @@ const IssueCard = ({ issue }: { issue: Issue }) => {
           </div>
         </div>
         <div className="issue-badges">
-          <Badge variant="overdue">Overdue</Badge>
+          {isOverdue(issue.dueDate) &&
+            issue.status !== "resolve" &&
+            issue.status !== "closed" && (
+              <Badge variant="overdue">Overdue</Badge>
+            )}
         </div>
       </div>
     </>
