@@ -1,3 +1,5 @@
+import { Avatar } from "../Avatar/Avatar";
+import { Badge } from "../Badge/Badge";
 import "./IssueCard.css";
 
 const IssueCard = () => {
@@ -5,11 +7,11 @@ const IssueCard = () => {
     <>
       <div className="issue-card">
         <div className="issue-content">
-          <div>User Avatar</div>
+          <Avatar />
           <div className="issue-details">
             <div className="issue-heading">
               <p>Homepage hero calender is partially cropped on desktop</p>
-              <p>Badge</p>
+              <Badge>Bug</Badge>
             </div>
             <div className="issue-description">
               <p>#1rerawer</p>
@@ -19,7 +21,7 @@ const IssueCard = () => {
             </div>
           </div>
         </div>
-        <div>Project Avatar</div>
+        <Avatar />
       </div>
     </>
   );

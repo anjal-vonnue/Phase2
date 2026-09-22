@@ -1,8 +1,8 @@
 .issue-card {
   display: flex;
-  height: fit-content;
+  height: fit;
   flex: 1;
-  background-color: red;
+  background-color: chocolate;
   border: 1px solid black;
   padding: 10px;
   margin: 5px;

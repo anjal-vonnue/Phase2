@@ -16,6 +16,11 @@
   flex-wrap: wrap;
 }
 
+.project-title {
+  font-weight: 600;
+  font-size: 20px;
+}
+
 .project-tags {
   display: flex;
   flex-direction: column;

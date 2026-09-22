@@ -1,26 +1,23 @@
+import { Avatar } from "../Avatar/Avatar";
+import { Badge } from "../Badge/Badge";
 import "./Project.css";
 
 const ProjectCard = () => {
   return (
     <div className="project-card">
       <div className="project-header">
-        <p>Project Avatar</p>
-        <p>Title</p>
+        <Avatar />
+        <p className="project-title">NandhaKishorM/laya</p>
       </div>
-      <p></p>
+      <p>Multilingual, non-autoregressive System 1 decision engine</p>
       <div className="project-tags">
         <p>Tags</p>
         <div className="project-badges">
-          <p>Badge</p>
-          <p>Badge</p>
-          <p>Badge</p>
-          <p>Badge</p>
-          <p>Badge</p>
-          <p>Badge</p>
-          <p>Badge</p>
-          <p>Badge</p>
-          <p>Badge</p>
-          <p>Badge</p>
+          <Badge>typescript</Badge>
+          <Badge>typescript</Badge>
+          <Badge>typescript</Badge>
+          <Badge>typescript</Badge>
+          <Badge>typescript</Badge>
         </div>
       </div>
     </div>
