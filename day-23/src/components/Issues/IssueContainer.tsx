@@ -3,8 +3,9 @@ import { issues as FirstIssue } from "../../data/issues";
 import EmptyCard from "../EmptyState/EmptyState";
 import IssueCard from "./IssueCard";
 import "./IssueContainer.css";
-import type { Issue } from "../../types/types";
+import type { Issue, LabelsType } from "../../types/types";
 import { Modal } from "../Modal/Modal";
+import { availableLabels } from "../../data/labels";
 
 const IssueContainer = () => {
   const [issues, setIssues] = useState<Issue[]>(FirstIssue);
@@ -14,6 +15,7 @@ const IssueContainer = () => {
   const [sort, setSort] = useState<string>("newest");
   const [search, setSearch] = useState<string>("");
   const [searchInput, setSearchInput] = useState<string>("");
+  const [label, setLabel] = useState<LabelsType | "all">("all");
 
   const [toggleModal, setToggleModal] = useState<boolean>(false);
 
@@ -26,12 +28,14 @@ const IssueContainer = () => {
     const matchStatus = status === "all" || issue.status === status;
     const matchPriority = priority === "all" || issue.priority === priority;
     const matchAssignee = assignee === "all" || issue.assignee === assignee;
+    const matchLabel = label === "all" || issue.labels.includes(label);
 
     return (
       (matchTitle || matchDescription) &&
       matchStatus &&
       matchPriority &&
-      matchAssignee
+      matchAssignee &&
+      matchLabel
     );
   });
 
@@ -108,6 +112,19 @@ const IssueContainer = () => {
             ))}
           </select>
 
+          {/* Label Filter */}
+          <select
+            value={label}
+            onChange={(e) => {
+              setLabel(e.target.value as LabelsType);
+            }}
+          >
+            <option value="all">Labels (all)</option>
+            {availableLabels.map((label) => (
+              <option value={label}>{label}</option>
+            ))}
+          </select>
+
           {/* Sort Filter */}
           <select value={sort} onChange={(e) => setSort(e.target.value)}>
             <option value="newest">Newest</option>
@@ -124,6 +141,7 @@ const IssueContainer = () => {
               setSort("newest");
               setSearch("");
               setSearchInput("");
+              setLabel("all");
             }}
           >
             Clear Filter

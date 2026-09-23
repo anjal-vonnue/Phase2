@@ -63,3 +63,12 @@
   font-size: 12px;
   font-weight: 500;
 }
+
+.badge-label {
+  color: #0f00e6;
+  background-color: #003cff80;
+  border-color: #c7d2fe;
+  padding: 3px 8px;
+  font-size: 12px;
+  font-weight: 500;
+}

@@ -23,6 +23,9 @@ const IssueCard = ({ issue }: { issue: Issue }) => {
                 <p>assigned to: {issue.assignee}</p>
                 <Badge variant={issue.status}>{issue.status}</Badge>
                 <Badge variant={issue.priority}>{issue.priority}</Badge>
+                {issue.labels.map((label) => (
+                  <Badge variant="label">{label}</Badge>
+                ))}
               </div>
             </div>
           </div>

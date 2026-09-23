@@ -3,9 +3,11 @@ import {
   type PriorityType,
   type Issue,
   type StatusType,
+  type LabelsType,
 } from "../../types/types";
 import "./Modal.css";
 import { IssueSchema } from "../../zodSchema/issueSchema";
+import { availableLabels } from "../../data/labels";
 
 export const Modal = ({
   issues,
@@ -22,6 +24,7 @@ export const Modal = ({
   const [priority, setPriority] = useState<PriorityType>("high");
   const [assignee, setAssignee] = useState<string>("");
   const [dueDate, setDueDate] = useState<string>("");
+  const [labels, setLabels] = useState<LabelsType[]>([]);
   const [errors, setErrors] = useState<Record<string, string | undefined>>({});
 
   return (
@@ -123,6 +126,33 @@ export const Modal = ({
             {errors.dueDate && <span className="error">{errors.dueDate}</span>}
           </div>
 
+          <div className="form-group">
+            <label>Labels</label>
+
+            <div className="labels-container">
+              {availableLabels.map((label) => (
+                <label key={label} className="label-option">
+                  <input
+                    type="checkbox"
+                    checked={labels.includes(label)}
+                    onChange={(e) => {
+                      if (e.target.checked) {
+                        setLabels((prev) => [...prev, label]);
+                      } else {
+                        setLabels((prev) =>
+                          prev.filter((item) => item !== label),
+                        );
+                      }
+                    }}
+                  />
+                  <span>{label}</span>
+                </label>
+              ))}
+            </div>
+
+            {errors.labels && <span className="error">{errors.labels}</span>}
+          </div>
+
           <div className="modal-actions">
             <button
               type="button"
@@ -144,6 +174,7 @@ export const Modal = ({
                   priority,
                   assignee,
                   dueDate,
+                  labels,
                 });
 
                 if (!result.success) {
@@ -153,9 +184,10 @@ export const Modal = ({
                     title: fieldErrors.title?.[0],
                     description: fieldErrors.description?.[0],
                     status: fieldErrors.status?.[0],
-                    priority: fieldErrors.status?.[0],
+                    priority: fieldErrors.priority?.[0],
                     assignee: fieldErrors.assignee?.[0],
                     dueDate: fieldErrors.dueDate?.[0],
+                    labels: fieldErrors.labels?.[0],
                   });
 
                   return;

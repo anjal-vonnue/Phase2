@@ -14,4 +14,17 @@ export const IssueSchema = z.object({
   priority: z.enum(["high", "medium", "low"]),
   assignee: z.string().trim().min(1, "assignee is required"),
   dueDate: z.string().min(1, "due date is required"),
+  labels: z.array(
+    z.enum([
+      "bug",
+      "documentation",
+      "duplicate",
+      "enhancement",
+      "good first issue",
+      "help wanted",
+      "invalid",
+      "question",
+      "wontfix",
+    ]),
+  ),
 });

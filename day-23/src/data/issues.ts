@@ -10,6 +10,7 @@ export const issues: Issue[] = [
     priority: "high",
     assignee: "John Doe",
     dueDate: "2026-09-21",
+    labels: ["bug", "help wanted"],
   },
   {
     id: "ISS-002",
@@ -20,6 +21,7 @@ export const issues: Issue[] = [
     priority: "medium",
     assignee: "Jane Smith",
     dueDate: "2026-09-27",
+    labels: ["enhancement"],
   },
   {
     id: "ISS-003",
@@ -30,6 +32,7 @@ export const issues: Issue[] = [
     priority: "high",
     assignee: "Mike Johnson",
     dueDate: "2026-09-24",
+    labels: ["bug"],
   },
   {
     id: "ISS-004",
@@ -40,6 +43,7 @@ export const issues: Issue[] = [
     priority: "medium",
     assignee: "Sarah Wilson",
     dueDate: "2026-09-30",
+    labels: ["bug", "enhancement"],
   },
   {
     id: "ISS-005",
@@ -50,6 +54,7 @@ export const issues: Issue[] = [
     priority: "medium",
     assignee: "Alex Brown",
     dueDate: "2026-10-02",
+    labels: ["enhancement"],
   },
   {
     id: "ISS-006",
@@ -60,6 +65,7 @@ export const issues: Issue[] = [
     priority: "low",
     assignee: "Emily Davis",
     dueDate: "2026-09-20",
+    labels: ["bug"],
   },
   {
     id: "ISS-007",
@@ -70,6 +76,7 @@ export const issues: Issue[] = [
     priority: "high",
     assignee: "Chris Miller",
     dueDate: "2026-09-26",
+    labels: ["bug", "help wanted"],
   },
   {
     id: "ISS-008",
@@ -80,6 +87,7 @@ export const issues: Issue[] = [
     priority: "low",
     assignee: "Lisa Anderson",
     dueDate: "2026-10-05",
+    labels: ["enhancement"],
   },
   {
     id: "ISS-009",
@@ -90,6 +98,7 @@ export const issues: Issue[] = [
     priority: "medium",
     assignee: "David Taylor",
     dueDate: "2026-09-28",
+    labels: ["bug"],
   },
   {
     id: "ISS-010",
@@ -100,5 +109,6 @@ export const issues: Issue[] = [
     priority: "low",
     assignee: "Robert Wilson",
     dueDate: "2026-09-18",
+    labels: ["documentation", "enhancement"],
   },
 ];

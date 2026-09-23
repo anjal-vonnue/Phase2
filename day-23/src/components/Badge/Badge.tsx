@@ -6,7 +6,7 @@ export const Badge = ({
   variant,
 }: {
   children: React.ReactNode;
-  variant?: StatusType | PriorityType | "tags" | "overdue";
+  variant?: StatusType | PriorityType | "tags" | "overdue" | "label";
 }) => {
   return (
     <span className={variant ? `badge badge-${variant}` : `badge`}>

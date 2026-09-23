@@ -2,6 +2,17 @@ export type StatusType = "open" | "in_progress" | "resolve" | "closed";
 
 export type PriorityType = "low" | "medium" | "high";
 
+export type LabelsType =
+  | "bug"
+  | "documentation"
+  | "duplicate"
+  | "enhancement"
+  | "good first issue"
+  | "help wanted"
+  | "invalid"
+  | "question"
+  | "wontfix";
+
 export interface Issue {
   id: string;
   title: string;
@@ -10,4 +21,5 @@ export interface Issue {
   priority: PriorityType;
   assignee: string;
   dueDate: string;
+  labels: LabelsType[];
 }
