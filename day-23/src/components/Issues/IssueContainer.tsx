@@ -19,6 +19,9 @@ const IssueContainer = () => {
 
   const [toggleModal, setToggleModal] = useState<boolean>(false);
 
+  const [editingIssue, setEditingIssue] = useState<Issue | null>(null);
+  const [addingIssue, setAddingIssue] = useState<boolean>(false);
+
   const filteredIssues = issues.filter((issue) => {
     const matchTitle = issue.title.toLowerCase().includes(search.toLowerCase());
     const matchDescription = issue.description
@@ -49,6 +52,8 @@ const IssueContainer = () => {
 
     return 0;
   });
+
+  console.log(editingIssue);
 
   return (
     <>
@@ -150,7 +155,8 @@ const IssueContainer = () => {
           <button
             id="add-btn"
             onClick={() => {
-              setToggleModal(!toggleModal);
+              setToggleModal((prev) => !prev);
+              setAddingIssue((prev) => !prev);
             }}
           >
             Add Issue
@@ -165,16 +171,30 @@ const IssueContainer = () => {
             />
           ) : (
             sortedIssues.map((issue) => (
-              <IssueCard key={issue.id} issue={issue} />
+              <IssueCard
+                key={issue.id}
+                issue={issue}
+                setEditingIssue={setEditingIssue}
+                setToggleModal={setToggleModal}
+              />
             ))
           )}
         </div>
 
-        {toggleModal && (
+        {toggleModal && editingIssue && (
           <Modal
-            issues={issues}
+            issue={editingIssue}
             setIssues={setIssues}
             setToggleModal={setToggleModal}
+            setEditingIssue={setEditingIssue}
+          />
+        )}
+
+        {toggleModal && addingIssue && (
+          <Modal
+            setIssues={setIssues}
+            setToggleModal={setToggleModal}
+            setAddingIssue={setAddingIssue}
           />
         )}
       </div>

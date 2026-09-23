@@ -10,21 +10,29 @@ import { IssueSchema } from "../../zodSchema/issueSchema";
 import { availableLabels } from "../../data/labels";
 
 export const Modal = ({
-  issues,
   setIssues,
   setToggleModal,
+  setAddingIssue,
+  setEditingIssue,
+  issue,
 }: {
-  issues: Issue[];
   setIssues: Dispatch<SetStateAction<Issue[]>>;
   setToggleModal: Dispatch<SetStateAction<boolean>>;
+  setAddingIssue?: Dispatch<SetStateAction<boolean>>;
+  setEditingIssue?: Dispatch<SetStateAction<Issue | null>>;
+  issue?: Issue;
 }) => {
-  const [title, setTitle] = useState<string>("");
-  const [description, setDescription] = useState<string>("");
-  const [status, setStatus] = useState<StatusType>("open");
-  const [priority, setPriority] = useState<PriorityType>("high");
-  const [assignee, setAssignee] = useState<string>("");
-  const [dueDate, setDueDate] = useState<string>("");
-  const [labels, setLabels] = useState<LabelsType[]>([]);
+  const [title, setTitle] = useState<string>(issue?.title || "");
+  const [description, setDescription] = useState<string>(
+    issue?.description || "",
+  );
+  const [status, setStatus] = useState<StatusType>(issue?.status || "open");
+  const [priority, setPriority] = useState<PriorityType>(
+    issue?.priority || "high",
+  );
+  const [assignee, setAssignee] = useState<string>(issue?.assignee || "");
+  const [dueDate, setDueDate] = useState<string>(issue?.dueDate || "");
+  const [labels, setLabels] = useState<LabelsType[]>(issue?.labels || []);
   const [errors, setErrors] = useState<Record<string, string | undefined>>({});
 
   return (
@@ -157,7 +165,11 @@ export const Modal = ({
             <button
               type="button"
               className="cancel-btn"
-              onClick={() => setToggleModal(false)}
+              onClick={() => {
+                setToggleModal(false);
+                if (setAddingIssue) setAddingIssue(false);
+                if (setEditingIssue) setEditingIssue(null);
+              }}
             >
               Cancel
             </button>
@@ -195,13 +207,25 @@ export const Modal = ({
 
                 setErrors({});
 
-                setIssues((prev) => [
-                  ...prev,
-                  {
-                    id: crypto.randomUUID(),
-                    ...result.data,
-                  },
-                ]);
+                if (issue) {
+                  setIssues((prev) =>
+                    prev.map((item) => {
+                      if (item.id === issue.id) {
+                        return { ...item, ...result.data };
+                      } else {
+                        return item;
+                      }
+                    }),
+                  );
+                } else {
+                  setIssues((prev) => [
+                    ...prev,
+                    {
+                      id: crypto.randomUUID(),
+                      ...result.data,
+                    },
+                  ]);
+                }
 
                 setToggleModal(false);
               }}

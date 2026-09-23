@@ -34,10 +34,15 @@
 
 .issue-badges {
   display: flex;
-  flex-direction: column;
+  flex-direction: row;
   gap: 5px;
   align-items: center;
   justify-content: center;
+}
+
+.issue-badges button {
+  border: 1px solid black;
+  padding: 3px 10px;
 }
 
 .issue-assignee {

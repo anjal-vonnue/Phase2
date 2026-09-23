@@ -1,3 +1,4 @@
+import type { Dispatch, SetStateAction } from "react";
 import type { Issue } from "../../types/types";
 import { Avatar } from "../Avatar/Avatar";
 import { Badge } from "../Badge/Badge";
@@ -7,7 +8,15 @@ function isOverdue(date: string) {
   return new Date(date) < new Date();
 }
 
-const IssueCard = ({ issue }: { issue: Issue }) => {
+const IssueCard = ({
+  issue,
+  setEditingIssue,
+  setToggleModal,
+}: {
+  issue: Issue;
+  setEditingIssue: Dispatch<SetStateAction<Issue | null>>;
+  setToggleModal: Dispatch<SetStateAction<boolean>>;
+}) => {
   return (
     <>
       <div className="issue-card">
@@ -36,6 +45,14 @@ const IssueCard = ({ issue }: { issue: Issue }) => {
             issue.status !== "closed" && (
               <Badge variant="overdue">Overdue</Badge>
             )}
+          <button
+            onClick={() => {
+              setEditingIssue(issue);
+              setToggleModal(true);
+            }}
+          >
+            EDIT
+          </button>
         </div>
       </div>
     </>
