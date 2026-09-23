@@ -1,0 +1,47 @@
+.issue-card {
+  display: flex;
+  height: fit;
+  flex: 1;
+  background-color: aliceblue;
+  border: 1px solid black;
+  padding: 10px;
+  margin: 5px;
+  flex-direction: row;
+  justify-content: space-between;
+  gap: 10px;
+}
+.issue-content {
+  display: flex;
+  gap: 20px;
+}
+
+.issue-details {
+  display: flex;
+  flex-direction: column;
+  gap: 5px;
+}
+
+.issue-heading {
+  display: flex;
+  gap: 20px;
+}
+
+.issue-description {
+  display: flex;
+  gap: 2px;
+  flex-direction: column;
+}
+
+.issue-badges {
+  display: flex;
+  flex-direction: column;
+  gap: 5px;
+  align-items: center;
+  justify-content: center;
+}
+
+.issue-assignee {
+  display: flex;
+  gap: 25px;
+  align-items: center;
+}
