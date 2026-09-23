@@ -35,6 +35,37 @@ export const Modal = ({
   const [labels, setLabels] = useState<LabelsType[]>(issue?.labels || []);
   const [errors, setErrors] = useState<Record<string, string | undefined>>({});
 
+  function validateForm(): { data?: Partial<Issue>; success: boolean } {
+    const result = IssueSchema.safeParse({
+      title,
+      description,
+      status,
+      priority,
+      assignee,
+      dueDate,
+      labels,
+    });
+
+    if (!result.success) {
+      console.log(result.error.flatten().fieldErrors);
+      const fieldErrors = result.error.flatten().fieldErrors;
+      setErrors({
+        title: fieldErrors.title?.[0],
+        description: fieldErrors.description?.[0],
+        status: fieldErrors.status?.[0],
+        priority: fieldErrors.priority?.[0],
+        assignee: fieldErrors.assignee?.[0],
+        dueDate: fieldErrors.dueDate?.[0],
+        labels: fieldErrors.labels?.[0],
+      });
+
+      return { success: false };
+    }
+
+    setErrors({});
+    return { data: result.data, success: true };
+  }
+
   return (
     <div className="modal-overlay">
       <div className="modal">
@@ -179,39 +210,16 @@ export const Modal = ({
               className="submit-btn"
               onClick={(e) => {
                 e.preventDefault();
-                const result = IssueSchema.safeParse({
-                  title,
-                  description,
-                  status,
-                  priority,
-                  assignee,
-                  dueDate,
-                  labels,
-                });
 
-                if (!result.success) {
-                  console.log(result.error.flatten().fieldErrors);
-                  const fieldErrors = result.error.flatten().fieldErrors;
-                  setErrors({
-                    title: fieldErrors.title?.[0],
-                    description: fieldErrors.description?.[0],
-                    status: fieldErrors.status?.[0],
-                    priority: fieldErrors.priority?.[0],
-                    assignee: fieldErrors.assignee?.[0],
-                    dueDate: fieldErrors.dueDate?.[0],
-                    labels: fieldErrors.labels?.[0],
-                  });
-
-                  return;
-                }
-
-                setErrors({});
+                const result = validateForm();
+                if (!result.success || !result.data) return;
+                const data = result.data;
 
                 if (issue) {
                   setIssues((prev) =>
                     prev.map((item) => {
                       if (item.id === issue.id) {
-                        return { ...item, ...result.data };
+                        return { ...item, ...data };
                       } else {
                         return item;
                       }
@@ -222,11 +230,13 @@ export const Modal = ({
                     ...prev,
                     {
                       id: crypto.randomUUID(),
-                      ...result.data,
-                    },
+                      ...data,
+                    } as Issue,
                   ]);
                 }
 
+                if (setAddingIssue) setAddingIssue(false);
+                if (setEditingIssue) setEditingIssue(null);
                 setToggleModal(false);
               }}
             >
