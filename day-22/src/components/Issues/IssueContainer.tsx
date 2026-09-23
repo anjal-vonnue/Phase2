@@ -4,6 +4,7 @@ import EmptyCard from "../EmptyState/EmptyState";
 import IssueCard from "./IssueCard";
 import "./IssueContainer.css";
 import type { Issue } from "../../types/types";
+import { Modal } from "../Modal/Modal";
 
 const IssueContainer = () => {
   const [issues, setIssues] = useState<Issue[]>(FirstIssue);
@@ -13,6 +14,8 @@ const IssueContainer = () => {
   const [sort, setSort] = useState<string>("newest");
   const [search, setSearch] = useState<string>("");
   const [searchInput, setSearchInput] = useState<string>("");
+
+  const [toggleModal, setToggleModal] = useState<boolean>(false);
 
   const filteredIssues = issues.filter((issue) => {
     const matchTitle = issue.title.toLowerCase().includes(search.toLowerCase());
@@ -126,7 +129,14 @@ const IssueContainer = () => {
             Clear Filter
           </button>
 
-          <button id="add-btn">Add Issue</button>
+          <button
+            id="add-btn"
+            onClick={() => {
+              setToggleModal(!toggleModal);
+            }}
+          >
+            Add Issue
+          </button>
         </div>
 
         <div className="issue-div">
@@ -141,6 +151,14 @@ const IssueContainer = () => {
             ))
           )}
         </div>
+
+        {toggleModal && (
+          <Modal
+            issues={issues}
+            setIssues={setIssues}
+            setToggleModal={setToggleModal}
+          />
+        )}
       </div>
     </>
   );
