@@ -195,8 +195,8 @@ export const Modal = ({
 
                 setErrors({});
 
-                setIssues([
-                  ...issues,
+                setIssues((prev) => [
+                  ...prev,
                   {
                     id: crypto.randomUUID(),
                     ...result.data,
