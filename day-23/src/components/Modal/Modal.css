@@ -137,4 +137,5 @@
 
 .label-option span {
   font-size: 13px;
+  white-space: nowrap;
 }
