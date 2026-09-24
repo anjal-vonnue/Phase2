@@ -8,6 +8,7 @@
   background-color: bisque;
   border: 1px solid black;
   gap: 20px;
+  max-height: 300px;
 }
 
 .project-header {

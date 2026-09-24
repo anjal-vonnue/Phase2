@@ -1,20 +1,18 @@
-import type React from "react";
 import HeaderComponent from "../Header/Header";
 import SidebarComponent from "../Sidebar/Sidebar";
 import "./AppShell.css";
+import { Outlet } from "react-router";
 
-interface AppShellProps {
-  children: React.ReactNode;
-}
-
-export default function AppShell({ children }: AppShellProps) {
+export default function AppShell() {
   return (
     <>
       <div>
         <HeaderComponent />
         <div className="home-layout">
           <SidebarComponent />
-          <main>{children}</main>
+          <main>
+            <Outlet />
+          </main>
         </div>
       </div>
     </>

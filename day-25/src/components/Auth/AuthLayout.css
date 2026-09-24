@@ -1,0 +1,68 @@
+.auth-layout {
+  background-color: aqua;
+  min-height: 100vh;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.auth-card {
+  border: 3px solid black;
+  padding: 20px;
+}
+
+.auth-form-group {
+  display: flex;
+  flex-direction: column;
+  margin-bottom: 16px;
+}
+
+.auth-form-group label {
+  margin-bottom: 6px;
+  font-weight: 700;
+}
+
+.auth-form-group input,
+.auth-form-group select {
+  width: 100%;
+  padding: 10px;
+  border: 2px solid black;
+  font-size: 14px;
+}
+
+.auth-form-group input:focus,
+.auth-form-group select:focus {
+  border: 2px solid blue;
+}
+
+.auth-modal-actions {
+  display: flex;
+  justify-content: space-between;
+  gap: 10px;
+  margin-top: 25px;
+}
+
+.auth-modal-actions button {
+  padding: 10px 18px;
+  border: 2px solid black;
+  font-weight: 700;
+  cursor: pointer;
+}
+
+.auth-cancel-btn {
+  background-color: white;
+}
+
+.auth-cancel-btn:hover {
+  background-color: #ddd;
+}
+
+.auth-submit-btn {
+  background-color: green;
+  color: white;
+}
+
+.auth-submit-btn:hover {
+  background-color: greenyellow;
+  color: black;
+}

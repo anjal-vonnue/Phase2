@@ -1,0 +1,9 @@
+.project-dashboard-container {
+  margin: 5px;
+  border: 3px solid black;
+  height: 100vh;
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: space-around;
+  overflow: auto;
+}
