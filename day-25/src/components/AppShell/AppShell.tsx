@@ -5,16 +5,16 @@ import { Outlet } from "react-router";
 
 export default function AppShell() {
   return (
-    <>
-      <div>
-        <HeaderComponent />
-        <div className="home-layout">
-          <SidebarComponent />
-          <main>
-            <Outlet />
-          </main>
-        </div>
+    <div className="app-shell">
+      <HeaderComponent />
+
+      <div className="home-layout">
+        <SidebarComponent />
+
+        <main>
+          <Outlet />
+        </main>
       </div>
-    </>
+    </div>
   );
 }

@@ -1,14 +1,13 @@
 import ProjectContainer from "../Project/ProjectContainer";
 import IssueContainer from "../Issues/IssueContainer";
+import "./Dashboard.css";
 
 const Dashboard = () => {
   return (
-    <>
-      <div className="dashboard-container">
-        <ProjectContainer />
-        <IssueContainer />
-      </div>
-    </>
+    <div className="dashboard">
+      <ProjectContainer />
+      <IssueContainer />
+    </div>
   );
 };
 
