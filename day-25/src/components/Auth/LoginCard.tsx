@@ -1,3 +1,4 @@
+import { Link } from "react-router";
 import "./AuthLayout.css";
 
 const LoginCard = () => {
@@ -34,6 +35,9 @@ const LoginCard = () => {
           </button>
         </div>
       </form>
+      <div>
+        <Link to="/register">don't have an account ?</Link>
+      </div>
     </div>
   );
 };

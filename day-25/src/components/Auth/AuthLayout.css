@@ -7,8 +7,13 @@
 }
 
 .auth-card {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
   border: 3px solid black;
   padding: 20px;
+  gap: 30px;
 }
 
 .auth-form-group {
@@ -24,6 +29,7 @@
 
 .auth-form-group input,
 .auth-form-group select {
+  min-width: 400px;
   width: 100%;
   padding: 10px;
   border: 2px solid black;
