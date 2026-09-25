@@ -8,6 +8,7 @@ const ProjectContainer = () => {
   const abortControllerRef = useRef<AbortController | null>(null);
   const [isLoading, setIsLoading] = useState<boolean>(true);
   const [error, setError] = useState<Error | null>(null);
+  const [retryCount, setRetryCount] = useState(0);
 
   useEffect(() => {
     const fetchProjects = async () => {
@@ -15,6 +16,7 @@ const ProjectContainer = () => {
       abortControllerRef.current = new AbortController();
 
       setIsLoading(true);
+      setError(null);
 
       try {
         const response = await fetch(
@@ -25,7 +27,9 @@ const ProjectContainer = () => {
         );
 
         if (!response.ok) {
-          throw new Error(`failed to fetch projects! Status`);
+          throw new Error(
+            `failed to fetch projects! Status: ${response.status}`,
+          );
         }
 
         const result = await response.json();
@@ -39,7 +43,7 @@ const ProjectContainer = () => {
         if (error instanceof Error) {
           setError(error);
         } else {
-          setError(new Error("falied to fetch projects"));
+          setError(new Error("falconstied to fetch projects"));
         }
       } finally {
         setIsLoading(false);
@@ -47,12 +51,19 @@ const ProjectContainer = () => {
     };
 
     fetchProjects();
-  }, []);
+  }, [retryCount]);
+
+  function handleRetry() {
+    setRetryCount((prev) => prev + 1);
+  }
 
   if (error) {
     return (
-      <div className="project-div" id="project">
+      <div className="project-error-div" id="project">
         <h3>Error</h3>
+        <p>{error.message}</p>
+
+        <button onClick={handleRetry}>Retry?</button>
       </div>
     );
   }

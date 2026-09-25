@@ -10,12 +10,15 @@ const ProjectDashboard = () => {
   const [isLoading, setIsLoading] = useState<boolean>(true);
   const [error, setError] = useState<Error | null>(null);
 
+  const [retryCount, setRetryCount] = useState(0);
+
   useEffect(() => {
     const fetchProjects = async () => {
       abortControllerRef.current?.abort();
       abortControllerRef.current = new AbortController();
 
       setIsLoading(true);
+      setError(null);
 
       try {
         const response = await fetch(
@@ -48,12 +51,21 @@ const ProjectDashboard = () => {
     };
 
     fetchProjects();
-  }, []);
+  }, [retryCount]);
+
+  function handleRetry() {
+    setRetryCount((prev) => prev + 1);
+  }
 
   if (error) {
     return (
-      <div className="project-div" id="project">
-        <h3>Error</h3>
+      <div className="project-dashboard-container">
+        <div className="project-dashboard-error-div" id="project">
+          <h3>Error</h3>
+          <p>{error.message}</p>
+
+          <button onClick={handleRetry}>Retry?</button>
+        </div>
       </div>
     );
   }

@@ -25,6 +25,7 @@ const IssueContainer = () => {
   const [isLoading, setIsLoading] = useState<boolean>(true);
   const [error, setError] = useState<Error | null>(null);
   const abortControllerRef = useRef<AbortController | null>(null);
+  const [retryCount, setRetryCount] = useState(0);
 
   const filteredIssues = issues?.filter((issue) => {
     const matchTitle = issue.title.toLowerCase().includes(search.toLowerCase());
@@ -65,6 +66,7 @@ const IssueContainer = () => {
       abortControllerRef.current = new AbortController();
 
       setIsLoading(true);
+      setError(null);
 
       try {
         const response = await fetch(`${import.meta.env.VITE_API_URL}/issues`, {
@@ -95,20 +97,27 @@ const IssueContainer = () => {
     };
 
     fetchIssues();
-  }, []);
+  }, [retryCount]);
+
+  function handleRetry() {
+    setRetryCount((prev) => prev + 1);
+  }
 
   if (isLoading) {
     return (
-      <div className="issue-container">
-        <h3>Loading</h3>
+      <div className="issue-loading-container">
+        <h3>Issues are Loading....</h3>
       </div>
     );
   }
 
   if (error) {
     return (
-      <div className="issue-container">
-        <h3>Erorr</h3>
+      <div className="issue-error-container">
+        <h3>Error</h3>
+        <p>{error.message}</p>
+
+        <button onClick={handleRetry}>Retry?</button>
       </div>
     );
   }
