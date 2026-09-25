@@ -24,3 +24,10 @@ export interface Issue {
   labels: LabelsType[];
   project: string;
 }
+
+export type Project = {
+  id: number;
+  name: string;
+  description: string;
+  tags: string[];
+};

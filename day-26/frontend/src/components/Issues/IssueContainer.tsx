@@ -71,8 +71,6 @@ const IssueContainer = () => {
           signal: abortControllerRef.current?.signal,
         });
 
-        console.log(response);
-
         if (!response.ok) {
           throw new Error(`failed to fetch issues! Status: ${response.status}`);
         }
