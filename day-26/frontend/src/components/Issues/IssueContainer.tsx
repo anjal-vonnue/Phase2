@@ -1,5 +1,4 @@
-import { useState } from "react";
-import { issues as FirstIssue } from "../../data/issues";
+import { useEffect, useRef, useState } from "react";
 import EmptyCard from "../EmptyState/EmptyState";
 import IssueCard from "./IssueCard";
 import "./IssueContainer.css";
@@ -8,7 +7,7 @@ import { Modal } from "../Modal/Modal";
 import { availableLabels } from "../../data/labels";
 
 const IssueContainer = () => {
-  const [issues, setIssues] = useState<Issue[]>(FirstIssue);
+  const [issues, setIssues] = useState<Issue[]>([]);
   const [status, setStatus] = useState<string>("all");
   const [priority, setPriority] = useState<string>("all");
   const [assignee, setAssignee] = useState<string>("all");
@@ -22,7 +21,12 @@ const IssueContainer = () => {
   const [editingIssue, setEditingIssue] = useState<Issue | null>(null);
   const [addingIssue, setAddingIssue] = useState<boolean>(false);
 
-  const filteredIssues = issues.filter((issue) => {
+  // states for fetch
+  const [isLoading, setIsLoading] = useState<boolean>(true);
+  const [error, setError] = useState<Error | null>(null);
+  const abortControllerRef = useRef<AbortController | null>(null);
+
+  const filteredIssues = issues?.filter((issue) => {
     const matchTitle = issue.title.toLowerCase().includes(search.toLowerCase());
     const matchDescription = issue.description
       .toLowerCase()
@@ -42,7 +46,7 @@ const IssueContainer = () => {
     );
   });
 
-  const sortedIssues = filteredIssues.sort((a, b) => {
+  const sortedIssues = [...filteredIssues].sort((a, b) => {
     if (sort === "oldest") {
       return new Date(a.dueDate).getTime() - new Date(b.dueDate).getTime();
     }
@@ -53,7 +57,63 @@ const IssueContainer = () => {
     return 0;
   });
 
-  console.log(editingIssue);
+  useEffect(() => {
+    console.log("hello");
+
+    const fetchIssues = async () => {
+      abortControllerRef.current?.abort();
+      abortControllerRef.current = new AbortController();
+
+      setIsLoading(true);
+
+      try {
+        const response = await fetch(`${import.meta.env.VITE_API_URL}/issues`, {
+          signal: abortControllerRef.current?.signal,
+        });
+
+        console.log(response);
+
+        if (!response.ok) {
+          throw new Error(`failed to fetch issues! Status: ${response.status}`);
+        }
+
+        const result = await response.json();
+        console.log();
+
+        setIssues(result.data);
+      } catch (error) {
+        if (error instanceof DOMException && error.name === "AbortError") {
+          return;
+        }
+
+        if (error instanceof Error) {
+          setError(error);
+        } else {
+          setError(new Error("Failed to fetch issues"));
+        }
+      } finally {
+        setIsLoading(false);
+      }
+    };
+
+    fetchIssues();
+  }, []);
+
+  if (isLoading) {
+    return (
+      <div className="issue-container">
+        <h3>Loading</h3>
+      </div>
+    );
+  }
+
+  if (error) {
+    return (
+      <div className="issue-container">
+        <h3>Erorr</h3>
+      </div>
+    );
+  }
 
   return (
     <>
@@ -112,8 +172,10 @@ const IssueContainer = () => {
             }}
           >
             <option value="all">Assignee (all)</option>
-            {issues.map((issue) => (
-              <option value={issue.assignee}>{issue.assignee}</option>
+            {issues?.map((issue) => (
+              <option value={issue.assignee} key={issue.assignee}>
+                {issue.assignee}
+              </option>
             ))}
           </select>
 
@@ -126,7 +188,9 @@ const IssueContainer = () => {
           >
             <option value="all">Labels (all)</option>
             {availableLabels.map((label) => (
-              <option value={label}>{label}</option>
+              <option value={label} key={label}>
+                {label}
+              </option>
             ))}
           </select>
 

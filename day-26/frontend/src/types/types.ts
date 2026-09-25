@@ -14,7 +14,7 @@ export type LabelsType =
   | "wontfix";
 
 export interface Issue {
-  id: string;
+  id: number;
   title: string;
   description: string;
   status: StatusType;
@@ -22,4 +22,5 @@ export interface Issue {
   assignee: string;
   dueDate: string;
   labels: LabelsType[];
+  project: string;
 }
