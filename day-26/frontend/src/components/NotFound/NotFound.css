@@ -1,0 +1,25 @@
+.not-found-container {
+  margin: 5px;
+  border: 3px solid black;
+  min-height: 0;
+  flex: 1;
+
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  flex-direction: column;
+
+  gap: 20px;
+}
+
+.not-found-container > button {
+  padding: 10px;
+  border: 2px solid black;
+  background-color: coral;
+  font-weight: 700;
+}
+
+.not-found-container > button:hover {
+  background-color: brown;
+  color: aliceblue;
+}
