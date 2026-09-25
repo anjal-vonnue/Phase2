@@ -1,7 +1,7 @@
 import { useEffect, useState } from "react";
 import type { Issue } from "../types/types";
 
-export default function useIssues(id: number) {
+export default function useIssue(id: number) {
   const [issue, setIssue] = useState<Issue>();
   const [isLoading, setIsLoading] = useState<boolean>(true);
   const [error, setError] = useState<Error | null>(null);

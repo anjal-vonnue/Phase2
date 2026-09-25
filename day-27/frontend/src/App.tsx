@@ -9,6 +9,7 @@ import { Profile } from "./components/Profile/Profile";
 import { AuthLayout } from "./components/Auth/AuthLayout";
 import RegisterCard from "./components/Auth/RegisterCard";
 import LoginCard from "./components/Auth/LoginCard";
+import SingleIssue from "./components/Issues/SingleIssue";
 
 function App() {
   return (
@@ -21,10 +22,11 @@ function App() {
 
         <Route path="/" element={<AppShell />}>
           <Route index element={<Dashboard />} />
-          <Route path="/dashboard" element={<Dashboard />} />
-          <Route path="/projects" element={<ProjectDashboard />} />
-          <Route path="/issues" element={<IssueContainer />} />
-          <Route path="/profile" element={<Profile />} />
+          <Route path="dashboard" element={<Dashboard />} />
+          <Route path="projects" element={<ProjectDashboard />} />
+          <Route path="issues" element={<IssueContainer />} />
+          <Route path="profile" element={<Profile />} />
+          <Route path="issues/:id" element={<SingleIssue />} />
 
           <Route path="*" element={<NotFound />} />
         </Route>
