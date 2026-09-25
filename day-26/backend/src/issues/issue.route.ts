@@ -1,21 +1,19 @@
 import { Router } from "express";
+import {
+  createIssue,
+  editIssue,
+  getIssues,
+  getIssuesById,
+} from "./issue.controller.js";
 
-const ticketRouter = Router();
+const issueRouter = Router();
 
-ticketRouter.get("/", (req, res) => {
-  res.send("ticket get route");
-});
+issueRouter.get("/", getIssues);
 
-ticketRouter.get("/:id", (req, res) => {
-  res.send("ticket get id");
-});
+issueRouter.get("/:id", getIssuesById);
 
-ticketRouter.post("/create", (req, res) => {
-  res.send("ticket creation");
-});
+issueRouter.post("/create", createIssue);
 
-ticketRouter.patch("/edit/:id", (req, res) => {
-  res.send("ticket patch");
-});
+issueRouter.patch("/edit/:id", editIssue);
 
-export default ticketRouter;
+export default issueRouter;
