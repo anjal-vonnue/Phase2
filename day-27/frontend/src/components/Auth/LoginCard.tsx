@@ -1,7 +1,9 @@
 import { Link } from "react-router";
 import "./AuthLayout.css";
+import useDocumentTitle from "../../hooks/useDocumentTitle";
 
 const LoginCard = () => {
+  useDocumentTitle("Login | Project Management");
   return (
     <div className="auth-card">
       <form>

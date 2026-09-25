@@ -1,13 +1,14 @@
-import { useEffect, useRef, useState } from "react";
+import { useState } from "react";
 import EmptyCard from "../EmptyState/EmptyState";
 import IssueCard from "./IssueCard";
 import "./IssueContainer.css";
 import type { Issue, LabelsType } from "../../types/types";
 import { Modal } from "../Modal/Modal";
 import { availableLabels } from "../../data/labels";
+import useIssues from "../../hooks/useIssues";
+import useDocumentTitle from "../../hooks/useDocumentTitle";
 
 const IssueContainer = () => {
-  const [issues, setIssues] = useState<Issue[]>([]);
   const [status, setStatus] = useState<string>("all");
   const [priority, setPriority] = useState<string>("all");
   const [assignee, setAssignee] = useState<string>("all");
@@ -21,11 +22,8 @@ const IssueContainer = () => {
   const [editingIssue, setEditingIssue] = useState<Issue | null>(null);
   const [addingIssue, setAddingIssue] = useState<boolean>(false);
 
-  // states for fetch
-  const [isLoading, setIsLoading] = useState<boolean>(true);
-  const [error, setError] = useState<Error | null>(null);
-  const abortControllerRef = useRef<AbortController | null>(null);
-  const [retryCount, setRetryCount] = useState(0);
+  const { issues, setIssues, isLoading, error, retry } = useIssues();
+  useDocumentTitle("Issues | Project Management");
 
   const filteredIssues = issues?.filter((issue) => {
     const matchTitle = issue.title.toLowerCase().includes(search.toLowerCase());
@@ -58,51 +56,6 @@ const IssueContainer = () => {
     return 0;
   });
 
-  useEffect(() => {
-    console.log("hello");
-
-    const fetchIssues = async () => {
-      abortControllerRef.current?.abort();
-      abortControllerRef.current = new AbortController();
-
-      setIsLoading(true);
-      setError(null);
-
-      try {
-        const response = await fetch(`${import.meta.env.VITE_API_URL}/issues`, {
-          signal: abortControllerRef.current?.signal,
-        });
-
-        if (!response.ok) {
-          throw new Error(`failed to fetch issues! Status: ${response.status}`);
-        }
-
-        const result = await response.json();
-        console.log();
-
-        setIssues(result.data);
-      } catch (error) {
-        if (error instanceof DOMException && error.name === "AbortError") {
-          return;
-        }
-
-        if (error instanceof Error) {
-          setError(error);
-        } else {
-          setError(new Error("Failed to fetch issues"));
-        }
-      } finally {
-        setIsLoading(false);
-      }
-    };
-
-    fetchIssues();
-  }, [retryCount]);
-
-  function handleRetry() {
-    setRetryCount((prev) => prev + 1);
-  }
-
   if (isLoading) {
     return (
       <div className="issue-loading-container">
@@ -117,7 +70,7 @@ const IssueContainer = () => {
         <h3>Error</h3>
         <p>{error.message}</p>
 
-        <button onClick={handleRetry}>Retry?</button>
+        <button onClick={retry}>Retry?</button>
       </div>
     );
   }

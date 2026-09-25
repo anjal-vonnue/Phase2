@@ -33,7 +33,9 @@ const IssueCard = ({
                 <Badge variant={issue.status}>{issue.status}</Badge>
                 <Badge variant={issue.priority}>{issue.priority}</Badge>
                 {issue.labels.map((label) => (
-                  <Badge variant="label">{label}</Badge>
+                  <Badge variant="label" key={label}>
+                    {label}
+                  </Badge>
                 ))}
               </div>
             </div>
