@@ -1,0 +1,35 @@
+.project-card {
+  display: flex;
+  flex-direction: column;
+  margin: 5px;
+  width: 300px;
+  padding: 10px;
+  background-color: bisque;
+  border: 1px solid black;
+  gap: 20px;
+  max-height: 300px;
+}
+
+.project-header {
+  display: flex;
+  gap: 10px;
+  flex-wrap: wrap;
+}
+
+.project-title {
+  font-weight: 600;
+  font-size: 20px;
+}
+
+.project-tags {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+
+.project-badges {
+  display: flex;
+  flex-direction: row;
+  gap: 10px;
+  flex-wrap: wrap;
+}
