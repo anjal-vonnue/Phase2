@@ -10,25 +10,31 @@ import { AuthLayout } from "./components/Auth/AuthLayout";
 import RegisterCard from "./components/Auth/RegisterCard";
 import LoginCard from "./components/Auth/LoginCard";
 import SingleIssue from "./components/Issues/SingleIssue";
+import ProtectedRoute from "./components/ProtectedRoute";
+import LoginProtection from "./components/LoginProtection";
 
 function App() {
   return (
     <>
       <Routes>
-        <Route element={<AuthLayout />}>
-          <Route path="register" element={<RegisterCard />} />
-          <Route path="login" element={<LoginCard />} />
+        <Route element={<LoginProtection />}>
+          <Route element={<AuthLayout />}>
+            <Route path="register" element={<RegisterCard />} />
+            <Route path="login" element={<LoginCard />} />
+          </Route>
         </Route>
 
-        <Route path="/" element={<AppShell />}>
-          <Route index element={<Dashboard />} />
-          <Route path="dashboard" element={<Dashboard />} />
-          <Route path="projects" element={<ProjectDashboard />} />
-          <Route path="issues" element={<IssueContainer />} />
-          <Route path="profile" element={<Profile />} />
-          <Route path="issues/:id" element={<SingleIssue />} />
+        <Route element={<ProtectedRoute />}>
+          <Route path="/" element={<AppShell />}>
+            <Route index element={<Dashboard />} />
+            <Route path="dashboard" element={<Dashboard />} />
+            <Route path="projects" element={<ProjectDashboard />} />
+            <Route path="issues" element={<IssueContainer />} />
+            <Route path="profile" element={<Profile />} />
+            <Route path="issues/:id" element={<SingleIssue />} />
 
-          <Route path="*" element={<NotFound />} />
+            <Route path="*" element={<NotFound />} />
+          </Route>
         </Route>
       </Routes>
     </>
