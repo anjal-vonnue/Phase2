@@ -1,11 +1,13 @@
 import { useEffect, useState } from "react";
 import type { Project } from "../types/types";
+import { useAuth } from "../context/AuthContext";
 
 export default function useProjects() {
   const [projects, setProjects] = useState<Project[]>([]);
   const [isLoading, setIsLoading] = useState<boolean>(true);
   const [error, setError] = useState<Error | null>(null);
   const [retryCount, setRetryCount] = useState(0);
+  const { token } = useAuth();
 
   useEffect(() => {
     const controller = new AbortController();
@@ -18,6 +20,9 @@ export default function useProjects() {
         const response = await fetch(
           `${import.meta.env.VITE_API_URL}/projects`,
           {
+            headers: {
+              Authorization: `Bearer ${token}`,
+            },
             signal: controller.signal,
           },
         );
@@ -53,7 +58,7 @@ export default function useProjects() {
 
       controller.abort();
     };
-  }, [retryCount]);
+  }, [retryCount, token]);
 
   const retry = () => {
     setRetryCount((prev) => prev + 1);

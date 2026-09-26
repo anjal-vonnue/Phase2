@@ -1,11 +1,14 @@
 import { useEffect, useState } from "react";
 import type { Issue } from "../types/types";
+import { useAuth } from "../context/AuthContext";
 
 export default function useIssues() {
   const [issues, setIssues] = useState<Issue[]>([]);
   const [isLoading, setIsLoading] = useState<boolean>(true);
   const [error, setError] = useState<Error | null>(null);
   const [retryCount, setRetryCount] = useState(0);
+
+  const { token } = useAuth();
 
   useEffect(() => {
     const controller = new AbortController();
@@ -16,6 +19,9 @@ export default function useIssues() {
 
       try {
         const response = await fetch(`${import.meta.env.VITE_API_URL}/issues`, {
+          headers: {
+            Authorization: `Bearer ${token}`,
+          },
           signal: controller.signal,
         });
 
@@ -49,7 +55,7 @@ export default function useIssues() {
 
       controller.abort();
     };
-  }, [retryCount]);
+  }, [retryCount, token]);
 
   const retry = () => {
     setRetryCount((prev) => prev + 1);

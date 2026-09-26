@@ -1,6 +1,6 @@
 import { createContext, useContext, useEffect, useState } from "react";
 import { loginApi } from "../api/login";
-import { registerApi, type Role } from "../api/register";
+import { registerApi } from "../api/register";
 
 type User = {
   id: number;
