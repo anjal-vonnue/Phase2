@@ -1,6 +1,5 @@
 import type { Request, Response } from "express";
 import { loginUser, registerUser } from "./auth.services.js";
-import { error } from "node:console";
 
 export async function login(req: Request, res: Response) {
   try {

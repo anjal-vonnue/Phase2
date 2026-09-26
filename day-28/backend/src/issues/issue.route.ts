@@ -5,8 +5,11 @@ import {
   getIssues,
   getIssuesById,
 } from "./issue.controller.js";
+import { authenticate } from "../middleware/auth.middleware.js";
 
 const issueRouter = Router();
+
+issueRouter.use(authenticate);
 
 issueRouter.get("/", getIssues);
 
