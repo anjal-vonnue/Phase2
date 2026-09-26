@@ -1,0 +1,74 @@
+.badge {
+  display: inline-block;
+  padding: 3px 8px;
+  border: 1px solid black;
+  text-align: center;
+  font-weight: 600;
+  font-size: 12px;
+}
+
+.badge-open {
+  color: #166534;
+  background-color: #dcfce7;
+  border-color: #86efac;
+}
+
+.badge-in_progress {
+  color: #854d0e;
+  background-color: #fef9c3;
+  border-color: #fde047;
+}
+
+.badge-resolve {
+  color: #1d4ed8;
+  background-color: #dbeafe;
+  border-color: #93c5fd;
+}
+
+.badge-closed {
+  color: #475569;
+  background-color: #f1f5f9;
+  border-color: #cbd5e1;
+}
+
+.badge-low {
+  color: #166534;
+  background-color: #dcfce7;
+  border-color: #86efac;
+}
+
+.badge-medium {
+  color: #9a3412;
+  background-color: #ffedd5;
+  border-color: #fdba74;
+}
+
+.badge-high {
+  color: #991b1b;
+  background-color: #fee2e2;
+  border-color: #fca5a5;
+}
+
+.badge-overdue {
+  color: #991b1b;
+  background-color: #fee2e2;
+  border-color: #fca5a5;
+}
+
+.badge-tags {
+  color: #010711;
+  background-color: #f3f4f6;
+  border-color: #d1d5db;
+  padding: 3px 10px;
+  font-size: 12px;
+  font-weight: 500;
+}
+
+.badge-label {
+  color: #0f00e6;
+  background-color: #003cff80;
+  border-color: #c7d2fe;
+  padding: 3px 8px;
+  font-size: 12px;
+  font-weight: 500;
+}
