@@ -22,7 +22,7 @@ const IssueContainer = () => {
   const [editingIssue, setEditingIssue] = useState<Issue | null>(null);
   const [addingIssue, setAddingIssue] = useState<boolean>(false);
 
-  const { issues, setIssues, isLoading, error, retry } = useIssues();
+  const { issues, isLoading, error, retry } = useIssues();
   useDocumentTitle("Issues | Project Management");
 
   const filteredIssues = issues?.filter((issue) => {
@@ -208,17 +208,17 @@ const IssueContainer = () => {
         {toggleModal && editingIssue && (
           <Modal
             issue={editingIssue}
-            setIssues={setIssues}
             setToggleModal={setToggleModal}
             setEditingIssue={setEditingIssue}
+            retry={retry}
           />
         )}
 
         {toggleModal && addingIssue && (
           <Modal
-            setIssues={setIssues}
             setToggleModal={setToggleModal}
             setAddingIssue={setAddingIssue}
+            retry={retry}
           />
         )}
       </div>

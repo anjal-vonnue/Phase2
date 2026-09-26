@@ -14,6 +14,7 @@ export const IssueSchema = z.object({
   priority: z.enum(["high", "medium", "low"]),
   assignee: z.string().trim().min(1, "assignee is required"),
   dueDate: z.string().min(1, "due date is required"),
+  project: z.string().trim().min(1, "project is required"),
   labels: z.array(
     z.enum([
       "bug",

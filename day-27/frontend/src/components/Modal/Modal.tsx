@@ -1,4 +1,4 @@
-import { useState, type Dispatch, type SetStateAction } from "react";
+import React, { useState, type Dispatch, type SetStateAction } from "react";
 import {
   type PriorityType,
   type Issue,
@@ -10,17 +10,17 @@ import { IssueSchema } from "../../zodSchema/issueSchema";
 import { availableLabels } from "../../data/labels";
 
 export const Modal = ({
-  setIssues,
   setToggleModal,
   setAddingIssue,
   setEditingIssue,
   issue,
+  retry,
 }: {
-  setIssues: Dispatch<SetStateAction<Issue[]>>;
   setToggleModal: Dispatch<SetStateAction<boolean>>;
   setAddingIssue?: Dispatch<SetStateAction<boolean>>;
   setEditingIssue?: Dispatch<SetStateAction<Issue | null>>;
   issue?: Issue;
+  retry: () => void;
 }) => {
   const [title, setTitle] = useState<string>(issue?.title || "");
   const [description, setDescription] = useState<string>(
@@ -33,7 +33,11 @@ export const Modal = ({
   const [assignee, setAssignee] = useState<string>(issue?.assignee || "");
   const [dueDate, setDueDate] = useState<string>(issue?.dueDate || "");
   const [labels, setLabels] = useState<LabelsType[]>(issue?.labels || []);
+  const [project, setProject] = useState<string>(issue?.project || "");
   const [errors, setErrors] = useState<Record<string, string | undefined>>({});
+
+  const [serverError, setServerError] = useState<Error | null>(null);
+  const [isLoading, setIsLoading] = useState<boolean>(false);
 
   function validateForm(): { data?: Partial<Issue>; success: boolean } {
     const result = IssueSchema.safeParse({
@@ -44,11 +48,13 @@ export const Modal = ({
       assignee,
       dueDate,
       labels,
+      project,
     });
 
     if (!result.success) {
-      console.log(result.error.flatten().fieldErrors);
       const fieldErrors = result.error.flatten().fieldErrors;
+      console.log(fieldErrors);
+
       setErrors({
         title: fieldErrors.title?.[0],
         description: fieldErrors.description?.[0],
@@ -57,6 +63,7 @@ export const Modal = ({
         assignee: fieldErrors.assignee?.[0],
         dueDate: fieldErrors.dueDate?.[0],
         labels: fieldErrors.labels?.[0],
+        project: fieldErrors.project?.[0],
       });
 
       return { success: false };
@@ -64,6 +71,61 @@ export const Modal = ({
 
     setErrors({});
     return { data: result.data, success: true };
+  }
+
+  console.log("mounted", isLoading);
+
+  async function handleSubmit(
+    e: React.MouseEvent<HTMLButtonElement, MouseEvent>,
+  ) {
+    e.preventDefault();
+    setServerError(null);
+    setIsLoading(true);
+    console.log("loading: ", isLoading);
+
+    let methodType: string;
+    let url: string;
+    if (issue) {
+      methodType = "PATCH";
+      url = `${import.meta.env.VITE_API_URL}/issues/edit/${issue.id}`;
+    } else {
+      methodType = "POST";
+      url = `${import.meta.env.VITE_API_URL}/issues/create`;
+    }
+
+    try {
+      const result = validateForm();
+
+      if (!result.success) {
+        throw new Error("validation error");
+      }
+
+      const response = await fetch(url, {
+        method: methodType,
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify(result.data),
+      });
+
+      if (!response.ok) {
+        throw new Error("Error while Submiting post");
+      }
+      setToggleModal(false);
+      if (setAddingIssue) setAddingIssue(false);
+      if (setEditingIssue) setEditingIssue(null);
+      retry();
+    } catch (error) {
+      console.log("error: ", error);
+
+      if (error instanceof Error) {
+        setServerError(error);
+      } else {
+        setServerError(new Error("Failed to edit issue"));
+      }
+    } finally {
+      setIsLoading(false);
+    }
   }
 
   return (
@@ -192,6 +254,22 @@ export const Modal = ({
             {errors.labels && <span className="error">{errors.labels}</span>}
           </div>
 
+          <div className="form-group">
+            <label htmlFor="project">Project</label>
+            <input
+              value={project}
+              type="text"
+              id="project"
+              name="project"
+              placeholder="Enter Project"
+              onChange={(e) => setProject(e.target.value)}
+            />
+            {errors.project && <span className="error">{errors.project}</span>}
+          </div>
+
+          {serverError && (
+            <span className="error">Error happened retry again</span>
+          )}
           <div className="modal-actions">
             <button
               type="button"
@@ -208,39 +286,41 @@ export const Modal = ({
             <button
               type="submit"
               className="submit-btn"
-              onClick={(e) => {
-                e.preventDefault();
+              // onClick={(e) => {
+              //   e.preventDefault();
 
-                const result = validateForm();
-                if (!result.success || !result.data) return;
-                const data = result.data;
+              //   const result = validateForm();
+              //   if (!result.success || !result.data) return;
+              //   const data = result.data;
 
-                if (issue) {
-                  setIssues((prev) =>
-                    prev.map((item) => {
-                      if (item.id === issue.id) {
-                        return { ...item, ...data };
-                      } else {
-                        return item;
-                      }
-                    }),
-                  );
-                } else {
-                  setIssues((prev) => [
-                    ...prev,
-                    {
-                      id: crypto.randomUUID(),
-                      ...data,
-                    } as Issue,
-                  ]);
-                }
+              //   if (issue) {
+              //     setIssues((prev) =>
+              //       prev.map((item) => {
+              //         if (item.id === issue.id) {
+              //           return { ...item, ...data };
+              //         } else {
+              //           return item;
+              //         }
+              //       }),
+              //     );
+              //   } else {
+              //     setIssues((prev) => [
+              //       ...prev,
+              //       {
+              //         id: crypto.randomUUID(),
+              //         ...data,
+              //       } as Issue,
+              //     ]);
+              //   }
 
-                if (setAddingIssue) setAddingIssue(false);
-                if (setEditingIssue) setEditingIssue(null);
-                setToggleModal(false);
-              }}
+              //   if (setAddingIssue) setAddingIssue(false);
+              //   if (setEditingIssue) setEditingIssue(null);
+              //   setToggleModal(false);
+              // }}
+
+              onClick={handleSubmit}
             >
-              Add Issue
+              {isLoading ? "Loading..." : "Submit"}
             </button>
           </div>
         </form>

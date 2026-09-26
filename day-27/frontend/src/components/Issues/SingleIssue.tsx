@@ -7,13 +7,11 @@ import useDocumentTitle from "../../hooks/useDocumentTitle";
 import type { Issue } from "../../types/types";
 import { useParams } from "react-router";
 import useIssue from "../../hooks/useIssue";
-import useIssues from "../../hooks/useIssues";
 
 const SingleIssue = () => {
   const { id } = useParams<{ id: string }>();
 
   const { issue, isLoading, error, retry } = useIssue(Number(id));
-  const { setIssues } = useIssues();
 
   const [toggleModal, setToggleModal] = useState(false);
   const [editingIssue, setEditingIssue] = useState<Issue | null>(null);
@@ -60,9 +58,9 @@ const SingleIssue = () => {
       {toggleModal && editingIssue && (
         <Modal
           issue={editingIssue}
-          setIssues={setIssues}
           setToggleModal={setToggleModal}
           setEditingIssue={setEditingIssue}
+          retry={retry}
         />
       )}
     </div>
