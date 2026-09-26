@@ -42,8 +42,16 @@ export async function getIssuesById(req: Request, res: Response) {
 
 export async function createIssue(req: Request, res: Response) {
   try {
-    const { title, description, status, priority, assignee, project, dueDate } =
-      req.body;
+    const {
+      title,
+      description,
+      status,
+      priority,
+      assignee,
+      project,
+      dueDate,
+      labels,
+    } = req.body;
 
     const issue = await prisma.issue.create({
       data: {
@@ -54,6 +62,7 @@ export async function createIssue(req: Request, res: Response) {
         assignee,
         project,
         dueDate,
+        labels,
       },
     });
 
@@ -71,8 +80,16 @@ export async function createIssue(req: Request, res: Response) {
 
 export async function editIssue(req: Request, res: Response) {
   try {
-    const { title, description, status, priority, assignee, project, dueDate } =
-      req.body;
+    const {
+      title,
+      description,
+      status,
+      priority,
+      assignee,
+      project,
+      dueDate,
+      labels,
+    } = req.body;
     const id = Number(req.params.id);
     const issue = await prisma.issue.update({
       where: {
@@ -86,6 +103,7 @@ export async function editIssue(req: Request, res: Response) {
         assignee,
         project,
         dueDate,
+        labels,
       },
     });
 
