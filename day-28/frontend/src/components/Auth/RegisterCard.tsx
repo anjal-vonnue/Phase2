@@ -1,9 +1,15 @@
 import { Link } from "react-router";
 import "./AuthLayout.css";
 import useDocumentTitle from "../../hooks/useDocumentTitle";
+import { useState } from "react";
 
 const RegisterCard = () => {
   useDocumentTitle("Register | Project Management");
+
+  const [name, setName] = useState<string>("");
+  const [email, setEmail] = useState<string>("");
+  const [password, setPassword] = useState<string>("");
+  const [role, setRole] = useState<string>("");
 
   return (
     <div className="auth-card">
@@ -11,6 +17,8 @@ const RegisterCard = () => {
         <div className="auth-form-group">
           <label htmlFor="name">Name</label>
           <input
+            value={name}
+            onChange={(e) => setName(e.target.value)}
             type="text"
             id="name"
             name="name"
@@ -21,6 +29,10 @@ const RegisterCard = () => {
         <div className="auth-form-group">
           <label htmlFor="email">Email</label>
           <input
+            value={email}
+            onChange={(e) => {
+              setEmail(e.target.value);
+            }}
             type="email"
             id="email"
             name="email"
@@ -31,6 +43,10 @@ const RegisterCard = () => {
         <div className="auth-form-group">
           <label htmlFor="password">Password</label>
           <input
+            value={password}
+            onChange={(e) => {
+              setPassword(e.target.value);
+            }}
             type="password"
             id="password"
             name="password"
@@ -40,7 +56,14 @@ const RegisterCard = () => {
 
         <div className="auth-form-group">
           <label htmlFor="role">Role</label>
-          <select id="role" name="role">
+          <select
+            id="role"
+            name="role"
+            value={role}
+            onChange={(e) => {
+              setRole(e.target.value);
+            }}
+          >
             <option value="admin">Admin</option>
             <option value="agent">agent</option>
             <option value="customer">customer</option>
