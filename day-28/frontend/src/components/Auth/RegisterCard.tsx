@@ -39,12 +39,11 @@ const RegisterCard = () => {
         </div>
 
         <div className="auth-form-group">
-          <label htmlFor="status">Status</label>
-          <select id="status" name="status">
-            <option value="open">Open</option>
-            <option value="in_progress">In Progress</option>
-            <option value="resolve">Resolve</option>
-            <option value="closed">Closed</option>
+          <label htmlFor="role">Role</label>
+          <select id="role" name="role">
+            <option value="admin">Admin</option>
+            <option value="agent">agent</option>
+            <option value="customer">customer</option>
           </select>
         </div>
 
