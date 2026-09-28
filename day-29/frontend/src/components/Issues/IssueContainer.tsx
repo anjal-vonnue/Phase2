@@ -98,7 +98,9 @@ const IssueContainer = () => {
           </p>
 
           {/* Status Filter */}
+          <label htmlFor="status-filter">Status</label>
           <select
+            id="status-filter"
             value={status}
             onChange={(e) => {
               setStatus(e.target.value);
@@ -112,7 +114,9 @@ const IssueContainer = () => {
           </select>
 
           {/* Priority Filter */}
+          <label htmlFor="priority-filter">Priority</label>
           <select
+            id="priority-filter"
             value={priority}
             onChange={(e) => {
               setPriority(e.target.value);
@@ -125,7 +129,9 @@ const IssueContainer = () => {
           </select>
 
           {/* Assignee Filter */}
+          <label htmlFor="assignee-filter">Assignee</label>
           <select
+            id="assignee-filter"
             value={assignee}
             onChange={(e) => {
               setAssignee(e.target.value);
@@ -140,7 +146,9 @@ const IssueContainer = () => {
           </select>
 
           {/* Label Filter */}
+          <label htmlFor="label-filter">Labels</label>
           <select
+            id="label-filter"
             value={label}
             onChange={(e) => {
               setLabel(e.target.value as LabelsType);
@@ -155,7 +163,12 @@ const IssueContainer = () => {
           </select>
 
           {/* Sort Filter */}
-          <select value={sort} onChange={(e) => setSort(e.target.value)}>
+          <label htmlFor="sort-filter">Sort</label>
+          <select
+            id="sort-filter"
+            value={sort}
+            onChange={(e) => setSort(e.target.value)}
+          >
             <option value="newest">Newest</option>
             <option value="oldest">Oldest</option>
           </select>
