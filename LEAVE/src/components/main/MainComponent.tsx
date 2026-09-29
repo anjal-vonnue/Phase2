@@ -4,6 +4,7 @@ import TeamSChedule from "../TeamSchedule/TeamSchedule";
 import TopBar from "../TopBar/TopBar";
 import "./MainComponent.css";
 import DashboardHeader from "../../DashboardHeader/DashboardHeader";
+import { BookCheck, CalendarX2, Shield, TrendingUp } from "lucide-react";
 
 const MainComponent = () => {
   return (
@@ -18,24 +19,36 @@ const MainComponent = () => {
               days={18}
               totalDays={24}
               lastContent="Accuring 1.67d/mo"
-            />
+              type="umbrella"
+            >
+              <TrendingUp size={18} />
+            </Overview>
             <Overview
               heading="SICK & MEDICAL"
               days={7}
               totalDays={10}
               lastContent="Fully covered"
-            />
+              type="bandage"
+            >
+              <Shield size={18} />
+            </Overview>
             <Overview
               heading="FLOATING HOLIDAYS"
               days={2}
               totalDays={3}
               lastContent="Expires Dec 21"
-            />
+              type="sun"
+            >
+              <CalendarX2 size={18} />
+            </Overview>
             <Overview
               heading="SPECIAL / UNPAID"
               days="On-Demand"
               lastContent="HR approval"
-            />
+              type="group"
+            >
+              <BookCheck size={18} />
+            </Overview>
           </div>
 
           <div className="dashboard-split-screen">
