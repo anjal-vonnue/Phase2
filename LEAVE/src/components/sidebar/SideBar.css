@@ -45,6 +45,7 @@
   display: flex;
   align-items: center;
   gap: 10px;
+  color: rgba(0, 0, 0, 0.719);
 }
 
 .sidebar-nav-links .sidebar-req {

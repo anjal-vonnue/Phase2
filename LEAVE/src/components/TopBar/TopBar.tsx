@@ -1,14 +1,15 @@
+import { BellCheck, Search } from "lucide-react";
 import "./TopBar.css";
 
 const TopBar = () => {
   return (
     <div className="top-bar">
       <div className="top-bar-search">
-        <span>Logo</span>
+        <Search />
         <input type="text" placeholder="Search requests, team, policies..." />
       </div>
       <div className="top-bar-profile">
-        <div>bell</div>
+        <BellCheck />
         <div className="top-bar-profile-content">
           <div className="top-bar-profile-content-details">
             <p>Sarah Jenkins</p>

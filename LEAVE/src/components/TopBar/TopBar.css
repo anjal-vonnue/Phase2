@@ -20,11 +20,13 @@
   display: flex;
   align-items: center;
   justify-content: flex-start;
+  gap: 5px;
 }
 
-.top-bar-search input {
+.top-bar-search > input {
   background-color: #f2f3ff;
   width: 350px;
+  font-size: 13px;
 }
 
 .top-bar-profile {
@@ -48,13 +50,14 @@
 }
 
 .top-bar-profile-content-details > :first-child {
-  font-size: 16px;
-  font-weight: 600;
+  font-size: 13px;
+  font-weight: 700;
+  color: #131b2e;
 }
 
 .top-bar-profile-content-details > :nth-child(2) {
-  font-size: 14px;
-  color: gray;
+  font-size: 11px;
+  color: #464555;
 }
 
 .top-bar-profile-content img {
