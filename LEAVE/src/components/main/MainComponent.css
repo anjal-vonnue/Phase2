@@ -20,46 +20,6 @@
   gap: 20px;
 }
 
-.dashboard-header {
-  display: flex;
-  justify-content: space-between;
-}
-
-.dashboard-breadcrumb {
-  display: flex;
-  font-size: 13px;
-  font-weight: 600;
-  margin: 0 0 4px;
-}
-
-.dashboard-breadcrumb :nth-child(1) {
-  color: #464555;
-}
-
-.dashboard-breadcrumb :nth-child(3) {
-  color: #3025cd;
-}
-
-.dashboard-header-buttons {
-  display: flex;
-  flex-direction: row;
-  align-items: flex-end;
-  gap: 5px;
-}
-
-.dashboard-header-buttons > div {
-  padding: 8px 12px;
-  height: 40px;
-  background-color: #f2f3ff;
-  border-radius: 6px;
-}
-
-.dashboard-header-buttons-button {
-  display: flex;
-  justify-content: center;
-  align-items: center;
-}
-
 .dashboard-overview {
   display: flex;
   justify-content: space-between;

@@ -3,6 +3,7 @@ import Overview from "../Overview/Overview";
 import TeamSChedule from "../TeamSchedule/TeamSchedule";
 import TopBar from "../TopBar/TopBar";
 import "./MainComponent.css";
+import DashboardHeader from "../../DashboardHeader/DashboardHeader";
 
 const MainComponent = () => {
   return (
@@ -10,31 +11,7 @@ const MainComponent = () => {
       <TopBar />
       <div className="dashboard-layout">
         <div className="dashboard-layout-main">
-          <div className="dashboard-header">
-            <div>
-              <div className="dashboard-breadcrumb">
-                <p>LEAVE MANAGEMENT</p>
-                <p>&gt;</p>
-                <p>NEW APPLICATION</p>
-                <p></p>
-              </div>
-              <div>
-                <h1>Request Time Off</h1>
-                <p>
-                  Submit and schedule planned leaves, wellness days, and
-                  personal absences.
-                </p>
-              </div>
-            </div>
-            <div className="dashboard-header-buttons">
-              <div className="dashboard-header-buttons-button">
-                <p>My History</p>
-              </div>
-              <div className="dashboard-header-buttons-button">
-                <p>Leave Policy Handbook</p>
-              </div>
-            </div>
-          </div>
+          <DashboardHeader />
           <div className="dashboard-overview">
             <Overview
               heading="ANNUAL VACATION (PTO)"
