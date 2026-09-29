@@ -3,6 +3,7 @@
   background-color: #ffffff;
   display: flex;
   flex-direction: column;
+  font-size: 14px;
 }
 
 .sidebar-logo {
@@ -40,7 +41,10 @@
 
 .sidebar-nav-links a {
   padding: 10px 14px;
-  font-weight: 500;
+  font-weight: 400;
+  display: flex;
+  align-items: center;
+  gap: 10px;
 }
 
 .sidebar-nav-links .sidebar-req {
@@ -61,4 +65,7 @@
 
 .sidebar-bottom-content {
   padding: 10px 14px;
+  display: flex;
+  align-items: center;
+  gap: 10px;
 }
