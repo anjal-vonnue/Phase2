@@ -6,6 +6,42 @@
   padding: 20px;
 }
 
+.team-schedule-dot {
+  width: 10px;
+  height: 10px;
+  border-radius: 999px;
+  background-color: green;
+}
+
+.teams-schedulce-impact-heading-left {
+  font-size: 15px;
+  display: flex;
+  align-items: center;
+  font-weight: 600;
+}
+
+.teams-schedulce-impact-heading-right {
+  display: flex;
+  align-items: center;
+  font-size: 11px;
+  padding: 2px 8px;
+  background-color: #6ffbbe;
+  font-weight: 600;
+  justify-content: center;
+  border-radius: 5px;
+}
+
+.team-schedule-impact-para {
+  margin-top: 12px;
+  font-size: 12px;
+  color: #464555;
+}
+
+.team-schedule-impact-bold {
+  font-weight: 600;
+  color: black;
+}
+
 .team-schedule-impact-heading {
   display: flex;
   justify-content: space-between;
@@ -23,14 +59,53 @@
   border-radius: 14px;
   padding: 12px;
   margin-top: 12px;
+  display: flex;
+  gap: 10px;
+}
+
+.team-schedule-impact-info-para {
+  font-size: 12px;
+  font-weight: 600;
+}
+.team-schedule-impact-info-desc {
+  color: #464555;
+  font-size: 12px;
 }
 
 .team-schedule-impact-person {
   display: flex;
   justify-content: space-between;
   padding: 8px;
+  margin: 5px 0px;
+  gap: 15px;
 }
 
 .team-schedule-impact-person > :first-child {
   display: flex;
+  gap: 5px;
+}
+
+.team-schedule-impact-person img {
+  border-radius: 999px;
+}
+
+.team-schedule-impact-person-name {
+  font-size: 13px;
+  font-weight: 700;
+}
+
+.team-schedule-impact-person-details {
+  font-size: 11px;
+}
+
+#team-schedule-overlap {
+  background-color: #eaedff;
+  padding: 2px 8px;
+  font-size: 11px;
+  border-radius: 5px;
+}
+
+#team-impact-flex {
+  display: flex;
+  align-items: center;
 }
