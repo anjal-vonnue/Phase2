@@ -1,0 +1,109 @@
+.main-component-layout {
+  width: 100%;
+  background-color: aqua;
+}
+
+.dashboard-layout {
+  display: flex;
+  flex-direction: column;
+  padding: 80px 32px 24px;
+  background-color: #faf8ff;
+  overflow-y: auto;
+  overflow-x: hidden;
+  flex: 1;
+}
+
+.dashboard-layout-main {
+  display: flex;
+  flex-direction: column;
+  margin: 0 153px;
+  gap: 20px;
+}
+
+.dashboard-header {
+  display: flex;
+  justify-content: space-between;
+}
+
+.dashboard-breadcrumb {
+  display: flex;
+  font-size: 13px;
+  font-weight: 600;
+  margin: 0 0 4px;
+}
+
+.dashboard-breadcrumb :nth-child(1) {
+  color: #464555;
+}
+
+.dashboard-breadcrumb :nth-child(3) {
+  color: #3025cd;
+}
+
+.dashboard-header-buttons {
+  display: flex;
+  flex-direction: row;
+  align-items: flex-end;
+  gap: 5px;
+}
+
+.dashboard-header-buttons > div {
+  padding: 8px 12px;
+  height: 40px;
+  background-color: #f2f3ff;
+  border-radius: 6px;
+}
+
+.dashboard-header-buttons-button {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.dashboard-overview {
+  display: flex;
+  justify-content: space-between;
+}
+
+.dashboard-split-screen {
+  display: flex;
+  justify-content: space-between;
+}
+
+/* //// */
+
+.leave-procedure {
+  padding: 24px;
+  width: 846px;
+  background-color: #ffffff;
+  border-radius: 14px;
+  border: 1px solid #eef1ff;
+}
+
+.leave-procedure-one > :first-child {
+  display: flex;
+  flex-direction: row;
+  gap: 5px;
+  justify-content: space-between;
+}
+
+.leave-procedure-one-heading {
+  display: flex;
+  gap: 10px;
+  margin-bottom: 8px;
+}
+
+.leave-procedure-one-category {
+  margin-bottom: 24px;
+  display: flex;
+  justify-content: space-between;
+}
+
+/* ??? */
+
+.team-schedule {
+  width: 410px;
+
+  display: flex;
+  flex-direction: column;
+}

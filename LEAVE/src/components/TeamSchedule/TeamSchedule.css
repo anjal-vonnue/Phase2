@@ -1,0 +1,36 @@
+.team-schedule-impact {
+  width: 100%;
+  background-color: #ffffff;
+  border: 1px solid #eef1ff;
+  border-radius: 14px;
+  padding: 20px;
+}
+
+.team-schedule-impact-heading {
+  display: flex;
+  justify-content: space-between;
+  padding-bottom: 12px;
+  border-bottom: 1px solid #eef1ff;
+}
+
+.team-schedule-impact-heading > :first-child {
+  display: flex;
+  gap: 4px;
+}
+
+.team-schedule-impact-info {
+  background-color: #f2f3ff;
+  border-radius: 14px;
+  padding: 12px;
+  margin-top: 12px;
+}
+
+.team-schedule-impact-person {
+  display: flex;
+  justify-content: space-between;
+  padding: 8px;
+}
+
+.team-schedule-impact-person > :first-child {
+  display: flex;
+}

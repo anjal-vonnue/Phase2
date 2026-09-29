@@ -7,13 +7,13 @@
 
 .sidebar-logo {
   padding: 0 24px;
-  height: 24px;
   display: flex;
   justify-content: flex-start;
   align-items: center;
   gap: 20px;
-  height: 64px;
   border-bottom: 1px solid rgba(128, 128, 128, 0.2);
+  border-right: 1px solid rgba(128, 128, 128, 0.2);
+  height: 69px;
 }
 
 .sidebar-logo > h3 {

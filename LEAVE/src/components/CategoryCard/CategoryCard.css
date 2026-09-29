@@ -1,0 +1,14 @@
+.leave-procedure-category-card {
+  display: flex;
+  flex-direction: column;
+  width: 191px;
+  background-color: #e2e7ff;
+  padding: 14px;
+  border: 2px solid #3525cd;
+  border-radius: 14px;
+}
+
+.leave-procedure-category-card > :first-child {
+  display: flex;
+  justify-content: space-between;
+}
