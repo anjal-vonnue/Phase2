@@ -1,3 +1,4 @@
+import { Bandage, Ellipsis, House, Plane } from "lucide-react";
 import CategoryCard from "../CategoryCard/CategoryCard";
 import "./ProcedureOne.css";
 
@@ -12,10 +13,18 @@ const ProcedureOne = () => {
         <p>Policy Tier: Standard Full-Time</p>
       </div>
       <div className="leave-procedure-one-category">
-        <CategoryCard />
-        <CategoryCard />
-        <CategoryCard />
-        <CategoryCard />
+        <CategoryCard title="Annual Vacation" remaining="18 days available">
+          <Plane />
+        </CategoryCard>
+        <CategoryCard title="Sick & Health" remaining="7 days available">
+          <Bandage />
+        </CategoryCard>
+        <CategoryCard title="Personal / Family" remaining="2 days available">
+          <House />
+        </CategoryCard>
+        <CategoryCard title="Parental / Other" remaining="Approval required">
+          <Ellipsis />
+        </CategoryCard>
       </div>
     </div>
   );
