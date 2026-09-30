@@ -1,6 +1,5 @@
 import Overview from "../Overview/Overview";
 import TeamSChedule from "../TeamSchedule/TeamSchedule";
-import TopBar from "../TopBar/TopBar";
 import "./MainComponent.css";
 import DashboardHeader from "../../DashboardHeader/DashboardHeader";
 import { BookCheck, CalendarX2, Shield, TrendingUp } from "lucide-react";
@@ -15,7 +14,6 @@ import ProcedureButtons from "../Button/ProcedureButtons";
 const MainComponent = () => {
   return (
     <div className="main-component-layout">
-      <TopBar />
       <div className="dashboard-layout">
         <div className="dashboard-layout-main">
           <DashboardHeader />

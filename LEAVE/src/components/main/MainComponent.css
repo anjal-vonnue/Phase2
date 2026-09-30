@@ -1,16 +1,19 @@
 .main-component-layout {
   width: 100%;
   background-color: aqua;
+  min-height: 0;
+  flex: 1;
 }
 
 .dashboard-layout {
+  height: 100%;
   display: flex;
   flex-direction: column;
-  padding: 80px 32px 24px;
+  padding: 30px 32px 24px;
   background-color: #faf8ff;
+
   overflow-y: auto;
   overflow-x: hidden;
-  flex: 1;
 }
 
 .dashboard-layout-main {
