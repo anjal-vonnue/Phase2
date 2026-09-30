@@ -63,7 +63,7 @@
 
 .team-schedule {
   width: 410px;
-
+  gap: 24px;
   display: flex;
   flex-direction: column;
 }

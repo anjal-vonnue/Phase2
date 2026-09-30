@@ -5,6 +5,7 @@ import TopBar from "../TopBar/TopBar";
 import "./MainComponent.css";
 import DashboardHeader from "../../DashboardHeader/DashboardHeader";
 import { BookCheck, CalendarX2, Shield, TrendingUp } from "lucide-react";
+import BalanceLedger from "../BalanceLedger/BalanceLedger";
 
 const MainComponent = () => {
   return (
@@ -71,7 +72,7 @@ const MainComponent = () => {
             </div>
             <div className="team-schedule">
               <TeamSChedule />
-              <div className="balance-ledger-protection"></div>
+              <BalanceLedger />
               <div className="pass-application"></div>
             </div>
           </div>
