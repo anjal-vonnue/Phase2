@@ -9,6 +9,7 @@ import { PastApplication } from "../PastApplications/PastApplication";
 import ProcedureOne from "../LeaveProcedure/ProcedureOne";
 import ProcedureTwo from "../LeaveProcedure/ProcedureTwo";
 import ProcedureThree from "../LeaveProcedure/ProcedureThree";
+import ProcedureFour from "../LeaveProcedure/ProcedureFour";
 
 const MainComponent = () => {
   return (
@@ -75,6 +76,7 @@ const MainComponent = () => {
               <ProcedureOne />
               <ProcedureTwo />
               <ProcedureThree />
+              <ProcedureFour />
             </div>
             <div className="team-schedule">
               <TeamSChedule />
