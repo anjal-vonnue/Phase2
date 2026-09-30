@@ -6,6 +6,7 @@ import "./MainComponent.css";
 import DashboardHeader from "../../DashboardHeader/DashboardHeader";
 import { BookCheck, CalendarX2, Shield, TrendingUp } from "lucide-react";
 import BalanceLedger from "../BalanceLedger/BalanceLedger";
+import { PastApplication } from "../PastApplications/PastApplication";
 
 const MainComponent = () => {
   return (
@@ -73,7 +74,7 @@ const MainComponent = () => {
             <div className="team-schedule">
               <TeamSChedule />
               <BalanceLedger />
-              <div className="pass-application"></div>
+              <PastApplication />
             </div>
           </div>
         </div>
