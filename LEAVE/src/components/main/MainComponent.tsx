@@ -7,6 +7,7 @@ import { BookCheck, CalendarX2, Shield, TrendingUp } from "lucide-react";
 import BalanceLedger from "../BalanceLedger/BalanceLedger";
 import { PastApplication } from "../PastApplications/PastApplication";
 import ProcedureOne from "../LeaveProcedure/ProcedureOne";
+import ProcedureTwo from "../LeaveProcedure/ProcedureTwo";
 
 const MainComponent = () => {
   return (
@@ -71,6 +72,7 @@ const MainComponent = () => {
                 </div>
               </div> */}
               <ProcedureOne />
+              <ProcedureTwo />
             </div>
             <div className="team-schedule">
               <TeamSChedule />
