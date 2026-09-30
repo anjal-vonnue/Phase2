@@ -20,19 +20,19 @@ const Overview = ({
   function IconType(type: string) {
     switch (type) {
       case "umbrella": {
-        return <Umbrella />;
+        return <Umbrella color="blue" />;
       }
 
       case "bandage": {
-        return <Cross />;
+        return <Cross color="blue" />;
       }
 
       case "sun": {
-        return <Sun />;
+        return <Sun color="green" />;
       }
 
       case "group": {
-        return <UserGroup />;
+        return <UserGroup color="black" />;
       }
     }
   }
@@ -43,7 +43,13 @@ const Overview = ({
         <p className="overview-heading">{heading}</p>
         <div>
           {typeof days === "number" ? (
-            <span className="overview-number">{days}</span>
+            <span
+              className={
+                days == 18 ? "overview-number" : "overview-number black-color"
+              }
+            >
+              {days}
+            </span>
           ) : (
             <span className="overview-text">{days}</span>
           )}
@@ -65,7 +71,15 @@ const Overview = ({
           {lastContent}
         </p>
       </div>
-      <div className="overview-round">{IconType(type)}</div>
+      <div
+        className={
+          type === "umbrella" || type === "bandage"
+            ? "overview-round blue-color"
+            : "overview-round"
+        }
+      >
+        <div className="overview-round-inner">{IconType(type)}</div>
+      </div>
     </div>
   );
 };
