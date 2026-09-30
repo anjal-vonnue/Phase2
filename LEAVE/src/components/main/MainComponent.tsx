@@ -1,4 +1,3 @@
-import CategoryCard from "../CategoryCard/CategoryCard";
 import Overview from "../Overview/Overview";
 import TeamSChedule from "../TeamSchedule/TeamSchedule";
 import TopBar from "../TopBar/TopBar";
@@ -7,6 +6,7 @@ import DashboardHeader from "../../DashboardHeader/DashboardHeader";
 import { BookCheck, CalendarX2, Shield, TrendingUp } from "lucide-react";
 import BalanceLedger from "../BalanceLedger/BalanceLedger";
 import { PastApplication } from "../PastApplications/PastApplication";
+import ProcedureOne from "../LeaveProcedure/ProcedureOne";
 
 const MainComponent = () => {
   return (
@@ -55,7 +55,7 @@ const MainComponent = () => {
 
           <div className="dashboard-split-screen">
             <div className="leave-procedure">
-              <div className="leave-procedure-one">
+              {/* <div className="leave-procedure-one">
                 <div>
                   <div className="leave-procedure-one-heading">
                     <span>1</span>
@@ -69,7 +69,8 @@ const MainComponent = () => {
                   <CategoryCard />
                   <CategoryCard />
                 </div>
-              </div>
+              </div> */}
+              <ProcedureOne />
             </div>
             <div className="team-schedule">
               <TeamSChedule />

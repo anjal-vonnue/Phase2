@@ -1,15 +1,20 @@
+import { CircleCheck, Plane } from "lucide-react";
 import "./CategoryCard.css";
 
 const CategoryCard = () => {
   return (
     <div className="leave-procedure-category-card">
       <div>
-        <div>logo</div>
-        <div>active</div>
+        <div>
+          <Plane />
+        </div>
+        <div>
+          <CircleCheck />
+        </div>
       </div>
       <div>
-        <p>Annual Vacation</p>
-        <p>18 days available</p>
+        <p className="leave-procedure-cateogry-heading">Annual Vacation</p>
+        <p className="leave-procedure-cateogry-desc">18 days available</p>
       </div>
     </div>
   );

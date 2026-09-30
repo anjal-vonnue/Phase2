@@ -6,9 +6,22 @@
   padding: 14px;
   border: 2px solid #3525cd;
   border-radius: 14px;
+  justify-content: space-between;
+  height: 112px;
 }
 
 .leave-procedure-category-card > :first-child {
   display: flex;
   justify-content: space-between;
+}
+
+.leave-procedure-cateogry-heading {
+  font-size: 14px;
+  font-weight: 700;
+}
+
+.leave-procedure-cateogry-desc {
+  margin-top: 2px;
+  font-size: 12px;
+  color: #464555;
 }
