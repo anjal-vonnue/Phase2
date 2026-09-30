@@ -19,6 +19,7 @@
   display: flex;
   gap: 10px;
   margin-bottom: 10px;
+  align-items: center;
 }
 
 .leave-procedure-one-heading > :nth-child(1) {

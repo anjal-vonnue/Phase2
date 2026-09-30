@@ -8,6 +8,7 @@ import BalanceLedger from "../BalanceLedger/BalanceLedger";
 import { PastApplication } from "../PastApplications/PastApplication";
 import ProcedureOne from "../LeaveProcedure/ProcedureOne";
 import ProcedureTwo from "../LeaveProcedure/ProcedureTwo";
+import ProcedureThree from "../LeaveProcedure/ProcedureThree";
 
 const MainComponent = () => {
   return (
@@ -73,6 +74,7 @@ const MainComponent = () => {
               </div> */}
               <ProcedureOne />
               <ProcedureTwo />
+              <ProcedureThree />
             </div>
             <div className="team-schedule">
               <TeamSChedule />
