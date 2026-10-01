@@ -39,10 +39,10 @@ const ProcedureFour = () => {
         <div>
           <div className="manager-review-titles">
             <p className="manager-review-heading">Manager Review Workflow</p>
-            <p className="manager-review-heading-right">
+            <div className="manager-review-heading-right">
               <div className="manager-review-dot"></div>
               Avg turnaround: 8 hours
-            </p>
+            </div>
           </div>
           <p className="manager-review-heading-bottom">
             Your request will be routed directly to Marcus Vance (VP of

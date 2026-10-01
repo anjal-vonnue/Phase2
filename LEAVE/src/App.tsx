@@ -1,16 +1,22 @@
+import { useState } from "react";
 import "./App.css";
 import MainComponent from "./components/main/MainComponent";
 import SideBar from "./components/sidebar/SideBar";
 import TopBar from "./components/TopBar/TopBar";
+import Dashboard from "./components/Dashboard/Dashboard";
 
 function App() {
+  const [sidebar, setSidebar] = useState<string>("request");
+  console.log(sidebar);
+
   return (
     <>
       <div className="app-layout">
-        <SideBar />
+        <SideBar sidebar={sidebar} setSidebar={setSidebar} />
         <div className="app-div">
           <TopBar />
-          <MainComponent />
+          {sidebar === "request" && <MainComponent />}
+          {sidebar === "dashboard" && <Dashboard />}
         </div>
       </div>
     </>

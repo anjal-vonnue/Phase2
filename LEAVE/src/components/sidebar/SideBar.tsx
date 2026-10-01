@@ -7,8 +7,15 @@ import {
   Wallet,
 } from "lucide-react";
 import "./SideBar.css";
+import type { Dispatch, SetStateAction } from "react";
 
-const SideBar = () => {
+const SideBar = ({
+  sidebar,
+  setSidebar,
+}: {
+  sidebar: string;
+  setSidebar: Dispatch<SetStateAction<string>>;
+}) => {
   return (
     <div className="sidebar-layout">
       <div className="sidebar-logo">
@@ -18,23 +25,48 @@ const SideBar = () => {
       <div className="sidebar-content">
         <div className="sidebar-nav">
           <nav className="sidebar-nav-links">
-            <a>
+            <a
+              className={sidebar === "dashboard" ? "sidebar-req" : ""}
+              onClick={() => {
+                setSidebar("dashboard");
+              }}
+            >
               <LayoutDashboard />
               Dashboard
             </a>
-            <a className="sidebar-req">
+            <a
+              className={sidebar === "request" ? "sidebar-req" : ""}
+              onClick={() => {
+                setSidebar("request");
+              }}
+            >
               <CalendarCheck />
               Request Leave
             </a>
-            <a>
+            <a
+              className={sidebar === "balance" ? "sidebar-req" : ""}
+              onClick={() => {
+                setSidebar("balance");
+              }}
+            >
               <Wallet />
               My Balance & History
             </a>
-            <a>
+            <a
+              className={sidebar === "calender" ? "sidebar-req" : ""}
+              onClick={() => {
+                setSidebar("calender");
+              }}
+            >
               <CalendarDays />
               Team Calender
             </a>
-            <a>
+            <a
+              className={sidebar === "holidays" ? "sidebar-req" : ""}
+              onClick={() => {
+                setSidebar("holidays");
+              }}
+            >
               <PartyPopper />
               Company Holidays
             </a>
