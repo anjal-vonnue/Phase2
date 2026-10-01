@@ -1,10 +1,10 @@
 import {
   CalendarCheck,
-  CalendarDays,
+  // CalendarDays,
   CircleQuestionMark,
   LayoutDashboard,
   PartyPopper,
-  Wallet,
+  // Wallet,
 } from "lucide-react";
 import "./SideBar.css";
 import type { Dispatch, SetStateAction } from "react";
@@ -43,7 +43,7 @@ const SideBar = ({
               <CalendarCheck />
               Request Leave
             </a>
-            <a
+            {/* <a
               className={sidebar === "balance" ? "sidebar-req" : ""}
               onClick={() => {
                 setSidebar("balance");
@@ -51,8 +51,8 @@ const SideBar = ({
             >
               <Wallet />
               My Balance & History
-            </a>
-            <a
+            </a> */}
+            {/* <a
               className={sidebar === "calender" ? "sidebar-req" : ""}
               onClick={() => {
                 setSidebar("calender");
@@ -60,7 +60,7 @@ const SideBar = ({
             >
               <CalendarDays />
               Team Calender
-            </a>
+            </a> */}
             <a
               className={sidebar === "holidays" ? "sidebar-req" : ""}
               onClick={() => {
