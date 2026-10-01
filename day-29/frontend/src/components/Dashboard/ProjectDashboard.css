@@ -1,0 +1,41 @@
+.project-dashboard-container {
+  background-color: burlywood;
+  margin: 5px;
+  border: 3px solid black;
+
+  min-height: 0;
+
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: space-around;
+
+  overflow-y: auto;
+  overflow-x: hidden;
+  flex: 1;
+}
+
+.project-dashboard-error-div {
+  margin: 5px;
+  border: 3px solid black;
+  background-color: red;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-direction: column;
+  min-height: 250px;
+  gap: 30px;
+  flex: 1;
+}
+
+.project-dashboard-error-div > button {
+  border: 2px solid black;
+  padding: 5px;
+  font-weight: 600;
+  background-color: blue;
+  color: white;
+}
+
+.project-dashboard-error-div > button:hover {
+  background-color: cyan;
+  color: black;
+}
