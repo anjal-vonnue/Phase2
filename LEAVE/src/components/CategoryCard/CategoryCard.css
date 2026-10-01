@@ -1,0 +1,42 @@
+.leave-procedure-category-card {
+  display: flex;
+  flex-direction: column;
+  width: 191px;
+  background-color: #f2f3ff;
+  padding: 14px;
+
+  border-radius: 14px;
+  justify-content: space-between;
+  height: 112px;
+}
+
+.active-border {
+  border: 2px solid #3525cd;
+}
+
+.leave-procedure-category-card > :first-child {
+  display: flex;
+  justify-content: space-between;
+}
+
+.leave-procedure-cateogry-heading {
+  font-size: 14px;
+  font-weight: 700;
+}
+
+.leave-procedure-cateogry-desc {
+  margin-top: 2px;
+  font-size: 12px;
+  color: #464555;
+}
+
+.logo-container {
+  width: 40px;
+  height: 40px;
+  background-color: #dae2fd;
+
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  border-radius: 10px;
+}

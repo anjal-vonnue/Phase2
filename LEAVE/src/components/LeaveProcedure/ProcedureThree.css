@@ -1,0 +1,112 @@
+.leave-procedure-three {
+  padding-top: 20px;
+  padding-bottom: 24px;
+  border-bottom: 1px solid #eef1ff;
+}
+
+.leave-procedure-three > :first-child {
+  display: flex;
+  flex-direction: row;
+  gap: 5px;
+  justify-content: space-between;
+}
+
+.leave-procedure-three-heading {
+  display: flex;
+  gap: 10px;
+  margin-bottom: 10px;
+  align-items: center;
+}
+
+.leave-procedure-three-right-text {
+  font-size: 11px;
+  color: #3525cd;
+  font-weight: 600;
+  background-color: #f3f2ff;
+  padding: 4px 10px;
+  border-radius: 10px;
+}
+
+.leave-procedure-three-heading > :nth-child(1) {
+  background-color: #e2dfff;
+  width: 24px;
+  height: 24px;
+  font-size: 12px;
+  color: #3525cd;
+  font-weight: 500;
+  font-weight: 800;
+  border-radius: 999px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.leave-procedure-three-heading > :nth-child(2) {
+  font-size: 16px;
+  font-weight: 500;
+}
+
+.weight-sm {
+  font-weight: 400;
+}
+
+.delegated-coverage-container {
+  display: flex;
+  gap: 20px;
+}
+
+.delegated-coverage-details {
+  display: flex;
+  flex-direction: column;
+  gap: 5px;
+  flex: 1;
+}
+
+.delegated-coverage-details > :first-child {
+  font-size: 12px;
+  font-weight: 600;
+  color: #464555;
+}
+
+.delegated-coverage-details > :nth-child(2) {
+  padding: 10px 40px 10px 40px;
+  background-color: #f2f3ff;
+  font-size: 14px;
+  font-weight: 600;
+  color: rgba(0, 0, 0, 0.842);
+  border-radius: 10px;
+}
+
+.delegated-coverage-details > :nth-child(3) {
+  display: flex;
+  align-items: center;
+  gap: 5px;
+  color: green;
+  margin-top: 2px;
+  font-size: 12px;
+  font-weight: 600;
+}
+
+.delegated-coverage-container > :nth-child(2) {
+  padding: 12px;
+  display: flex;
+  flex-direction: row;
+  gap: 5px;
+  background-color: #f2f3ff;
+  align-items: center;
+  justify-content: center;
+  border-radius: 10px;
+}
+
+.delegated-coverage-container > :nth-child(2) > :first-child {
+  border-radius: 999px;
+}
+
+.delegated-coverage-container-profile > :first-child {
+  font-size: 13px;
+}
+
+.delegated-coverage-container-profile > :nth-child(2) {
+  font-size: 11px;
+  color: #464555;
+}

@@ -1,0 +1,39 @@
+.balance-ledger-content {
+  display: flex;
+  justify-content: space-between;
+}
+
+.balance-ledger-content-font {
+  font-size: 14px;
+  font-weight: 600;
+}
+
+.black {
+  color: black;
+}
+
+.balance-ledger-content-font-estimate {
+  font-size: 16px;
+  font-weight: 800;
+  color: #3525cd;
+}
+
+.balance-ledger-content-font-heading {
+  font-weight: 800;
+  color: black;
+}
+
+.border {
+  padding: 6px 0 8px;
+  border-top: 1px solid #eef1ff;
+}
+
+.balance-ledger-content-desc {
+  color: #464555;
+  font-size: 11px;
+}
+
+.bold {
+  font-weight: 600;
+  color: black;
+}

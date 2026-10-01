@@ -1,0 +1,82 @@
+.overview-card {
+  padding: 16px;
+  display: flex;
+  justify-content: space-between;
+  background-color: #ffffff;
+  gap: 40px;
+  margin-top: 30px;
+  border-radius: 14px;
+  border: 1px solid #eef1ff;
+  height: 123px;
+  align-items: center;
+  width: 308px;
+}
+
+.overview-number {
+  font-size: 36px;
+  font-weight: 800;
+  color: #3525cd;
+}
+
+.overview-text {
+  font-size: 22px;
+  font-weight: 600;
+}
+
+.overview-heading {
+  font-size: 11px;
+  font-weight: 400;
+  color: #464555;
+}
+
+.overview-number-total {
+  font-size: 14px;
+}
+
+.overview-last {
+  font-size: 11px;
+  display: flex;
+  font-weight: 600;
+  align-items: center;
+  gap: 5px;
+}
+
+.green {
+  color: green;
+}
+
+.red {
+  color: rgb(153, 8, 8);
+}
+
+.overview-round {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+
+  width: 50px;
+  height: 50px;
+  border-radius: 50%;
+
+  background: conic-gradient(green 0% 75%, #ddd 75% 100%);
+}
+
+.overview-round-inner {
+  width: 40px;
+  height: 40px;
+
+  display: flex;
+  align-items: center;
+  justify-content: center;
+
+  background: white;
+  border-radius: 999px;
+}
+
+.blue-color {
+  background: conic-gradient(blue 0% 75%, #ddd 75% 100%);
+}
+
+.black-color {
+  color: black;
+}

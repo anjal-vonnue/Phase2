@@ -1,0 +1,165 @@
+.leave-procedure-four {
+  padding-top: 20px;
+  padding-bottom: 24px;
+  border-bottom: 1px solid #eef1ff;
+}
+
+.leave-procedure-four > :first-child {
+  display: flex;
+  flex-direction: row;
+  gap: 5px;
+  justify-content: space-between;
+}
+
+.leave-procedure-four-heading {
+  display: flex;
+  gap: 10px;
+  margin-bottom: 10px;
+  align-items: center;
+}
+
+.leave-procedure-four-right-text {
+  font-size: 11px;
+  color: #3525cd;
+  font-weight: 600;
+  background-color: #f3f2ff;
+  padding: 4px 10px;
+  border-radius: 10px;
+}
+
+.leave-procedure-four-heading > :nth-child(1) {
+  background-color: #e2dfff;
+  width: 24px;
+  height: 24px;
+  font-size: 12px;
+  color: #3525cd;
+  font-weight: 500;
+  font-weight: 800;
+  border-radius: 999px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.leave-procedure-four-heading > :nth-child(2) {
+  font-size: 16px;
+  font-weight: 500;
+}
+
+.weight-sm {
+  font-weight: 400;
+}
+
+.absence-text {
+  font-size: 12px;
+  color: #464555;
+  font-weight: 500;
+}
+
+.absence-textarea {
+  display: flex;
+  flex-direction: column;
+  margin-bottom: 16px;
+  gap: 5px;
+}
+
+.absence-textarea > :first-child {
+  padding: 14px;
+  background-color: #f2f3ff;
+  height: 90px;
+  border-radius: 10px;
+}
+
+.absence-textarea-desc {
+  display: flex;
+  justify-content: space-between;
+  font-size: 12px;
+  padding: 0px 4px;
+  color: #464555;
+}
+
+.absence-upload {
+  padding: 20px;
+  background-color: #faf8ff;
+  border-radius: 10px;
+  border: 2px dashed #dbd9e8;
+  height: 132px;
+
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  flex-direction: column;
+}
+
+.absence-highlight {
+  color: #3525cd;
+  font-weight: 700;
+  margin-right: 3px;
+}
+
+.absence-upload > :nth-child(2) {
+  font-size: 14px;
+  color: #464555;
+}
+
+.absence-upload > :nth-child(3) {
+  margin-top: 4px;
+  font-size: 12px;
+  color: #464555;
+}
+
+.absence-upload-circle {
+  background-color: #e2e7ff;
+  width: 40px;
+  height: 40px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  border-radius: 999px;
+  margin-bottom: 4px;
+}
+
+.manager-review {
+  margin-top: 24px;
+  border-radius: 10px;
+  display: flex;
+  gap: 10px;
+  padding: 14px;
+
+  background-color: #f2f3ff;
+}
+
+.manager-review-titles {
+  display: flex;
+  justify-content: space-between;
+  margin-bottom: 5px;
+}
+
+.manager-review-heading {
+  font-size: 14px;
+  font-weight: 600;
+}
+
+.manager-review-heading-right {
+  font-size: 12px;
+  font-weight: 500;
+  color: #006e4b;
+
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  gap: 5px;
+}
+
+.manager-review-dot {
+  width: 8px;
+  background-color: #006e4b;
+  height: 8px;
+
+  border-radius: 999px;
+}
+
+.manager-review-heading-bottom {
+  font-size: 12px;
+  color: #464555;
+}

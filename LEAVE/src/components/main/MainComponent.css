@@ -1,0 +1,53 @@
+.main-component-layout {
+  width: 100%;
+  background-color: aqua;
+  min-height: 0;
+  flex: 1;
+}
+
+.dashboard-layout {
+  height: 100%;
+  display: flex;
+  flex-direction: column;
+  padding: 30px 32px 24px;
+  background-color: #faf8ff;
+
+  overflow-y: auto;
+  overflow-x: hidden;
+}
+
+.dashboard-layout-main {
+  display: flex;
+  flex-direction: column;
+  margin: 0 153px;
+  gap: 20px;
+}
+
+.dashboard-overview {
+  display: flex;
+  justify-content: space-between;
+}
+
+.dashboard-split-screen {
+  display: flex;
+  justify-content: space-between;
+}
+
+/* //// */
+
+.leave-procedure {
+  padding: 24px;
+  width: 846px;
+  background-color: #ffffff;
+  border-radius: 14px;
+  border: 1px solid #eef1ff;
+}
+
+/* ??? */
+
+.team-schedule {
+  width: 410px;
+  gap: 24px;
+  display: flex;
+  flex-direction: column;
+}

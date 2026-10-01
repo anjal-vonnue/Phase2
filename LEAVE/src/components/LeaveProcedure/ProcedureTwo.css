@@ -1,0 +1,152 @@
+.leave-procedure-two {
+  padding-bottom: 24px;
+  border-bottom: 1px solid #eef1ff;
+}
+
+.leave-procedure-two > :first-child {
+  display: flex;
+  flex-direction: row;
+  gap: 5px;
+  justify-content: space-between;
+}
+
+.leave-procedure-two-heading {
+  display: flex;
+  gap: 10px;
+  margin-bottom: 10px;
+  align-items: center;
+}
+
+.leave-procedure-two-right-text {
+  font-size: 11px;
+  color: #3525cd;
+  font-weight: 600;
+  background-color: #f3f2ff;
+  padding: 4px 10px;
+  border-radius: 10px;
+}
+
+.leave-procedure-two-heading > :nth-child(1) {
+  background-color: #e2dfff;
+  width: 24px;
+  height: 24px;
+  font-size: 12px;
+  color: #3525cd;
+  font-weight: 500;
+  font-weight: 800;
+  border-radius: 999px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.leave-procedure-two-heading > :nth-child(2) {
+  font-size: 16px;
+  font-weight: 500;
+}
+
+.leave-procedure-two-dates {
+  display: flex;
+  flex-direction: row;
+  gap: 15px;
+}
+
+.leave-procedure-two-dates > :first-child {
+  flex: 1;
+}
+
+.leave-procedure-two-dates div {
+  display: flex;
+  flex-direction: column;
+  gap: 5px;
+}
+
+.leave-procedure-two-dates > :nth-child(2) {
+  flex: 1;
+}
+
+.leave-procedure-two-date-title {
+  font-size: 12px;
+  color: #464555;
+  font-weight: 700;
+}
+
+.weight-sm {
+  font-weight: 400;
+}
+
+.leave-procedure-two-date-input {
+  padding: 10px 40px;
+  background-color: #f2f3ff;
+  width: 100%;
+  border-radius: 10px;
+}
+
+.leave-procedure-two-details {
+  padding: 14px;
+  margin-top: 16px;
+  background-color: #eaedff;
+  border-radius: 10px;
+
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.leave-procedure-two-details-top {
+  display: flex;
+  gap: 10px;
+  justify-content: center;
+  align-items: center;
+}
+
+.leave-procedure-two-details-bottom-first {
+  display: flex;
+  flex-direction: row;
+  gap: 5px;
+  font-size: 12px;
+  background-color: white;
+  border-radius: 5px;
+  padding: 4px 4px;
+}
+
+.leave-procedure-two-details-bottom-first p {
+  font-weight: 500;
+  padding: 4px 12px;
+}
+
+.leave-procedure-two-details-bottom-first p:hover {
+  color: white;
+  background-color: #3525cd;
+  border-radius: 5px;
+}
+
+.leave-procedure-two-details-top-heading {
+  font-size: 16px;
+  font-weight: 600;
+  display: flex;
+  gap: 5px;
+}
+
+.leave-procedure-two-details-top-desc {
+  font-size: 12px;
+  color: #464555;
+}
+
+.leave-procedure-two-deatils-calender {
+  width: 40px;
+  height: 40px;
+  background-color: white;
+
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  border-radius: 5px;
+}
+
+.leave-procedure-two-highlight {
+  background-color: #6ffbbe;
+  padding: 2px 8px;
+  font-size: 11px;
+  border-radius: 5px;
+}
