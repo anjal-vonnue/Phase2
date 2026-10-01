@@ -35,7 +35,7 @@ const TeamSChedule = () => {
 
       <div className="team-schedule-impact-person">
         <div>
-          <img src="./profile.png" width={34} />
+          <img src="./profile.png" width={34} alt="profile image" />
           <div>
             <p className="team-schedule-impact-person-name">Elene Rostova</p>
             <p className="team-schedule-impact-person-details">
@@ -49,7 +49,11 @@ const TeamSChedule = () => {
       </div>
       <div className="team-schedule-impact-person">
         <div>
-          <img src="./profile.png" width={34} />
+          <img
+            src="./profile.png"
+            width={34}
+            alt="Julian Rossi's profile image"
+          />
           <div>
             <p className="team-schedule-impact-person-name">Julian Rossi</p>
             <p className="team-schedule-impact-person-details">

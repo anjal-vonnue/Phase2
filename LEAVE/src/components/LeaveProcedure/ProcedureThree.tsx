@@ -13,7 +13,7 @@ const ProcedureThree = () => {
       <div className="delegated-coverage-container">
         <div className="delegated-coverage-details">
           <p>Designated Handover Teammate</p>
-          <select>
+          <select aria-label="staff-name">
             <option>David Kim (Staff Design Lead) - Handover ready</option>
           </select>
           <p>
@@ -22,7 +22,7 @@ const ProcedureThree = () => {
           </p>
         </div>
         <div>
-          <img src="./profile.png" width={40} height={40} />
+          <img src="./profile.png" width={40} height={40} alt="profile image" />
           <div className="delegated-coverage-container-profile">
             <p>David Kim</p>
             <p>Lead Designer • Active</p>

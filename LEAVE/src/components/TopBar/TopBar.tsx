@@ -6,7 +6,11 @@ const TopBar = () => {
     <div className="top-bar">
       <div className="top-bar-search">
         <Search />
-        <input type="text" placeholder="Search requests, team, policies..." />
+        <input
+          aria-label="search"
+          type="text"
+          placeholder="Search requests, team, policies..."
+        />
       </div>
       <div className="top-bar-profile">
         <BellCheck />
@@ -15,7 +19,7 @@ const TopBar = () => {
             <p>Sarah Jenkins</p>
             <p>Senior Product Designer</p>
           </div>
-          <img src="./profile.png" width={40} />
+          <img src="./profile.png" width={40} alt="profile image" />
         </div>
       </div>
     </div>

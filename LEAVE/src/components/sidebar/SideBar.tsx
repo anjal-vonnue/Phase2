@@ -19,7 +19,7 @@ const SideBar = ({
   return (
     <div className="sidebar-layout">
       <div className="sidebar-logo">
-        <img src="./logo.png" width={32} />
+        <img src="./logo.png" width={32} alt="profile image" />
         <h3>PulseHR</h3>
       </div>
       <div className="sidebar-content">

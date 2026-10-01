@@ -20,15 +20,33 @@ const ProcedureTwo = () => {
       <div>
         <div className="leave-procedure-two-dates">
           <div>
-            <p className="leave-procedure-two-date-title">Start Date</p>
-            <input className="leave-procedure-two-date-input" type="date" />
+            <label
+              htmlFor="start-date"
+              className="leave-procedure-two-date-title"
+            >
+              Start Date
+            </label>
+            <input
+              id="start-date"
+              className="leave-procedure-two-date-input"
+              type="date"
+            />
             <p className="leave-procedure-two-date-title weight-sm">
               Wednesday (Core hours apply)
             </p>
           </div>
           <div>
-            <p className="leave-procedure-two-date-title">End Date</p>
-            <input className="leave-procedure-two-date-input" type="date" />
+            <label
+              htmlFor="end-date"
+              className="leave-procedure-two-date-title"
+            >
+              End Date
+            </label>
+            <input
+              id="end-date"
+              className="leave-procedure-two-date-input"
+              type="date"
+            />
             <p className="leave-procedure-two-date-title weight-sm">
               Wednesday (Return: Nov 20, 2025)
             </p>
